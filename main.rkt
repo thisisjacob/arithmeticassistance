@@ -3,4 +3,4 @@
 (require "ui/mainWindow.rkt")
 
 (define game (new mainWindow% [title "test"]))
-(send game openWindow)
+(send game startUI)
