@@ -1,6 +1,9 @@
 #lang racket
 (require racket/gui/base)
+(require "widgets/buttonMenu.rkt")
 
+; A class for creating the main menu of the program
+; 
 (define mainMenuUI%
   (class object%
     (init-field
@@ -12,40 +15,21 @@
      ))
     (define menuWrapper (new panel%
                              [parent mainMenu]
-                             [style '(border)]
-                             [alignment '(center center)]
                              [enabled #t]))
-    (define menu (new vertical-panel%
-                      [parent menuWrapper]
-                      [alignment '(center center)]
-                      [style '(border)]
-                      [vert-margin 100]
-                      [horiz-margin 100]
-                      [enabled #t])
-      )
-    (define message (new message%
-                         [parent menu]
-                         [label "Testing Menu"]))
-    ; test buttons - remove these buttons later in development
-    (define testButton1 (new button%
-                             [label "Test"]
-                             [parent menu]
-                             [stretchable-width #t]
-                             [stretchable-height #t])) 
-    (define testButton2 (new button%
-                             [label "Test"]
-                             [parent menu]
-                             [stretchable-width #t]
-                             [stretchable-height #t])) 
-    (define testButton3 (new button%
-                             [label "Test"]
-                             [parent menu]
-                             [stretchable-width #t]
-                             [stretchable-height #t]))
+    (define menu (new buttonMenu%
+                      [givenParent menuWrapper]
+                      [givenHorizontalMargin 200]
+                      [givenVerticalMargin 100]
+                      [givenButtonSpacing 5]
+                      [givenMenuLabelText "Main Menu"]))
+
 
     ; Functions
     (define/public (switchTo)
       (send mainMenu show #t)
+      )
+    (define/public (switchFrom)
+      (send mainMenu show #f)
       )
    ))
 
