@@ -1,5 +1,9 @@
-; Initializes the window and pages for the program's user interface
-; call the function startUI to activate the user interface
+; Initializes the window and "pages" for the program's user interface, attaches the pages to this class
+; Functions are called to switch between the "pages"
+; Instance Parameters:
+; title: a string for the title of the window
+; Functions:
+; startUI: makes the UI visible, 
 
 #lang racket
 (require racket/gui/base)
@@ -16,13 +20,20 @@
                            [width 800]
                            [height 800]
                            [style '(no-resize-border)]))
-    (define mainMenu (new mainMenuUI% [givenParent mainFrame]))
-    (send mainMenu switchTo)
+
 
     ;Functions
     (define/public (startUI)
       (send mainFrame show #t)
-    )
+      (enableMainMenu))
+    (define (enableMainMenu)
+      (send mainMenu enable))
+    (define (disableMainMenu)
+      (send mainMenu disable))
+
+    (define mainMenu (new mainMenuUI%
+                          [givenParent mainFrame]
+                          [function disableMainMenu]))
   )
 )
 
