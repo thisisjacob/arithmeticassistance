@@ -5,8 +5,8 @@
 ; Instance Parameters:
 ; givenParent: the container that will hold the main menu
 ; Functions:
-; switchTo: enables visbility of the mainMenu
-; switchFrom: disables visibility of the mainMenu
+; enable: enables visbility of the mainMenu
+; disable: disables visibility of the mainMenu
 
 (define mainMenuUI%
   (class object%
@@ -39,6 +39,8 @@
                  [label "Main Menu"]))
     
      ; testing buttons
+    ; TODO: CREATE A FUNCTION FOR HANDLING A LIST OF PAIRS OF STRINGS AND FUNCTIONS
+    ; AND GENERATING THE BUTTONS FROM THAT LIST
     (define enableMainMenu (new button%
                                 [callback button-handler]
                                 [label "Enable"]

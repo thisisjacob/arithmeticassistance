@@ -2,12 +2,13 @@
 ; Functions are called to switch between the "pages"
 ; Instance Parameters:
 ; title: a string for the title of the window
-; Functions:
+; Public Functions:
 ; startUI: makes the UI visible, 
 
 #lang racket
 (require racket/gui/base)
 (require "mainMenu.rkt")
+(require "drawingInputScreen.rkt")
 
 (define mainWindow%
   (class object%
@@ -27,13 +28,19 @@
       (send mainFrame show #t)
       (enableMainMenu))
     (define (enableMainMenu)
-      (send mainMenu enable))
+      (send mainMenu enable)
+      (send problemsScreen disable))
+    (define (enableProblemsScreen)
+      (send problemsScreen enable)
+      (send mainMenu disable))
     (define (disableMainMenu)
       (send mainMenu disable))
 
     (define mainMenu (new mainMenuUI%
                           [givenParent mainFrame]
-                          [function disableMainMenu]))
+                          [function enableProblemsScreen]))
+    (define problemsScreen (new drawInputMenuUI%
+                                [givenParent mainFrame]))
   )
 )
 
