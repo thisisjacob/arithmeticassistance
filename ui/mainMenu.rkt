@@ -13,8 +13,26 @@
     (init-field
      givenParent
      function
+     string-function-pair-list
      )
     (super-new)
+
+    ; Syntax definitions
+    (define-syntax create-button
+      (syntax-rules ()
+              [(create-button name function parent)
+               (new button%
+                                 [callback button-handler]
+                                 [label name]
+                                 [parent parent])]))
+
+    ; Private Functions
+    (define (initialize-buttons)
+      (map (lambda (i)
+             (create-button (car i) (cdr i) menu))
+           (string-function-pair-list))
+      )
+    
     (define mainMenu (new panel%
       [parent givenParent]
      ))
@@ -37,6 +55,8 @@
      (define header (new message%
                  [parent menu]
                  [label "Main Menu"]))
+
+    initialize-buttons
     
      ; testing buttons
     ; TODO: CREATE A FUNCTION FOR HANDLING A LIST OF PAIRS OF STRINGS AND FUNCTIONS
@@ -51,14 +71,20 @@
                                  [parent menu]))
 
 
-    ; Functions
+    ; Public Functions
     (define/public (enable)
       (send mainMenu show #t)
       )
     (define/public (disable)
       (send mainMenu show #f)
       )
-   ))
+
+
+    
+
+    
+   )
+  )
 
 
 

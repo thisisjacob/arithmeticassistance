@@ -38,7 +38,9 @@
 
     (define mainMenu (new mainMenuUI%
                           [givenParent mainFrame]
-                          [function enableProblemsScreen]))
+                          [function enableProblemsScreen]
+                          [string-function-pair-list (list (list "Test Main Menu" enableMainMenu)
+                                                           (list "Test Problems Screen" enableProblemsScreen))]))
     (define problemsScreen (new drawInputMenuUI%
                                 [givenParent mainFrame]))
   )
