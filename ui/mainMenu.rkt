@@ -4,7 +4,7 @@
 ; A class for creating the main menu of the program
 ; Instance Parameters:
 ; givenParent: the container that will hold the main menu
-; Functions:
+; Public Functions:
 ; enable: enables visbility of the mainMenu
 ; disable: disables visibility of the mainMenu
 
@@ -24,10 +24,29 @@
                              [parent mainMenu]
                              [enabled #t]))
 
-     ; Event handler
+    ; Event handlers
+    
+    ; Calls the function that is paired with the name of the button that fired the event
+    ; (using the string-function-pair-list field)
     (define (button-handler button event)
-      (function)
+      (button-handler-helper button string-function-pair-list)
       )
+
+    ; button-handler helper
+    ; Iterates through the given-string-function-pair-list, fires the function
+    ; that is paired with the label of the button that called button-handler in the list
+    ; First argument is the button that fired the event
+    ; Second argument is the string-function-pair-list of the current mainMenu instance
+    
+    (define (button-handler-helper button given-string-function-pair-list)
+      (cond
+        [(empty? given-string-function-pair-list) 0]
+        [(equal? (send button get-label) (first (first given-string-function-pair-list)))
+         ((first (rest (first given-string-function-pair-list))))]
+        [else (button-handler-helper button (rest given-string-function-pair-list))]
+        )
+      )
+     
       
     (define menu (new vertical-panel%
                       [style '(border)]
