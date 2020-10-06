@@ -17,23 +17,7 @@
      )
     (super-new)
 
-    ; Syntax definitions
-    (define-syntax create-button
-      (syntax-rules ()
-              [(create-button name function parent)
-               (new button%
-                                 [callback button-handler]
-                                 [label name]
-                                 [parent parent])]))
-
-    ; Private Functions
-    (define (initialize-buttons)
-      (map (lambda (i)
-             (create-button (car i) (cdr i) menu))
-           (string-function-pair-list))
-      )
-    
-    (define mainMenu (new panel%
+        (define mainMenu (new panel%
       [parent givenParent]
      ))
     (define menuWrapper (new panel%
@@ -55,20 +39,37 @@
      (define header (new message%
                  [parent menu]
                  [label "Main Menu"]))
-
-    initialize-buttons
     
-     ; testing buttons
-    ; TODO: CREATE A FUNCTION FOR HANDLING A LIST OF PAIRS OF STRINGS AND FUNCTIONS
-    ; AND GENERATING THE BUTTONS FROM THAT LIST
-    (define enableMainMenu (new button%
-                                [callback button-handler]
-                                [label "Enable"]
-                                [parent menu]))
-    (define disableMainMenu (new button%
+    ; Private syntax definitions
+
+    ; Creates an anonymous button%
+    ; name is the label of the button
+    ; Function is the function for the button
+    ; Parent is the parent container to attach the button to
+    (define-syntax create-button
+      (syntax-rules ()
+              [(create-button name function parent)
+               (new button%
                                  [callback button-handler]
-                                 [label "Disable"]
-                                 [parent menu]))
+                                 [label name]
+                                 [parent parent])]))
+
+    ; Private Functions
+
+    ; Initializes buttons, attaches them to a container
+    ; First input is a list of pairs of strings (for the label of the button) and functions
+    ; Attaches the buttons to the given parent
+    (define (initialize-buttons given-string-function-pair-list parent)
+      (cond
+        [(empty? given-string-function-pair-list) 0]
+        [else (create-button (first (first given-string-function-pair-list))
+                             (rest (first given-string-function-pair-list))
+                             parent)
+              (initialize-buttons (rest given-string-function-pair-list) parent)]))
+    
+
+
+    (initialize-buttons string-function-pair-list menu)
 
 
     ; Public Functions
@@ -78,11 +79,6 @@
     (define/public (disable)
       (send mainMenu show #f)
       )
-
-
-    
-
-    
    )
   )
 
