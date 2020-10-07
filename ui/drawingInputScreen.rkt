@@ -11,6 +11,8 @@
 ; enable : enables visibility of this object instance
 ; disable: disables visibility of this object instance
 
+; Randomly creates variables and operations for expression
+
 (define a (random-natural 10))
 (define b (random-natural 10))
 (define c (random-natural 10))
@@ -22,6 +24,8 @@
 (define o (open-output-string))
 
 (define answer 0)
+
+; Writes out expression in the infix format
 
 (write a o)
 
@@ -60,6 +64,8 @@
 
 ;(print "Solve the following equation: ")
 ;(get-output-string o)
+
+; Calculates the answer based on the variables and operations
 
 (define equation
   (case (+ op1)
@@ -103,8 +109,12 @@
                   [(1) (set! answer ($ a * b * c - d))]
                   [(2) (set! answer ($ a * b * c * d))])])]))
 
+; Makes the value of the answer variable a string for later comparisons
+
 (define string_answer
   (set! answer (number->string answer)))
+
+; Actual GUI things
 
 (define drawInputMenuUI%
   (class object%
