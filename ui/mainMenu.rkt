@@ -16,8 +16,8 @@
      string-function-pair-list
      )
     (super-new)
-
-        (define mainMenu (new panel%
+    
+    (define mainMenu (new panel%
       [parent givenParent]
      ))
     (define menuWrapper (new panel%

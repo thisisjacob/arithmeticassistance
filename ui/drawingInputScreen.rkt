@@ -4,13 +4,6 @@
 (require racket/gui)
 (require k-infix)
 
-; The screen for drawing problems and entering responses
-; Initialization Arguments:
-; givenParent : the container element of this instance
-; Public Functions:
-; enable : enables visibility of this object instance
-; disable: disables visibility of this object instance
-
 ; Randomly creates variables and operations for expression
 
 (define a (random-natural 10))
@@ -114,12 +107,21 @@
 (define string_answer
   (set! answer (number->string answer)))
 
-; Actual GUI things
+; GUI Class:
+
+; The screen for drawing problems and entering responses
+; Initialization Arguments:
+; givenParent : the container element of this instance
+; menuReturnFunction: a function for returning from this page and to a given return page
+; Public Functions:
+; enable : enables visibility of this object instance
+; disable: disables visibility of this object instance
 
 (define drawInputMenuUI%
   (class object%
     (init-field
      givenParent
+     menuReturnFunction
      )
     (super-new)
     (define drawingInputMenu (new vertical-panel%
@@ -141,9 +143,15 @@
                             [style '(border)]
                             [min-width 600]
                             [min-height 200]))
-    ;(define message (new message%
-                         ;[parent inputPanel]
-                         ;[label "ENTER HERE TEST 123 TEST TEST TEST"]))
+
+    (define (return-callback b e)
+      (menuReturnFunction))
+    (define returnButtonLabel "Return to Previous Menu")
+    (define returnButton (new button%
+                              [parent inputPanel]
+                              [label returnButtonLabel]
+                              [callback return-callback]))
+
     (define textEnter (new text-field%
                            [parent inputPanel]
                            [label "Enter Answer:"]))
