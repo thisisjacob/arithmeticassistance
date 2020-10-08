@@ -124,9 +124,13 @@
      menuReturnFunction
      )
     (super-new)
-    (define drawingInputMenu (new vertical-panel%
-                                  [parent givenParent]
-                                  ))
+    (define drawingInputMenu (new frame%
+                                  [label "Problem Screen"]
+                                  [width 800]
+                                  [height 800]
+                                  [style '(no-resize-border)]
+                                  )
+      )
     (define drawingCanvas (new canvas%
                                [parent drawingInputMenu]
                                [style '(border)]

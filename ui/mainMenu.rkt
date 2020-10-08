@@ -21,8 +21,7 @@
       [parent givenParent]
      ))
     (define menuWrapper (new panel%
-                             [parent mainMenu]
-                             [enabled #t]))
+                             [parent mainMenu]))
 
     ; Event handlers
     
