@@ -3,6 +3,7 @@
 (require math/base)
 (require racket/gui)
 (require k-infix)
+(require "../constants/userInterfaceConstants.rkt")
 
 ; Randomly creates variables and operations for expression
 
@@ -113,6 +114,8 @@
 ; Initialization Arguments:
 ; givenParent : the container element of this instance
 ; menuReturnFunction: a function for returning from this page and to a given return page
+; mode: the mode class construct (as in free practice vs linked practice) NOTE: currently under construction, this will be required in the future
+; category: the category of problems calss construct NOTE: currently under construction, this will be required in the future
 ; Public Functions:
 ; enable : enables visibility of this object instance
 ; disable: disables visibility of this object instance
@@ -126,14 +129,14 @@
     (super-new)
     (define drawingInputMenu (new frame%
                                   [label "Problem Screen"]
-                                  [width 800]
-                                  [height 800]
-                                  [style '(no-resize-border)]
+                                  [width frameWidthAndHeight]
+                                  [height frameWidthAndHeight]
+                                  [style frameStyle]
                                   )
       )
     (define drawingCanvas (new canvas%
                                [parent drawingInputMenu]
-                               [style '(border)]
+                               [style containerStyle]
                                [min-width 600]
                                [min-height 400]
                                [paint-callback
@@ -144,7 +147,7 @@
                                ))
     (define inputPanel (new horizontal-panel%
                             [parent drawingInputMenu]
-                            [style '(border)]
+                            [style containerStyle]
                             [min-width 600]
                             [min-height 200]))
 

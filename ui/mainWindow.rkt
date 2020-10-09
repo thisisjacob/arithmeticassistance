@@ -10,6 +10,7 @@
 (require "mainMenu.rkt")
 (require "drawingInputScreen.rkt")
 (require "gradeAndDifficultySelectScreen.rkt")
+(require "../constants/userInterfaceConstants.rkt")
 
 (define mainWindow%
   (class object%
@@ -19,9 +20,9 @@
     (super-new)
     (define mainFrame (new frame%
                            [label title]
-                           [width 800]
-                           [height 800]
-                           [style '(no-resize-border)]
+                           [width frameWidthAndHeight]
+                           [height frameWidthAndHeight]
+                           [style frameStyle]
                            )
       )
 
@@ -66,8 +67,8 @@
       )
 
     (define difficultyScreen (new gradeAndDifficultySelectScreen%
-                                  [givenParent mainFrame]
                                   [menuReturnFunction enableMainMenu]
+                                  [mode 0]
                                   )
       )
 
