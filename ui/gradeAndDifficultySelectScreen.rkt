@@ -7,6 +7,7 @@
 
 ; Initialization Arguments:
 ; menuReturnFunction: a function for returning from this page and to a given return page
+; problemScreenFunction: a function for switching to the problems screen
 ; mode: a class representing the current mode of play NOTE: give a placeholder value for now because
 ; this feature is still under construction
 
@@ -18,6 +19,7 @@
          (class object%
            (init-field
             menuReturnFunction
+            problemScreenFunction
             mode
             )
            (super-new)
@@ -47,6 +49,10 @@
              (menuReturnFunction)
              )
 
+           (define (open-problems button event)
+             (problemScreenFunction)
+             )
+
            (define gradesHeader (new message%
                                      [parent menu]
                                      [label "Grades"]
@@ -57,21 +63,21 @@
                                       [givenParent menu]
                                       [buttonLabel "TEST Elementary"]
                                       [percentage "0.2%"]
-                                      [buttonFunction return-callback]
+                                      [buttonFunction open-problems]
                                       )
              )
                       (define testButtonTwo (new percentButton%
                                       [givenParent menu]
                                       [buttonLabel "TEST Middle"]
                                       [percentage "0.2%"]
-                                      [buttonFunction return-callback]
+                                      [buttonFunction open-problems]
                                       )
              )
                       (define testButtonThree (new percentButton%
                                       [givenParent menu]
                                       [buttonLabel "TEST High"]
                                       [percentage "0.2%"]
-                                      [buttonFunction return-callback]
+                                      [buttonFunction open-problems]
                                       )
              )
            
@@ -84,22 +90,29 @@
                                       [givenParent menu]
                                       [buttonLabel "TEST Arithmetic"]
                                       [percentage "0.2%"]
-                                      [buttonFunction return-callback]
+                                      [buttonFunction open-problems]
                                       )
              )
            (define testButtonFive (new percentButton%
                                       [givenParent menu]
                                       [buttonLabel "TEST Algebra"]
                                       [percentage "0.2%"]
-                                      [buttonFunction return-callback]
+                                      [buttonFunction open-problems]
                                       )
              )
            (define testButtonSix (new percentButton%
                                       [givenParent menu]
                                       [buttonLabel "TEST Geometry"]
                                       [percentage "0.2%"]
-                                      [buttonFunction return-callback]
+                                      [buttonFunction open-problems]
                                       )
+             )
+
+           (define testButtonReturn (new button%
+             [parent menu]
+             [label "TEST RETURN TO MAIN MENU"]
+             [callback return-callback]
+             )
              )
 
            ; Public Functions
