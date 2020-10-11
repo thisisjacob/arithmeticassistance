@@ -57,9 +57,7 @@
     (define mainMenu (new mainMenuUI%
                           [givenParent mainFrame]
                           [function enableMainMenu]
-                          [string-function-pair-list (list (list "Test Main Menu" enableMainMenu)
-                                                           (list "Test Problems Screen" enableProblemsScreen)
-                                                           (list "Test Difficulty Screen" enableDifficultyScreen))]))
+                          [string-function-pair-list (list (list "Test Difficulty Screen" enableDifficultyScreen))]))
     (define problemsScreen (new drawInputMenuUI%
                                 [givenParent mainFrame]
                                 [menuReturnFunction enableMainMenu]
@@ -68,6 +66,7 @@
 
     (define difficultyScreen (new gradeAndDifficultySelectScreen%
                                   [menuReturnFunction enableMainMenu]
+                                  [problemScreenFunction enableProblemsScreen]
                                   [mode 0]
                                   )
       )

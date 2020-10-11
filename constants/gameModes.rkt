@@ -1,4 +1,7 @@
 #lang racket
+; Defines a small class for holding information on a game mode
+; Defines a list named game-modes that is is just a list of available gamemodes for the program
+; This class should be used to hold information on what is available - it will not implement these gamemodes
 
 (define game-mode%
          (class object%
@@ -7,22 +10,31 @@
             id
             name
             )
+           (define/public (getId)
+             id
+             )
+           (define/public (getName)
+             name
+             )
            )
   )
-
-(define game-mode-manager%
-  (class object%
-    (super-new)
-    (init-field
-     mode-list
-     )
-    )
-  )
-
-(define free (new game-mode%
                   
 
+(define game-modes (list
+                    (new game-mode%
+                         [id 0]
+                         [name "Free Practice"]
+                         )
+                    (new game-mode%
+                         [id 1]
+                         [name "Linked Mode"]
+                         )
+                    (new game-mode%
+                         [id 2]
+                         [name "Multiplayer"]
+                         )
+                    )
+  )
 
 
-
-
+(provide game-modes)
