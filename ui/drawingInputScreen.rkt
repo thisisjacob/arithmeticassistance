@@ -4,6 +4,8 @@
 (require racket/gui)
 (require k-infix)
 (require "../constants/userInterfaceConstants.rkt")
+(require "../drawing/circle.rkt")
+(require "../drawing/textProblem.rkt")
 
 ; Randomly creates variables and operations for expression
 
@@ -127,6 +129,16 @@
      menuReturnFunction
      )
     (super-new)
+
+    ; A callback function for rendering problems to the canvas
+    ; Currently needs: information provided that will tell the program which
+    ; shape to draw
+    (define (canvasPaintingCallbackFunction canvas dc)
+      (send dc set-scale 3 3)
+      (send dc set-text-foreground "blue")
+      (draw-text-problem dc (get-output-string o) 0 0)
+      )
+    
     (define drawingInputMenu (new frame%
                                   [label "Problem Screen"]
                                   [width frameWidthAndHeight]
@@ -139,25 +151,17 @@
                                [style containerStyle]
                                [min-width 600]
                                [min-height 400]
-                               [paint-callback
-                                (lambda (canvas dc)
-                                  (send dc set-scale 3 3)
-                                  (send dc set-text-foreground "blue")
-                                  (send dc draw-text (get-output-string o) 0 0))]
-                               ))
+                               [paint-callback canvasPaintingCallbackFunction]
+                               )
+      )
+    
     (define inputPanel (new horizontal-panel%
                             [parent drawingInputMenu]
                             [style containerStyle]
                             [min-width 600]
                             [min-height 200]))
 
-    (define (return-callback b e)
-      (menuReturnFunction))
-    (define returnButtonLabel "Return to Previous Menu")
-    (define returnButton (new button%
-                              [parent inputPanel]
-                              [label returnButtonLabel]
-                              [callback return-callback]))
+
 
     (define textEnter (new text-field%
                            [parent inputPanel]
