@@ -140,7 +140,7 @@
       )
 
      ; Callback definitions
-    (define (button-callback b e)
+    (define (submit-callback b e)
       (let ((text (send textEnter get-value)))
         (if (string=? text answer)
             (message-box "Good job" (format "That is correct!") givenParent '(no-icon ok))
@@ -188,7 +188,7 @@
     (define submit (new button%
                         [parent inputPanel]
                         [label "Submit"]
-                        [callback button-callback]))
+                        [callback submit-callback]))
 
     (define/public (enable)
       (send drawingInputMenu show #t))

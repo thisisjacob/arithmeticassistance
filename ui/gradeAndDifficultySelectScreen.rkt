@@ -2,6 +2,7 @@
 (require racket/gui/base)
 (require "widgets/percentButton.rkt")
 (require "../constants/userInterfaceConstants.rkt")
+(require "../constants/difficultiesAndCategories.rkt")
 
 ; The screeen for selecting a grade level or category/difficulty
 
