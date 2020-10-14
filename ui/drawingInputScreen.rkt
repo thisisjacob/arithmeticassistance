@@ -138,6 +138,16 @@
       (send dc set-text-foreground "blue")
       (draw-text-problem dc (get-output-string o) 0 0)
       )
+
+     ; Callback definitions
+    (define (button-callback b e)
+      (let ((text (send textEnter get-value)))
+        (if (string=? text answer)
+            (message-box "Good job" (format "That is correct!") givenParent '(no-icon ok))
+            (message-box "Go to the gazebo" (format "That is incorrect.") givenParent '(stop ok)))))
+    (define (return-callback button event)
+      (menuReturnFunction)
+      )
     
     (define drawingInputMenu (new frame%
                                   [label "Problem Screen"]
@@ -162,15 +172,18 @@
                             [min-height 200]))
 
 
-
+    (define returnButton (new button%
+                              [parent inputPanel]
+                              [label "Return to Main Menu"]
+                              [callback return-callback]
+                              )
+      )
+    
     (define textEnter (new text-field%
                            [parent inputPanel]
                            [label "Enter Answer:"]))
-    (define (button-callback b e)
-      (let ((text (send textEnter get-value)))
-        (if (string=? text answer)
-            (message-box "Good job" (format "That is correct!") givenParent '(no-icon ok))
-            (message-box "Go to the gazebo" (format "That is incorrect.") givenParent '(stop ok)))))
+
+
     
     (define submit (new button%
                         [parent inputPanel]
