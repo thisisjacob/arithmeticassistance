@@ -4,6 +4,9 @@
 ; Initialization Parameters:
 ; id: a unique numeric id for the class
 ; name: name of the problem (should be human readable, first letter capitalized)
+; Public Functions:
+; getId: gets the numeric id of this difficulty
+; getName: gets the string name of this difficulty
 (define difficulty-class%
          (class object%
            (super-new)
@@ -13,6 +16,9 @@
             )
            (define/public (getId)
              id
+             )
+           (define/public (getName)
+             name
              )
            )
   )
@@ -24,6 +30,7 @@
 ; Public Functions
 ; list-of-categories: returns the list of saved categories
 ; get-category-with-id: enter an id of a valid class, returns a difficulty-class if a difficulty class with that id is found. returns 0 if no such class is found
+; list-of-categories-strings: returns a list of the strings of all the difficulty classes held by the manager instance
 (define difficulty-manager%
   (class object%
     (super-new)
@@ -32,17 +39,28 @@
      )
     (define/public (list-of-categories)
       list-of-difficulty-class)
+    (define/public (list-of-categories-strings)
+      (list (list-categories-name-helper list-of-difficulty-class))
+      )
+      
     (define/public (get-category-with-id id)
       (category-helper list-of-difficulty-class id)
       )
+      
 
     (define (category-helper list id)
       (cond
-        [(empty? list) 0]
+        [(empty? list)]
         [(equal? (id) (send (first list) getId)) (send (first list) getId)]
         [else (category-helper (rest list) id)]
         )
       )
+      (define (list-categories-name-helper list)
+        (cond
+          [(empty? list) 0]
+          [else (send (first list) getName) (list-categories-name-helper (rest list))]
+          )
+        )
         
 
     )
