@@ -21,9 +21,11 @@
            (init-field
             menuReturnFunction
             problemScreenFunction
-            mode
+            game-mode
             )
            (super-new)
+
+           (define currentGameMode game-mode)
 
            (define pageWrapper (new frame%
                                     [label "Difficulty Selection"]
@@ -117,8 +119,10 @@
              )
 
            ; Public Functions
-           (define/public (enable)
+           ; Enable requires a game-mode% as an argument in order to pass the currently selected game mode to the problems
+           (define/public (enable game-mode)
              (send pageWrapper show #t)
+             (set! currentGameMode game-mode)
              )
            (define/public (disable)
              (send pageWrapper show #f)
