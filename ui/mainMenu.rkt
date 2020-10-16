@@ -13,7 +13,6 @@
   (class object%
     (init-field
      givenParent
-     function
      string-function-pair-list
      )
     (super-new)
@@ -36,14 +35,6 @@
                  [parent menu]
                  [label "Main Menu"]))
 
-    ; the button manager for managing menu's buttons
-    (define buttons (new buttonGeneratorAndManager%
-                         [givenParent menu]
-                         [string-function-pair-list string-function-pair-list]
-                         )
-      )
-    
-
     ; Public Functions
     (define/public (enable)
       (send mainMenu show #t)
@@ -51,6 +42,15 @@
     (define/public (disable)
       (send mainMenu show #f)
       )
+    ;the button manager for managing menu's buttons
+    (define buttons (new buttonGeneratorAndManager%
+                         [givenParent menu]
+                         [string-function-pair-list string-function-pair-list]
+                         )
+      )
+    
+
+
    )
   )
 
