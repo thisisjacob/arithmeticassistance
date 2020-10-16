@@ -11,6 +11,7 @@
 (require "drawingInputScreen.rkt")
 (require "gradeAndDifficultySelectScreen.rkt")
 (require "../constants/userInterfaceConstants.rkt")
+(require "../constants/gameModes.rkt")
 
 (define mainWindow%
   (class object%
@@ -44,6 +45,28 @@
     (define (disableMainMenu)
       (send mainMenu disable)
       )
+
+    (define difficultyScreen (new gradeAndDifficultySelectScreen%
+                                  [menuReturnFunction enableMainMenu]
+                                  [problemScreenFunction enableProblemsScreen]
+                                  )
+      )
+
+    (define (pass/switchToDifficultyScreen game-mode)
+      (send difficultyScreen pass-information game-mode)
+      
+      )
+    
+    (define (mainMenuFunctionGenerator mode-list given-list)
+       (cond
+         [(empty? mode-list) given-list]
+         [else
+          (define new-list (append given-list (list (send (first mode-list) getName) (pass/switchToDifficultyScreen (first mode-list)))))
+                                   (mainMenuFunctionGenerator (rest mode-list) new-list)
+                                   ]
+         )
+      )
+      
     
     (define mainFrame (new frame%
                            [label title]
@@ -58,16 +81,20 @@
                                 )
       )
 
+
+
+    (define test '())
     (define mainMenu (new mainMenuUI%
                           [givenParent mainFrame]
-                          [string-function-pair-list (list (list "Test Difficulty Screen" enableDifficultyScreen))]))
+                          [string-function-pair-list (list (mainMenuFunctionGenerator game-modes test))]))
+
+
     
 
-    (define difficultyScreen (new gradeAndDifficultySelectScreen%
-                                  [menuReturnFunction enableMainMenu]
-                                  [problemScreenFunction enableProblemsScreen]
-                                  )
-      )
+
+
+
+
 
 
 
