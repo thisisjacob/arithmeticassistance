@@ -3,6 +3,7 @@
 (require "widgets/percentButton.rkt")
 (require "../constants/userInterfaceConstants.rkt")
 (require "../constants/difficultiesAndCategories.rkt")
+(require "../utilities/buttonFunctionsAndGenerators.rkt")
 
 ; The screeen for selecting a grade level or category/difficulty
 
@@ -21,11 +22,10 @@
            (init-field
             menuReturnFunction
             problemScreenFunction
-            game-mode
             )
            (super-new)
 
-           (define currentGameMode game-mode)
+           (define currentGameMode 0)
 
            (define pageWrapper (new frame%
                                     [label "Difficulty Selection"]
@@ -61,6 +61,7 @@
                                      [label "Grades"]
                                      )
              )
+
 
            (define testButtonOne (new percentButton%
                                       [givenParent menu]
@@ -120,8 +121,10 @@
 
            ; Public Functions
            ; Enable requires a game-mode% as an argument in order to pass the currently selected game mode to the problems
-           (define/public (enable game-mode)
+           (define/public (enable)
              (send pageWrapper show #t)
+             )
+           (define/public (pass-information game-mode)
              (set! currentGameMode game-mode)
              )
            (define/public (disable)

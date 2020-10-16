@@ -130,6 +130,9 @@
      )
     (super-new)
 
+    (define currentGameMode 0)
+    (define currentProblemCategory 0)
+
     ; A callback function for rendering problems to the canvas
     ; Currently needs: information provided that will tell the program which
     ; shape to draw
@@ -191,7 +194,12 @@
                         [callback submit-callback]))
 
     (define/public (enable)
-      (send drawingInputMenu show #t))
+      (send drawingInputMenu show #t)
+      )
+    (define/public (pass-settings game-mode problem-category)
+      (set! currentGameMode game-mode)
+      (set! currentProblemCategory problem-category)
+      )
     (define/public (disable)
       (send drawingInputMenu show #f))
 

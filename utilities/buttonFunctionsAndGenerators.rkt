@@ -54,14 +54,13 @@
               (initialize-buttons (rest given-string-function-pair-list) parent)]))
 
     ; holds all the buttons
+    ; must be initialized by the initialize function
     (define buttons
       (initialize-buttons string-function-pair-list givenParent)
       )
-
     ; returns the list of buttons
     (define/public (getButtons)
       buttons)
-
     )
   )
 

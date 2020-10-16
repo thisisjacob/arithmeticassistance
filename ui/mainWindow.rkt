@@ -18,14 +18,6 @@
      title
      )
     (super-new)
-    (define mainFrame (new frame%
-                           [label title]
-                           [width frameWidthAndHeight]
-                           [height frameWidthAndHeight]
-                           [style frameStyle]
-                           )
-      )
-
 
     ;Functions
     (define/public (startUI)
@@ -37,40 +29,47 @@
       (send mainFrame show #t)
       (send mainMenu enable)
       )
-    (define (enableProblemsScreen game-mode problem-category)
+    (define (enableProblemsScreen)
       (send mainMenu disable)
       (send difficultyScreen disable)
-      (send problemsScreen enable game-mode problem-category)
+      (send problemsScreen enable)
       (send mainFrame show #f)
       )
-    (define (enableDifficultyScreen game-mode)
+    (define (enableDifficultyScreen)
       (send problemsScreen disable)
       (send mainMenu disable)
-      (send difficultyScreen enable game-mode)
+      (send difficultyScreen enable)
       (send mainFrame show #f)
       )
     (define (disableMainMenu)
       (send mainMenu disable)
       )
-
-
-    (define mainMenu (new mainMenuUI%
-                          [givenParent mainFrame]
-                          [function enableMainMenu]
-                          [string-function-pair-list (list (list "Test Difficulty Screen" enableDifficultyScreen))]))
     
+    (define mainFrame (new frame%
+                           [label title]
+                           [width frameWidthAndHeight]
+                           [height frameWidthAndHeight]
+                           [style frameStyle]
+                           )
+      )
     (define problemsScreen (new drawInputMenuUI%
                                 [givenParent mainFrame]
                                 [menuReturnFunction enableMainMenu]
                                 )
       )
 
+    (define mainMenu (new mainMenuUI%
+                          [givenParent mainFrame]
+                          [string-function-pair-list (list (list "Test Difficulty Screen" enableDifficultyScreen))]))
+    
+
     (define difficultyScreen (new gradeAndDifficultySelectScreen%
                                   [menuReturnFunction enableMainMenu]
                                   [problemScreenFunction enableProblemsScreen]
-                                  [game-mode 0]
                                   )
       )
+
+
 
 
   )
