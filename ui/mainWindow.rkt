@@ -62,7 +62,7 @@
          [(empty? mode-list) given-list]
          [else
           (define new-list (append given-list (list (list (send (first mode-list) getName) pass/switchToDifficultyScreen (list (first mode-list))))))
-          (print new-list)
+          ;(print new-list)
                                    (mainMenuFunctionGenerator (rest mode-list) new-list)
                                    ]
          )
