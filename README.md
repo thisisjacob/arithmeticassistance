@@ -9,11 +9,16 @@ Variant: Regular
 
 2. Then install the compiler and IDE
     - With Windows, the compiler is installed by running the installation .exe and following the command prompts
+    - With Macintosh, the compiler is installed by running the installation .dmg
 
 3. Install required external packages
     - The following external packages must first be installed:
-    - Install them with the following commands:
-
+        k-infix
+        
+    - To install them, open DrRacket, and then go to File >> Install Package... 
+    - Type in the name of the packages from the above list one by one
+        
+        
 <h2>Compiling and Running the Program:</h2>
 
 1. Compile the program by compiling the "main.rkt" file found in the program folder
