@@ -8,16 +8,14 @@ Platform: Any
 Variant: Regular
 
 2. Then install the compiler and IDE
-    With Windows, the compiler is installed by running and following the command prompts through the installer. 
+  - With Windows, the compiler is installed by running the installation .exe and following the command prompts
 
 3. Install required external packages
-
-The following external packages must first be installed:
-
-Install them with the following commands:
+  - The following external packages must first be installed:
+  - Install them with the following commands:
 
 <h2>Compiling and Running the Program:</h2>
 
-The program can be compiled and run by compiling the "main.rkt" file in the folder of the program. 
+1. Compile the program by compiling the "main.rkt" file found in the program folder
 
-Run the program by running the "main.rkt" file.
+2. Run the program by running the "main.rkt" file.
