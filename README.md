@@ -18,7 +18,6 @@ Install them with the following commands:
 
 <h2>Compiling and Running the Program:</h2>
 
+The program can be compiled and run by compiling the "main.rkt" file in the folder of the program. 
 
-
-Once this is done, the program can be compiled and run by opening the "main.rkt" file in the main folder with the included DrRacket IDE. Selecting run in the editing window will then compile the full program and start it.
-
+Run the program by running the "main.rkt" file.
