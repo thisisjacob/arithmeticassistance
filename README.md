@@ -8,7 +8,7 @@ Platform: Any
 Variant: Regular
 
 2. Then install the compiler and IDE
-With Windows, the compiler is installed by running and following the command prompts through the installer. 
+    With Windows, the compiler is installed by running and following the command prompts through the installer. 
 
 3. Install required external packages
 
