@@ -90,8 +90,7 @@
     (define (initialize-buttons-with-args given-string-function-arg-list parent)
       (cond
         [(empty? given-string-function-arg-list) 0]
-        [else (print given-string-function-arg-list) (print "||||") (print (first (first given-string-function-arg-list)))
-         (create-button-with-list-args (first (first given-string-function-arg-list))
+        [else (create-button-with-list-args (first (first (first given-string-function-arg-list)))
                              parent)
               (initialize-buttons-with-args (rest given-string-function-arg-list) parent)]))
     
