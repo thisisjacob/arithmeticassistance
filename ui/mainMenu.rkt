@@ -45,9 +45,10 @@
     ;the button manager for managing menu's buttons
     (define buttons (new buttonGeneratorAndManager%
                          [givenParent menu]
-                         [string-function-pair-list string-function-pair-list]
+                         [functionList string-function-pair-list]
                          )
       )
+    (send buttons initialize-buttons-args)
     
 
 
