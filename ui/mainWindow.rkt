@@ -52,11 +52,16 @@
                                   )
       )
 
+    ; Call this to switch to the difficultyScreen when the game-mode must be switched
+    ; game-mode is the game mode construct to switch to
     (define (pass/switchToDifficultyScreen game-mode)
       (send difficultyScreen pass-information game-mode)
       (enableDifficultyScreen)
       )
 
+    ; Generates a list of (list (name pass/switchToDifficultyScreen 
+    ; mode-list is a list of mode constructs that are used to create the function procedure arguments
+    ; given-list should be an empty list, or an already existing list of the returned construct
     (define (mainMenuFunctionGenerator mode-list given-list)
        (cond
          [(empty? mode-list) given-list]
@@ -80,12 +85,9 @@
                                 [menuReturnFunction enableMainMenu]
                                 )
       )
-
-
-    (define test '())
     (define mainMenu (new mainMenuUI%
                           [givenParent mainFrame]
-                          [string-function-pair-list  (mainMenuFunctionGenerator game-modes test)]))
+                          [string-function-pair-list  (mainMenuFunctionGenerator game-modes '())]))
   )
 )
 
