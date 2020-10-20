@@ -39,19 +39,16 @@
       )
 
     (define (button-handler-helper-with-args button given-string-function-args-pair-list)
-      (print given-string-function-args-pair-list)
       (cond
 
         [(empty? given-string-function-args-pair-list) 0]
         [(equal? (send button get-label) (first (first given-string-function-args-pair-list)))
          (define procedure
-           (rest (first (first given-string-function-args-pair-list)))
+           (first (rest (first given-string-function-args-pair-list)))
            )
          (define arguments-list
-           (first (rest (rest (first (rest (rest (first given-string-function-args-pair-list)))))))
+           (first (rest (rest (first given-string-function-args-pair-list))))
            )
-         (print procedure)
-         (print arguments-list)
          (procedure
          arguments-list)]
         [else (button-handler-helper-with-args button (rest given-string-function-args-pair-list))]
@@ -90,7 +87,7 @@
     (define (initialize-buttons-with-args given-string-function-arg-list parent)
       (cond
         [(empty? given-string-function-arg-list) 0]
-        [else (print given-string-function-arg-list) (print "||||") (print (first (first given-string-function-arg-list)))
+        [else
          (create-button-with-list-args (first (first given-string-function-arg-list))
                              parent)
               (initialize-buttons-with-args (rest given-string-function-arg-list) parent)]))

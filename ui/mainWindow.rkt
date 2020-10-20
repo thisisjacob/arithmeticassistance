@@ -54,6 +54,7 @@
 
     (define (pass/switchToDifficultyScreen game-mode)
       (send difficultyScreen pass-information game-mode)
+      (enableDifficultyScreen)
       )
 
     (define (mainMenuFunctionGenerator mode-list given-list)
@@ -85,24 +86,6 @@
     (define mainMenu (new mainMenuUI%
                           [givenParent mainFrame]
                           [string-function-pair-list  (mainMenuFunctionGenerator game-modes test)]))
-
-        ;(print (list (mainMenuFunctionGenerator game-modes test)))
-    ;(print "|||")
-    ;(print (rest (list (mainMenuFunctionGenerator game-modes test))))
-    ;(print "|||")
-        ;(print (first (list (mainMenuFunctionGenerator game-modes test))))
-
-
-    
-
-
-
-
-
-
-
-
-
   )
 )
 
