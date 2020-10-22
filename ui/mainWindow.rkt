@@ -49,10 +49,12 @@
     ; Call this to switch to the problemsScreen when the game-mode and problem-category must be siwtched
     ; game-mode is the game made construct to switch to
     ; problem category is the problem category to switch to
+
     (define (pass/switchToProblemsScreen game-mode-and-problem-category-pair)
       (send problemsScreen pass-information (first game-mode-and-problem-category-pair)
             (first (rest game-mode-and-problem-category-pair)
                    ))
+
       (enableProblemsScreen)
       )
 
