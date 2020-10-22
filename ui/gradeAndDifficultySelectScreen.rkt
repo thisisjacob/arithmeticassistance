@@ -62,55 +62,28 @@
                                      )
              )
 
-
-           (define testButtonOne (new percentButton%
-                                      [givenParent menu]
-                                      [buttonLabel "TEST Elementary"]
-                                      [percentage "0.2%"]
-                                      [buttonFunction open-problems]
-                                      )
-             )
-                      (define testButtonTwo (new percentButton%
-                                      [givenParent menu]
-                                      [buttonLabel "TEST Middle"]
-                                      [percentage "0.2%"]
-                                      [buttonFunction open-problems]
-                                      )
-             )
-                      (define testButtonThree (new percentButton%
-                                      [givenParent menu]
-                                      [buttonLabel "TEST High"]
-                                      [percentage "0.2%"]
-                                      [buttonFunction open-problems]
-                                      )
+           (define (buttonFunctionGenerator difficulty-list given-list)
+             (cond
+               [(empty? difficulty-list) given-list]
+               [else
+                (define new-list (append given-list (list (list (send (first difficulty-list) getName)
+                                                                problemScreenFunction
+                                                                (list currentGameMode (first difficulty-list))
+                                                                )
+                                                          )
+                                         )
+                  )
+                (buttonFunctionGenerator (rest difficulty-list) new-list)
+                ]
+               )
              )
            
-           (define categoryHeader (new message%
-                                       [parent menu]
-                                       [label "Categories of Problems"]
-                                       )
+           (define buttons (new buttonGeneratorAndManager%
+                                [givenParent menu]
+                                [functionList (buttonFunctionGenerator (send difficulties list-of-categories) '()) ]
+                                )
              )
-           (define testButtonFour (new percentButton%
-                                      [givenParent menu]
-                                      [buttonLabel "TEST Arithmetic"]
-                                      [percentage "0.2%"]
-                                      [buttonFunction open-problems]
-                                      )
-             )
-           (define testButtonFive (new percentButton%
-                                      [givenParent menu]
-                                      [buttonLabel "TEST Algebra"]
-                                      [percentage "0.2%"]
-                                      [buttonFunction open-problems]
-                                      )
-             )
-           (define testButtonSix (new percentButton%
-                                      [givenParent menu]
-                                      [buttonLabel "TEST Geometry"]
-                                      [percentage "0.2%"]
-                                      [buttonFunction open-problems]
-                                      )
-             )
+           (send buttons initialize-buttons-args)
 
            (define testButtonReturn (new button%
              [parent menu]
