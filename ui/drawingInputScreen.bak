@@ -9,7 +9,6 @@
 
 ; Randomly creates variables and operations for expression
 
-#|
 ;============================================================;
 ;Middle-school algorithm
 (define a (random-natural 25))
@@ -165,7 +164,7 @@
   (set! answer (number->string answer)))
 
 ;===============================================================================;
-|#
+
 
 
 #|
@@ -1682,140 +1681,7 @@
 |#
 ;==============================================================================;
 
-#|
-;================================================
-;Rectangle area
-(define length (random-integer 1 10))
-(define width (random-integer 1 10))
-(define answer 0)
-(set! answer ($ length * width))
-(define o (open-output-string))
-(define l (open-output-string))
-(define w (open-output-string))
-(display "Find the area of the rectangle." o)
-(display "The length is: " l)
-(write length l)
-(display "The width is: " w)
-(write width w)
-(define string_l
-  (set! length (number->string length)))
-(define string_w
-  (set! width (number->string width)))
-(define string_answer
-  (set! answer (number->string answer)))
-;=================================================
-|#
 
-#|
-;================================================
-;Triangle area
-(define base (random-integer 1 10))
-(set! base ($ (base * 1.0)))
-(define height (random-integer 1 10))
-(set! height ($ (height * 1.0)))
-(define answer 0)
-(set! answer ($ (base * height) / 2))
-(define o (open-output-string))
-(define b (open-output-string))
-(define h (open-output-string))
-(display "Find the area of the triangle." o)
-(display "The base is: " b)
-(write base b)
-(display "The height is: " h)
-(write height h)
-(define string_b
-  (set! base (number->string base)))
-(define string_w
-  (set! height (number->string height)))
-(define string_answer
-  (set! answer (number->string answer)))
-;=================================================
-|#
-
-#|
-;================================================
-;Parallelogram area
-(define base (random-integer 1 10))
-(set! base ($ (base * 1.0)))
-(define height (random-integer 1 10))
-(set! height ($ (height * 1.0)))
-(define answer 0)
-(set! answer ($ (base * height)))
-(define o (open-output-string))
-(define b (open-output-string))
-(define h (open-output-string))
-(display "Find the area of the parallelogram." o)
-(display "The base is: " b)
-(write base b)
-(display "The height is: " h)
-(write height h)
-(define string_b
-  (set! base (number->string base)))
-(define string_w
-  (set! height (number->string height)))
-(define string_answer
-  (set! answer (number->string answer)))
-;=================================================
-|#
-
-#|
-;================================================
-;Circle area
-(define radius (random-integer 1 25))
-;(set! radius ($ (radius * 1.0)))
-(define answer 0)
-(define p 0)
-(define rs (expt radius 2))
-(set! answer ($ (p * rs)))
-(set! answer (round answer))
-(set! answer (inexact->exact answer))
-(define o (open-output-string))
-(define r (open-output-string))
-(define e (open-output-string))
-(display "Find the area of the circle." o)
-(display "The radius is: " r)
-(display "Round to the nearest whole number." e)
-(write radius r)
-(define string_r
-  (set! radius (number->string radius)))
-(define string_answer
-  (set! answer (number->string answer)))
-;=================================================
-|#
-
-
-;================================================
-;Trapezoid area
-(define a (random-integer 1 25))
-(set! a ($ (a * 1.0)))
-(define b (random-integer 1 25))
-(set! b ($ (b * 1.0)))
-(define h (random-integer 1 25))
-(set! h ($ (h * 1.0)))
-(define answer 0)
-
-(set! answer ($ (((a + b) * h) / 2)))
-
-(set! a (inexact->exact a))
-(set! b (inexact->exact b))
-(set! h (inexact->exact h))
-
-(define o (open-output-string))
-(define A (open-output-string))
-(define B (open-output-string))
-(define H (open-output-string))
-
-(display "Find the area of the trapezoid." o)
-(display "a is: " A)
-(write a A)
-(display "b is: " B)
-(write b B)
-(display "The height is: " H)
-(write h H)
-
-(define string_answer
-  (set! answer (number->string answer)))
-;=================================================
 
 
 ; GUI Class:
@@ -1848,9 +1714,6 @@
       (send dc set-scale 3 3)
       (send dc set-text-foreground "blue")
       (draw-text-problem dc (get-output-string o) 0 0)
-      (draw-text-problem dc (get-output-string A) 0 20)
-      (draw-text-problem dc (get-output-string B) 0 40)
-      (draw-text-problem dc (get-output-string H) 0 60)
       )
 
      ; Callback definitions
