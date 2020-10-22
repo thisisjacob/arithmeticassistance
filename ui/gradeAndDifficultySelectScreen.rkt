@@ -77,6 +77,8 @@
                 ]
                )
              )
+
+           (print (buttonFunctionGenerator (send difficulties list-of-categories) '()))
            
            (define buttons (new buttonGeneratorAndManager%
                                 [givenParent menu]
