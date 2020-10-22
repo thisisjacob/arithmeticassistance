@@ -1838,8 +1838,14 @@
      )
     (super-new)
 
-    (define currentGameMode 0)
-    (define currentProblemCategory 0)
+    ; currentGameMode holds the current gameMode construct of the drawingInputScreen
+    ; These constructs are stored in constants/gameModes.rkt
+    ; This should be used to decide the behavior of the problems screen
+    (define currentGameMode null)
+    ; currentProblemCategory holds the difficulty-class construct of the drawingInputScreen
+    ; These constructs are stored in constants/difficultiesAndCategories.rkt
+    ; This construct should be used to decide which problems to generate
+    (define currentProblemCategory null)
 
     ; A callback function for rendering problems to the canvas
     ; Currently needs: information provided that will tell the program which
@@ -1906,8 +1912,11 @@
 
     (define/public (enable)
       (send drawingInputMenu show #t)
+      (print currentGameMode)
+      (print (send currentProblemCategory getName))
       )
-    (define/public (pass-settings game-mode problem-category)
+    ; This sets the game mode and problem category of the current problemScreen instance to the passed values
+    (define/public (pass-information game-mode problem-category)
       (set! currentGameMode game-mode)
       (set! currentProblemCategory problem-category)
       )

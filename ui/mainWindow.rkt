@@ -49,8 +49,12 @@
     ; Call this to switch to the problemsScreen when the game-mode and problem-category must be siwtched
     ; game-mode is the game made construct to switch to
     ; problem category is the problem category to switch to
-    (define (pass/switchToProblemsScreen game-mode problem-category)
-      (send problemsScreen pass-information game-mode problem-category)
+
+    (define (pass/switchToProblemsScreen game-mode-and-problem-category-pair)
+      (send problemsScreen pass-information (first game-mode-and-problem-category-pair)
+            (first (rest game-mode-and-problem-category-pair)
+                   ))
+
       (enableProblemsScreen)
       )
 
@@ -69,7 +73,7 @@
 
 
 
-    ; Generates a list of (list (name pass/switchToDifficultyScreen 
+    ; Generates a list of (list (name pass/switchToDifficultyScreen))
     ; mode-list is a list of mode constructs that are used to create the function procedure arguments
     ; given-list should be an empty list, or an already existing list of the returned construct
     (define (mainMenuFunctionGenerator mode-list given-list)
