@@ -1912,6 +1912,8 @@
 
     (define/public (enable)
       (send drawingInputMenu show #t)
+      (print currentGameMode)
+      (print (send currentProblemCategory getName))
       )
     ; This sets the game mode and problem category of the current problemScreen instance to the passed values
     (define/public (pass-information game-mode problem-category)
