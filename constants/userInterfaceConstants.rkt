@@ -16,6 +16,11 @@
 (provide containerWidth)
 (provide containerHeight)
 (provide containerStyle)
+
+(define problemTextPushdown 100)
+(define problemTextPushRight 100)
+(provide problemTextPushdown)
+(provide problemTextPushRight)
                   
 
 
