@@ -4,8 +4,7 @@
 (require racket/gui)
 (require k-infix)
 (require "../constants/userInterfaceConstants.rkt")
-(require "../drawing/circle.rkt")
-(require "../drawing/textProblem.rkt")
+(require "../drawing/canvasShapeDrawingFunctions.rkt")
 
 ; Randomly creates variables and operations for expression
 
