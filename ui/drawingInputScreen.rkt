@@ -5,6 +5,7 @@
 (require k-infix)
 (require "../constants/userInterfaceConstants.rkt")
 (require "../drawing/canvasShapeDrawingFunctions.rkt")
+(require "../logic/equationGenerator.rkt")
 
 ; Randomly creates variables and operations for expression
 
@@ -1836,6 +1837,11 @@
      menuReturnFunction
      )
     (super-new)
+
+    (define test (new equation-generator%)
+      )
+
+    (print (send test middleSchoolArithmeticProblem))
 
     ; currentGameMode holds the current gameMode construct of the drawingInputScreen
     ; These constructs are stored in constants/gameModes.rkt
