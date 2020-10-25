@@ -79,13 +79,6 @@
              )
 
            ;(print (buttonFunctionGenerator (send difficulties list-of-categories) '()))
-           
-           (define buttons (new buttonGeneratorAndManager%
-                                [givenParent menu]
-                                [functionList (buttonFunctionGenerator (send difficulties list-of-categories) '()) ]
-                                )
-             )
-           (send buttons initialize-buttons-args)
 
            (define testButtonReturn (new button%
              [parent menu]
@@ -97,6 +90,17 @@
            ; Public Functions
            ; Enable requires a game-mode% as an argument in order to pass the currently selected game mode to the problems
            (define/public (enable)
+             (define current-buttons (send menu get-children))
+             (for-each (lambda (arg)
+                         (send menu delete-child arg)
+                         )
+                       current-buttons)
+             (define buttons (new buttonGeneratorAndManager%
+                                  [givenParent menu]
+                                  [functionList (buttonFunctionGenerator (send difficulties list-of-categories) '()) ]
+                                  )
+               )
+             (send buttons initialize-buttons-args)
              (send pageWrapper show #t)
              )
            (define/public (pass-information game-mode)
