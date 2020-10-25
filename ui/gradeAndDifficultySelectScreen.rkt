@@ -68,7 +68,7 @@
                [else
                 (define new-list (append given-list (list (list (send (first difficulty-list) getName)
                                                                 problemScreenFunction
-                                                                (list currentGameMode (first difficulty-list))
+                                                                 (list (first currentGameMode) (first difficulty-list))
                                                                 )
                                                           )
                                          )
@@ -78,7 +78,6 @@
                )
              )
 
-           ;(print (buttonFunctionGenerator (send difficulties list-of-categories) '()))
 
            (define testButtonReturn (new button%
              [parent menu]

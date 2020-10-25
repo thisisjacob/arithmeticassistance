@@ -52,6 +52,7 @@
 
     (define (pass/switchToProblemsScreen game-mode-and-problem-category-pair)
       (send problemsScreen pass-information (first game-mode-and-problem-category-pair)
+
             (first (rest game-mode-and-problem-category-pair)
                    ))
 
