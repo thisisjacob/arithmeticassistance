@@ -1864,6 +1864,7 @@
     ; Currently needs: information provided that will tell the program which
     ; shape to draw
     (define (canvasPaintingCallbackFunction canvas dc)
+      (send dc erase)
       (send dc set-scale 3 3)
       (send dc set-text-foreground "blue")
       ; Draws score if set to multiplayer
