@@ -19,6 +19,18 @@
 
 (provide draw-text-problem)
 
+; Draws text of the given scores onto the given device context
+; Parameters:
+; device-context: the device context to draw one
+; playerOneScore: the score of player one to draw
+; playerTwoScore: the score of player two to draw
+(define (draw-score device-context playerOneScore playerTwoScore)
+  (send device-context draw-text (string-append "Player One: " (make-string playerOneScore)) 140 00)
+  (send device-context draw-text (string-append "Player Two: " (make-string playerTwoScore)) 140 20)
+  )
+
+(provide draw-score)
+
 ; Draws a rectangle and a problem description onto the given device context
 ; Parameters:
 ; device-context: the device context
