@@ -1884,7 +1884,10 @@
     (define (submit-callback b e)
       (let ((text (send textEnter get-value)))
         ; increases score of player who successfully answers the question
-        (cond [string=? text answer
+        (print text)
+        (print answer)
+        (print (string=? text answer))
+        (cond [(string=? text answer)
               (cond [(eq? currentPlayer playerOne)
                      (set! playerOneScore (+ playerOneScore 1))
                      ]
