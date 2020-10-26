@@ -1861,6 +1861,7 @@
     (define currentPlayer playerOne)
 
     ; A callback function for rendering problems to the canvas
+    ; Erases the canvas at the start of each call to allow for updated screens
     ; Currently needs: information provided that will tell the program which
     ; shape to draw
     (define (canvasPaintingCallbackFunction canvas dc)
@@ -1880,22 +1881,22 @@
 
       )
 
-     ; Callback definitions
+    ; Callback definitions
+    ; Fired when the user submits an answer
+    ; Updates the score of each player and switches the current player (only relevant if in multiplayer)
+    ; Tells the user with a textbox whether the answer was correct or not
     (define (submit-callback b e)
       (let ((text (send textEnter get-value)))
         ; increases score of player who successfully answers the question
-        (print text)
-        (print answer)
-        (print (string=? text answer))
         (cond [(string=? text answer)
-              (cond [(eq? currentPlayer playerOne)
-                     (set! playerOneScore (+ playerOneScore 1))
-                     ]
-                    [else
-                     (set! playerTwoScore (+ playerTwoScore 1))
-                     ]
-                    )
-              ]
+               (cond [(eq? currentPlayer playerOne)
+                      (set! playerOneScore (+ playerOneScore 1))
+                      ]
+                     [else
+                      (set! playerTwoScore (+ playerTwoScore 1))
+                      ]
+                     )
+               ]
               )
         ; switches current player
         (cond [(eq? currentPlayer playerOne)
@@ -1903,10 +1904,14 @@
               [else
                (set! currentPlayer playerOne)
                ])
+        ; tells user whether their answer was correct
         (if (string=? text answer)
             (message-box "Good job" (format "That is correct!") givenParent '(no-icon ok))
             (message-box "Go to the gazebo" (format "That is incorrect.") givenParent '(stop ok))))
-      (canvasPaintingCallbackFunction drawingCanvas (send drawingCanvas get-dc)))
+      ; redraws screen
+      (canvasPaintingCallbackFunction drawingCanvas (send drawingCanvas get-dc))
+      )
+    
     (define (return-callback button event)
       (menuReturnFunction)
       )
