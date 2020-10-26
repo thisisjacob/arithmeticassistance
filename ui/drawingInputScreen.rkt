@@ -4,6 +4,7 @@
 (require racket/gui)
 (require k-infix)
 (require "../constants/userInterfaceConstants.rkt")
+(require "../constants/gameModes.rkt")
 (require "../drawing/canvasShapeDrawingFunctions.rkt")
 (require "../logic/equationGenerator.rkt")
 
@@ -1852,16 +1853,27 @@
     ; This construct should be used to decide which problems to generate
     (define currentProblemCategory null)
 
+    (define playerOneScore 0)
+    (define playerTwoScore 0)
+    (define currentPlayer "Player 1")
+
     ; A callback function for rendering problems to the canvas
     ; Currently needs: information provided that will tell the program which
     ; shape to draw
     (define (canvasPaintingCallbackFunction canvas dc)
       (send dc set-scale 3 3)
       (send dc set-text-foreground "blue")
+      ; Draws score if set to multiplayer
+      (cond
+        [(eq? currentGameMode (first (rest (rest game-modes))))
+         (draw-score dc currentPlayer playerOneScore playerTwoScore)
+         ]
+        )
       (draw-text-problem dc (get-output-string o) 0 0)
       (draw-text-problem dc (get-output-string A) 0 20)
       (draw-text-problem dc (get-output-string B) 0 40)
       (draw-text-problem dc (get-output-string H) 0 60)
+
       )
 
      ; Callback definitions
