@@ -1842,8 +1842,11 @@
     (define test (new equation-generator%)
       )
 
-    (print (send test middleSchoolArithmeticProblem))
+    ; Internal constants
+    (define playerOne "Player 1")
+    (define playerTwo "Player 2")
 
+    ; Gameplay state
     ; currentGameMode holds the current gameMode construct of the drawingInputScreen
     ; These constructs are stored in constants/gameModes.rkt
     ; This should be used to decide the behavior of the problems screen
@@ -1855,7 +1858,7 @@
 
     (define playerOneScore 0)
     (define playerTwoScore 0)
-    (define currentPlayer "Player 1")
+    (define currentPlayer playerOne)
 
     ; A callback function for rendering problems to the canvas
     ; Currently needs: information provided that will tell the program which
@@ -1879,9 +1882,27 @@
      ; Callback definitions
     (define (submit-callback b e)
       (let ((text (send textEnter get-value)))
+        ; increases score of player who successfully answers the question
+        (cond [string=? text answer
+              (cond [(eq? currentPlayer playerOne)
+                     (set! playerOneScore (+ playerOneScore 1))
+                     ]
+                    [else
+                     (set! playerTwoScore (+ playerTwoScore 1))
+                     ]
+                    )
+              ]
+              )
+        ; switches current player
+        (cond [(eq? currentPlayer playerOne)
+               (set! currentPlayer playerTwo)]
+              [else
+               (set! currentPlayer playerOne)
+               ])
         (if (string=? text answer)
             (message-box "Good job" (format "That is correct!") givenParent '(no-icon ok))
-            (message-box "Go to the gazebo" (format "That is incorrect.") givenParent '(stop ok)))))
+            (message-box "Go to the gazebo" (format "That is incorrect.") givenParent '(stop ok))))
+      (canvasPaintingCallbackFunction drawingCanvas (send drawingCanvas get-dc)))
     (define (return-callback button event)
       (menuReturnFunction)
       )
@@ -1939,6 +1960,9 @@
       (print (send game-mode getName))
       (print "|")
       (print (send problem-category getName))
+      (set! playerOneScore 0)
+      (set! playerTwoScore 0)
+      (set! currentPlayer playerOne)
       )
     (define/public (disable)
       (send drawingInputMenu show #f))
