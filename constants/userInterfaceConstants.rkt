@@ -31,5 +31,13 @@
 (provide scoreboardPosition)
 (provide scoreboardPushNum)
 
+; Generic button constants
+(define buttonMinWidth 300)
+(define buttonMinHeight 30)
+(define buttonVertMargin 10)
+(provide buttonMinWidth)
+(provide buttonMinHeight)
+(provide buttonVertMargin)
+
 
 
