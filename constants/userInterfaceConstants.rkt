@@ -1,4 +1,5 @@
 #lang racket
+(require racket/draw)
 ; Constants for various UI elements of the program
 
 
@@ -10,12 +11,13 @@
 (provide frameWidthAndHeight)
 (provide frameStyle)
 
-(define containerWidth 600)
-(define containerHeight 400)
+; Style and positions for generic containers
 (define containerStyle '(border))
-(provide containerWidth)
-(provide containerHeight)
+(define containerHorizMargin 200)
+(define containerVerticalMargin 200)
 (provide containerStyle)
+(provide containerHorizMargin)
+(provide containerVerticalMargin)
 
 (define problemTextPushdown 100)
 (define problemTextPushRight 100)
@@ -28,9 +30,6 @@
 (define scoreboardPushNum 20)
 (provide scoreboardPosition)
 (provide scoreboardPushNum)
-                  
-
-
 
 
 

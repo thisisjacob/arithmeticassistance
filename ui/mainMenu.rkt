@@ -1,6 +1,7 @@
 #lang racket
 (require racket/gui/base)
 (require "../utilities/buttonFunctionsAndGenerators.rkt")
+(require "../constants/userInterfaceConstants.rkt")
 
 ; A class for creating the main menu of the program
 ; Instance Parameters:
@@ -27,8 +28,8 @@
     (define menu (new vertical-panel%
                       [style '(border)]
                       [parent menuWrapper]
-                      [horiz-margin 200]
-                      [vert-margin 100]
+                      [horiz-margin containerHorizMargin]
+                      [vert-margin containerVerticalMargin]
                       [spacing 5]))
 
      (define header (new message%
