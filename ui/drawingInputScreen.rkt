@@ -1866,7 +1866,6 @@
     ; shape to draw
     (define (canvasPaintingCallbackFunction canvas dc)
       (send dc erase)
-      (send dc set-scale 3 3)
       (send dc set-text-foreground "blue")
       ; Draws score if set to multiplayer
       (cond
@@ -1927,7 +1926,7 @@
                                [parent drawingInputMenu]
                                [style containerStyle]
                                [min-width 600]
-                               [min-height 400]
+                               [min-height canvasHeight]
                                [paint-callback canvasPaintingCallbackFunction]
                                )
       )
@@ -1936,7 +1935,7 @@
                             [parent drawingInputMenu]
                             [style containerStyle]
                             [min-width 600]
-                            [min-height 200]))
+                            [min-height inputSectionHeight]))
 
 
     (define returnButton (new button%
@@ -1948,7 +1947,8 @@
     
     (define textEnter (new text-field%
                            [parent inputPanel]
-                           [label "Enter Answer:"]))
+                           [label "Enter Answer:"]
+                           [min-width textBoxWidth]))
 
 
     

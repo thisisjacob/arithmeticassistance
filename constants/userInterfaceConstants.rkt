@@ -24,12 +24,24 @@
 (provide problemTextPushdown)
 (provide problemTextPushRight)
 
+; Problems screen constants:
+(define canvasHeight 550)
+(define inputSectionHeight 50)
+(provide canvasHeight)
+(provide inputSectionHeight)
+
+; Input element constants:
+(define textBoxWidth 100)
+(provide textBoxWidth)
+
 ; top left position of scoreboard
 ; how many points to push down each element from element above
 (define scoreboardPosition 150)
 (define scoreboardPushNum 20)
 (provide scoreboardPosition)
 (provide scoreboardPushNum)
+
+; end of problems screen constants
 
 ; Generic button constants
 (define buttonMinWidth 300)
