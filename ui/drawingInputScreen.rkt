@@ -1796,6 +1796,8 @@
 
 (set! answer ($ (((a + b) * h) / 2)))
 
+(define answer2 (inexact->exact answer))
+
 (set! a (inexact->exact a))
 (set! b (inexact->exact b))
 (set! h (inexact->exact h))
@@ -1862,9 +1864,10 @@
      ; Callback definitions
     (define (submit-callback b e)
       (let ((text (send textEnter get-value)))
-        (if (string=? text answer)
-            (message-box "Good job" (format "That is correct!") givenParent '(no-icon ok))
-            (message-box "Go to the gazebo" (format "That is incorrect.") givenParent '(stop ok)))))
+        (cond
+          [string=? text answer (message-box "Good job" (format "That is correct!") givenParent '(no-icon ok))]
+          [string=? text answer2 (message-box "Good job" (format "That is correct!") givenParent '(no-icon ok))]
+          [else (message-box "Go to the gazebo" (format "That is incorrect.") givenParent '(stop ok))])))
     (define (return-callback button event)
       (menuReturnFunction)
       )
