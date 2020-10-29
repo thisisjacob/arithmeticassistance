@@ -56,8 +56,10 @@
 ; problemWidth: the width of the rectangle within the problem
 ; problemHeight: the height of the rectangle within the problem
 ; problemDescription: a text description of the problem. positioned based on constants
-(define (draw-rectangle device-context xPos yPos problemWidth problemHeight problemDescription)
-  (send device-context draw-rectangle xPos yPos problemWidth problemHeight)
+(define (draw-rectangle device-context problemWidth problemHeight problemDescription)
+  (send device-context draw-rectangle geometryXPos geometryYPos problemWidth problemHeight)
+  (send device-context draw-text (number->string problemWidth) (+ geometryXPos (/ problemWidth 2)) (- geometryYPos 30))
+  (send device-context draw-text (number->string problemHeight) (- geometryXPos 30) (+ geometryYPos (/ problemHeight 2)))
   (draw-text-problem device-context problemDescription)
   )
 
