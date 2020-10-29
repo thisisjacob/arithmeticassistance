@@ -92,8 +92,14 @@
 ; vert-length: the length of the "vertical" sides in the problem
 ; horiz-length: the length of the "horizontal" sides in the problem
 ; problemDescription: the text description of the problem
-(define (draw-parallelogram device-context vert-length horiz-length problemDescription)
-  (send device-context draw-polygon (list (cons 100 30) (cons 150 30) (cons 140 60) (cons 90 60)))
+(define (draw-parallelogram device-context vert-length horiz-length height problemDescription)
+  (send device-context draw-polygon (list (cons (+ geometryXPos 10) geometryYPos)
+                                          (cons (+ geometryXPos horiz-length 10) geometryYPos)
+                                          (cons (+ geometryXPos horiz-length) (+ geometryYPos height))
+                                          (cons geometryXPos (+ geometryYPos height))))
+  (send device-context draw-text (string-append "Horizontal: " (number->string horiz-length)) (- (+ geometryXPos (/ horiz-length 2)) 30) (+ geometryYPos height 10))
+  (send device-context draw-text (string-append "Vertical: " (number->string vert-length)) (- geometryXPos 100) (+ geometryYPos 20))
+  (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
   (draw-text-problem device-context problemDescription)
   )
 
