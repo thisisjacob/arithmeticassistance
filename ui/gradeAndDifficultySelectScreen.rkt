@@ -36,8 +36,8 @@
              )
            (define menuWrapper (new panel%
                                  [parent pageWrapper]
-                                 [horiz-margin 200]
-                                 [vert-margin 200]
+                                 [horiz-margin containerHorizMargin]
+                                 [vert-margin containerVerticalMargin]
                                  )
              )
 

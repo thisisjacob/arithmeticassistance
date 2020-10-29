@@ -1,5 +1,6 @@
 #lang racket
 (require racket/gui/base)
+(require "../constants/userInterfaceConstants.rkt")
 
 ; This class is for generating, storing and managing multiple buttons without requiring the programmer to manually generate
 ; each button
@@ -63,7 +64,10 @@
          (new button%
               [callback button-handler]
               [label name]
-              [parent parent])]))
+              [parent parent]
+              [min-width buttonMinWidth]
+              [min-height buttonMinHeight]
+              [vert-margin buttonVertMargin])]))
 
     (define-syntax create-button-with-list-args
       (syntax-rules ()
@@ -71,7 +75,10 @@
          (new button%
               [callback button-handler-with-args]
               [label name]
-              [parent parent])]))
+              [parent parent]
+              [min-width buttonMinWidth]
+              [min-height buttonMinHeight]
+              [vert-margin buttonVertMargin])]))
 
     ; Initializes buttons, attaches them to a container
     ; First input is a list of pairs of strings (for the label of the button) and functions

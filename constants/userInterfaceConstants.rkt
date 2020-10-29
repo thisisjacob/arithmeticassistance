@@ -1,4 +1,5 @@
 #lang racket
+(require racket/draw)
 ; Constants for various UI elements of the program
 
 
@@ -10,27 +11,52 @@
 (provide frameWidthAndHeight)
 (provide frameStyle)
 
-(define containerWidth 600)
-(define containerHeight 400)
+; Style and positions for generic containers
 (define containerStyle '(border))
-(provide containerWidth)
-(provide containerHeight)
+(define containerHorizMargin 200)
+(define containerVerticalMargin 200)
 (provide containerStyle)
+(provide containerHorizMargin)
+(provide containerVerticalMargin)
 
 (define problemTextPushdown 100)
 (define problemTextPushRight 100)
 (provide problemTextPushdown)
 (provide problemTextPushRight)
 
+; Problems screen constants:
+(define canvasHeight 550)
+(define inputSectionHeight 50)
+(provide canvasHeight)
+(provide inputSectionHeight)
+
+; Input element constants:
+(define textBoxWidth 100)
+(provide textBoxWidth)
+
 ; top left position of scoreboard
 ; how many points to push down each element from element above
-(define scoreboardPosition 150)
+(define scoreboardPosition 540)
 (define scoreboardPushNum 20)
 (provide scoreboardPosition)
 (provide scoreboardPushNum)
-                  
+; end of problems screen constants
 
+; problem text constants
+(define problemXPos 20)
+(define problemYPos 440)
+(define linePushDown 20)
+(provide problemXPos)
+(provide problemYPos)
+(provide linePushDown)
 
+; Generic button constants
+(define buttonMinWidth 300)
+(define buttonMinHeight 30)
+(define buttonVertMargin 10)
+(provide buttonMinWidth)
+(provide buttonMinHeight)
+(provide buttonVertMargin)
 
 
 

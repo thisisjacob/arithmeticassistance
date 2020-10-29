@@ -10,14 +10,28 @@
 ; Parameters:
 ; device-context: the device context
 ; string: a string holding the problem
-; x: x position
-; y: y position
-(define (draw-text-problem device-context string x y)
-  (send device-context draw-text string x y)
+(define (draw-text-problem device-context string)
+  (send device-context draw-text string problemXPos problemYPos)
   )
 
-
 (provide draw-text-problem)
+
+; Draws multiple lines of text onto the screen
+; Parameters:
+; device-context: the device context
+; string-list: a list of strings, where each string is drawn onto a separate line
+(define (draw-text-problem-with-multiple-lines device-context string-list)
+  (define (create-text list iterator)
+    (cond
+      [(empty? list) 0]
+      [else
+       (send device-context draw-text (first list) problemXPos (+ problemYPos (* linePushDown iterator)))
+       (create-text (rest list) (+ iterator 1))]))
+  (create-text string-list 0)
+  )
+
+(provide draw-text-problem-with-multiple-lines)
+
 
 ; Draws text of the given scores and current player onto the given device context
 ; Parameters:
