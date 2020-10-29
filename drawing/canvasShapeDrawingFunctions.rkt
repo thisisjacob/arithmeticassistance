@@ -127,8 +127,10 @@
 ; x: x position
 ; y: y position
 ; TODO: Add text next to the circle for problem information
-(define (draw-circle device-context problem-radius pixel-radius x y)
-  (send device-context draw-ellipse x y pixel-radius pixel-radius)
+(define (draw-circle device-context radius problemDescription)
+  (send device-context draw-ellipse geometryXPos geometryYPos radius radius)
+  (send device-context draw-text (string-append "Radius: " (number->string radius)) (- geometryXPos 100) geometryYPos)
+  (draw-text-problem device-context problemDescription)
   )
 
 
