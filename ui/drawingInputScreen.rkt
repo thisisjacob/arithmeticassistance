@@ -1873,11 +1873,7 @@
          (draw-score dc currentPlayer playerOneScore playerTwoScore)
          ]
         )
-      (draw-text-problem dc (get-output-string o) 0 0)
-      (draw-text-problem dc (get-output-string A) 0 20)
-      (draw-text-problem dc (get-output-string B) 0 40)
-      (draw-text-problem dc (get-output-string H) 0 60)
-
+      (draw-text-problem-with-multiple-lines dc (list (get-output-string o) (get-output-string o) (get-output-string B) (get-output-string H)))
       )
 
     ; Callback definitions
