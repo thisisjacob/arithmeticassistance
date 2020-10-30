@@ -72,7 +72,7 @@
 ; bottom-length: the length of the "bottom" in the problem
 ; top-length: the length of the "bottom" side in the problem
 ; problemDescription: the text description of the problem
-(define (draw-trapezoid device-context bottom-length top-length height problemDescription)
+(define (draw-trapezoid device-context bottom-length top-length height problemDescriptionList)
   (send device-context draw-polygon (list (cons geometryXPos geometryYPos)
                                           (cons (+ geometryXPos top-length) geometryYPos)
                                           (cons (+ geometryXPos bottom-length) (+ geometryYPos height))
@@ -80,7 +80,7 @@
   (send device-context draw-text (number->string bottom-length) (+ geometryXPos (/ bottom-length 2)) (+ geometryYPos height 10))
   (send device-context draw-text (number->string top-length) (+ geometryXPos (/ top-length 2)) (- geometryYPos 30))
   (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
-  (draw-text-problem device-context problemDescription)
+  (draw-text-problem-with-multiple-lines device-context problemDescriptionList)
   )
 
 
@@ -93,7 +93,7 @@
 ; horiz-length: the length of the "horizontal" sides in the problem
 ; problemDescription: the text description of the problem
 (define (draw-parallelogram device-context vert-length horiz-length height problemDescription)
-  (send device-context draw-polygon (list (cons (+ geometryXPos 10) geometryYPos)
+  (send device-context draw-polygon (list (cons  (+ geometryXPos 10) geometryYPos)
                                           (cons (+ geometryXPos horiz-length 10) geometryYPos)
                                           (cons (+ geometryXPos horiz-length) (+ geometryYPos height))
                                           (cons geometryXPos (+ geometryYPos height))))
