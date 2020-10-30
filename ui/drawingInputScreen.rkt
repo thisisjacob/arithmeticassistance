@@ -1785,38 +1785,8 @@
 |#
 
 
-;================================================
-;Trapezoid area
-(define a (random-integer 1 25))
-(set! a ($ (a * 1.0)))
-(define b (random-integer 1 25))
-(set! b ($ (b * 1.0)))
-(define h (random-integer 1 25))
-(set! h ($ (h * 1.0)))
-(define answer 0)
 
-(set! answer ($ (((a + b) * h) / 2)))
 
-(set! a (inexact->exact a))
-(set! b (inexact->exact b))
-(set! h (inexact->exact h))
-
-(define o (open-output-string))
-(define A (open-output-string))
-(define B (open-output-string))
-(define H (open-output-string))
-
-(display "Find the area of the trapezoid." o)
-(display "a is: " A)
-(write a A)
-(display "b is: " B)
-(write b B)
-(display "The height is: " H)
-(write h H)
-
-(define string_answer
-  (set! answer (number->string answer)))
-;=================================================
 
 
 ; GUI Class:
@@ -1860,6 +1830,10 @@
     (define playerTwoScore 0)
     (define currentPlayer playerOne)
 
+    (define problems (new equation-generator%)
+      )
+
+
     ; A callback function for rendering problems to the canvas
     ; Erases the canvas at the start of each call to allow for updated screens
     ; Currently needs: information provided that will tell the program which
@@ -1873,8 +1847,8 @@
          (draw-score dc currentPlayer playerOneScore playerTwoScore)
          ]
         )
-      (draw-rectangle dc 40 50 "Draw a rectangle")
-      ;(draw-text-problem-with-multiple-lines dc (list (get-output-string o) (get-output-string o) (get-output-string B) (get-output-string H)))
+      (send problems generateProblem (send drawingCanvas get-dc) currentProblemCategory)
+      (print (send problems getAnswer))
       )
 
     ; Callback definitions
@@ -1884,7 +1858,7 @@
     (define (submit-callback b e)
       (let ((text (send textEnter get-value)))
         ; increases score of player who successfully answers the question
-        (cond [(string=? text answer)
+        (cond [(string=? text (number->string (send problems getAnswer)))
                (cond [(eq? currentPlayer playerOne)
                       (set! playerOneScore (+ playerOneScore 1))
                       ]
@@ -1901,7 +1875,7 @@
                (set! currentPlayer playerOne)
                ])
         ; tells user whether their answer was correct
-        (if (string=? text answer)
+        (if (string=? text (number->string (send problems getAnswer)))
             (message-box "Good job" (format "That is correct!") givenParent '(no-icon ok))
             (message-box "Go to the gazebo" (format "That is incorrect.") givenParent '(stop ok))))
       ; redraws screen
@@ -1972,6 +1946,8 @@
       )
     (define/public (disable)
       (send drawingInputMenu show #f))
+
+
 
     )
  )
