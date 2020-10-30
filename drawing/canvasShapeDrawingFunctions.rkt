@@ -56,9 +56,11 @@
 ; problemWidth: the width of the rectangle within the problem
 ; problemHeight: the height of the rectangle within the problem
 ; problemDescription: a text description of the problem. positioned based on constants
-(define (draw-rectangle device-context xPos yPos problemWidth problemHeight problemDescription)
-  (send device-context draw-rectangle xPos yPos 50 50)
-  (draw-text-problem device-context problemDescription problemTextPushRight problemTextPushdown)
+(define (draw-rectangle device-context problemWidth problemHeight problemDescription)
+  (send device-context draw-rectangle geometryXPos geometryYPos problemWidth problemHeight)
+  (send device-context draw-text (number->string problemWidth) (+ geometryXPos (/ problemWidth 2)) (- geometryYPos 30))
+  (send device-context draw-text (number->string problemHeight) (- geometryXPos 30) (+ geometryYPos (/ problemHeight 2)))
+  (draw-text-problem device-context problemDescription)
   )
 
 
@@ -70,9 +72,15 @@
 ; bottom-length: the length of the "bottom" in the problem
 ; top-length: the length of the "bottom" side in the problem
 ; problemDescription: the text description of the problem
-(define (draw-trapezoid device-context bottom-length top-length problemDescription)
-  (send device-context draw-polygon (list (cons 80 30) (cons 130 30) (cons 150 60) (cons 75 60) ))
-  (draw-text-problem device-context problemDescription problemTextPushRight problemTextPushdown)
+(define (draw-trapezoid device-context bottom-length top-length height problemDescription)
+  (send device-context draw-polygon (list (cons geometryXPos geometryYPos)
+                                          (cons (+ geometryXPos top-length) geometryYPos)
+                                          (cons (+ geometryXPos bottom-length) (+ geometryYPos height))
+                                          (cons (+ geometryXPos 5) (+ geometryYPos height)) ))
+  (send device-context draw-text (number->string bottom-length) (+ geometryXPos (/ bottom-length 2)) (+ geometryYPos height 10))
+  (send device-context draw-text (number->string top-length) (+ geometryXPos (/ top-length 2)) (- geometryYPos 30))
+  (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
+  (draw-text-problem device-context problemDescription)
   )
 
 
@@ -84,9 +92,15 @@
 ; vert-length: the length of the "vertical" sides in the problem
 ; horiz-length: the length of the "horizontal" sides in the problem
 ; problemDescription: the text description of the problem
-(define (draw-parallelogram device-context vert-length horiz-length problemDescription)
-  (send device-context draw-polygon (list (cons 100 30) (cons 150 30) (cons 140 60) (cons 90 60)))
-  (draw-text-problem device-context problemDescription problemTextPushRight problemTextPushdown)
+(define (draw-parallelogram device-context vert-length horiz-length height problemDescription)
+  (send device-context draw-polygon (list (cons (+ geometryXPos 10) geometryYPos)
+                                          (cons (+ geometryXPos horiz-length 10) geometryYPos)
+                                          (cons (+ geometryXPos horiz-length) (+ geometryYPos height))
+                                          (cons geometryXPos (+ geometryYPos height))))
+  (send device-context draw-text (string-append "Horizontal: " (number->string horiz-length)) (- (+ geometryXPos (/ horiz-length 2)) 30) (+ geometryYPos height 10))
+  (send device-context draw-text (string-append "Vertical: " (number->string vert-length)) (- geometryXPos 100) (+ geometryYPos 20))
+  (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
+  (draw-text-problem device-context problemDescription)
   )
 
 
@@ -99,7 +113,7 @@
 ; problemDescription: the text description of the problem
 (define (draw-equi-triangle device-context side-length problemDescription)
   (send device-context draw-polygon (list (cons 125 30) (cons 100 60) (cons 150 60)))
-  (draw-text-problem device-context problemDescription problemTextPushRight problemTextPushdown)
+  (draw-text-problem device-context problemDescription)
   )
 
 
@@ -113,8 +127,10 @@
 ; x: x position
 ; y: y position
 ; TODO: Add text next to the circle for problem information
-(define (draw-circle device-context problem-radius pixel-radius x y)
-  (send device-context draw-ellipse x y pixel-radius pixel-radius)
+(define (draw-circle device-context radius problemDescription)
+  (send device-context draw-ellipse geometryXPos geometryYPos radius radius)
+  (send device-context draw-text (string-append "Radius: " (number->string radius)) (- geometryXPos 100) geometryYPos)
+  (draw-text-problem device-context problemDescription)
   )
 
 

@@ -50,6 +50,12 @@
 (provide problemYPos)
 (provide linePushDown)
 
+; Geometry problem drawing constants
+(define geometryXPos 150)
+(define geometryYPos 150)
+(provide geometryXPos)
+(provide geometryYPos)
+
 ; Generic button constants
 (define buttonMinWidth 300)
 (define buttonMinHeight 30)
