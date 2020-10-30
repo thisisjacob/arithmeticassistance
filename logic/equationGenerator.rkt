@@ -28,7 +28,7 @@
       (set! b ($ (b * 1.0)))
       (define h (random-integer 1 25))
       (set! h ($ (h * 1.0)))
-      (define answer 0)
+      (set! answer 0)
 
       (set! answer ($ (((a + b) * h) / 2)))
 
