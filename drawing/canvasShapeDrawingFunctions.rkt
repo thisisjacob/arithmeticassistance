@@ -60,13 +60,13 @@
   (send device-context draw-rectangle geometryXPos geometryYPos problemWidth problemHeight)
   (send device-context draw-text (number->string problemWidth) (+ geometryXPos (/ problemWidth 2)) (- geometryYPos 30))
   (send device-context draw-text (number->string problemHeight) (- geometryXPos 30) (+ geometryYPos (/ problemHeight 2)))
-  (draw-text-problem device-context problemDescription)
+  (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
 
 
 (provide draw-rectangle)
 
-; Draws a rhomboid parallelogram and a problem description onto the given device context
+; Draws a trapezoid and a problem description onto the given device context
 ; Parameters:
 ; device-context: the device context to draw on
 ; bottom-length: the length of the "bottom" in the problem
@@ -92,15 +92,14 @@
 ; vert-length: the length of the "vertical" sides in the problem
 ; horiz-length: the length of the "horizontal" sides in the problem
 ; problemDescription: the text description of the problem
-(define (draw-parallelogram device-context vert-length horiz-length height problemDescription)
+(define (draw-parallelogram device-context base height problemDescription)
   (send device-context draw-polygon (list (cons  (+ geometryXPos 10) geometryYPos)
-                                          (cons (+ geometryXPos horiz-length 10) geometryYPos)
-                                          (cons (+ geometryXPos horiz-length) (+ geometryYPos height))
+                                          (cons (+ geometryXPos base 10) geometryYPos)
+                                          (cons (+ geometryXPos base) (+ geometryYPos height))
                                           (cons geometryXPos (+ geometryYPos height))))
-  (send device-context draw-text (string-append "Horizontal: " (number->string horiz-length)) (- (+ geometryXPos (/ horiz-length 2)) 30) (+ geometryYPos height 10))
-  (send device-context draw-text (string-append "Vertical: " (number->string vert-length)) (- geometryXPos 100) (+ geometryYPos 20))
+  (send device-context draw-text (string-append "Base: " (number->string base)) (- (+ geometryXPos (/ base 2)) 30) (+ geometryYPos height 10))
   (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
-  (draw-text-problem device-context problemDescription)
+  (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
 
 
@@ -113,7 +112,7 @@
 ; problemDescription: the text description of the problem
 (define (draw-equi-triangle device-context side-length problemDescription)
   (send device-context draw-polygon (list (cons 125 30) (cons 100 60) (cons 150 60)))
-  (draw-text-problem device-context problemDescription)
+  (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
 
 
@@ -130,7 +129,7 @@
 (define (draw-circle device-context radius problemDescription)
   (send device-context draw-ellipse geometryXPos geometryYPos radius radius)
   (send device-context draw-text (string-append "Radius: " (number->string radius)) (- geometryXPos 100) geometryYPos)
-  (draw-text-problem device-context problemDescription)
+  (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
 
 
