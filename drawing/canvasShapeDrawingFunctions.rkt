@@ -118,6 +118,22 @@
 
 (provide draw-equi-triangle)
 
+; Draws a generic triangle that is defined in terms of only base and height
+; Parameters:
+; device-context: the device context to draw on
+; base: the base of the triangle
+; height: the height of the triangle
+(define (draw-regular-triangle device-context base height problemDescription)
+  (send device-context draw-polygon (list (cons geometryXPos geometryYPos)
+                                          (cons (- geometryXPos (/ base 2)) (+ geometryYPos height))
+                                          (cons (+ geometryXPos (/ base 2)) (+ geometryYPos height))
+                                          )
+        )
+  (draw-text-problem-with-multiple-lines device-context problemDescription)
+  )
+
+(provide draw-regular-triangle)
+
 ; Draws a circle onto the given device context
 ; Parameters:
 ; device-context: the device context
@@ -131,6 +147,7 @@
   (send device-context draw-text (string-append "Radius: " (number->string radius)) (- geometryXPos 100) geometryYPos)
   (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
+
 
 
 (provide draw-circle)
