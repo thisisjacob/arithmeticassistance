@@ -125,8 +125,8 @@
 ; height: the height of the triangle
 (define (draw-regular-triangle device-context base height problemDescription)
   (send device-context draw-polygon (list (cons geometryXPos geometryYPos)
-                                          (cons (- geometryXPos (/ base 2)) (+ geometryYPos height))
-                                          (cons (+ geometryXPos (/ base 2)) (+ geometryYPos height))
+                                          (cons (- geometryXPos (* geometryScaling (/ base 2))) (+ geometryYPos (* geometryScaling height)))
+                                          (cons (+ geometryXPos (* geometryScaling (/ base 2))) (+ geometryYPos (* geometryScaling height)))
                                           )
         )
   (draw-text-problem-with-multiple-lines device-context problemDescription)
