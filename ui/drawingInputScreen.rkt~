@@ -1683,7 +1683,29 @@
 |#
 ;==============================================================================;
 
-
+#|
+;================================================
+;Rectangle area
+(define length (random-integer 1 10))
+(define width (random-integer 1 10))
+(define answer 0)
+(set! answer ($ length * width))
+(define o (open-output-string))
+(define l (open-output-string))
+(define w (open-output-string))
+(display "Find the area of the rectangle." o)
+(display "The length is: " l)
+(write length l)
+(display "The width is: " w)
+(write width w)
+(define string_l
+  (set! length (number->string length)))
+(define string_w
+  (set! width (number->string width)))
+(define string_answer
+  (set! answer (number->string answer)))
+;=================================================
+|#
 
 #|
 ;================================================

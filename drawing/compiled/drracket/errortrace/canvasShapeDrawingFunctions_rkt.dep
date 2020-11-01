@@ -1,0 +1,1 @@
+("7.8" racket ("69722a41c1be2149bddd1137a20089c46af00a45" . "7892ebdc5454c1b4a8ade500102671a48a8f3ab7") #"/Users/bradleybetts/Documents/GitHub/arithmeticassistance/drawing/../constants/userInterfaceConstants.rkt" (collects #"errortrace" #"errortrace-key.rkt") (collects #"racket" #"draw.rkt") (collects #"racket" #"main.rkt") (collects #"racket" #"runtime-config.rkt"))

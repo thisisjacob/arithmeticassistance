@@ -19,13 +19,15 @@
     ; The problems screen will call this function to create new problems
     (define/public (generateProblem deviceContext problemCategory)
       ;(trapezoid-area deviceContext)
+
       (rectangle-area deviceContext)
       ;(triangle-area deviceContext)
       ;(circle-area deviceContext)
       ;(parallelogram-area deviceContext)
+
       )
 
-    (define (trapezoid-area deviceContext)
+    #|(define (trapezoid-area deviceContext)
       (define a (random-integer 5 14))
       (set! a ($ (a * 1.0)))
       (define b (random-integer 15 25))
@@ -58,7 +60,59 @@
                                                 (string-append "b is: " (number->string b))
                                                 (string-append "The height is: " (number->string h))))
 
-      )
+      )|#
+
+    #|(define (rectangle-area deviceContext)
+      (define length (random-integer 1 100))
+      (define width (random-integer 1 100))
+      (set! answer ($ (length * width)))
+
+      (define o (open-output-string))
+      (define l (open-output-string))
+      (define w (open-output-string))
+      
+      (display "Find the area of the rectangle." o)
+      (display "The length is: " l)
+      (write length l)
+      (display "The width is: " w)
+      (write width w)
+
+      (draw-rectangle deviceContext length width (list "Find the area of the rectangle"
+                                                       (string-append "Length is: " (number->string length))
+                                                       (string-append "Width is: " (number->string width))))
+      )|#
+
+    #|(define (triangle-area deviceContext)
+      (define base (random-integer 1 10))
+      (set! base ($ (base * 1.0)))
+      (define height (random-integer 1 10))
+      (set! height ($ (height * 1.0)))
+      (set! answer ($ (base * height) / 2))
+
+      (define o (open-output-string))
+      (define b (open-output-string))
+      (define h (open-output-string))
+      
+      (display "Find the area of the triangle." o)
+      (display "The base is: " b)
+      (write base b)
+      (display "The height is: " h)
+      (write height h)
+
+      (draw-equi-triangle deviceContext base height (list "Find the area of the triangle"
+                                                (string-append "Base is: " (number->string base))
+                                                (string-append "Height is: " (number->string height))))
+      )|#
+
+    #|(define (circle-area deviceContext)
+      (define radius (random-integer 1 25))
+      (set! radius ($ (radius * 1.0)))
+      (define p 3.14)
+      (define rs (expt radius 2))
+      (set! answer ($ (p * rs)))
+      (set! answer (round answer))
+      (set! answer (inexact->exact answer))
+
 
     (define (rectangle-area deviceContext)
       (define length (random-integer 1 20))
