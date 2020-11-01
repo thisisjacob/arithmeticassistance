@@ -46,9 +46,11 @@
 (define problemXPos 20)
 (define problemYPos 440)
 (define linePushDown 20)
+(define geometryScaling 10)
 (provide problemXPos)
 (provide problemYPos)
 (provide linePushDown)
+(provide geometryScaling)
 
 ; Geometry problem drawing constants
 (define geometryXPos 150)
