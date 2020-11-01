@@ -57,9 +57,9 @@
 ; problemHeight: the height of the rectangle within the problem
 ; problemDescription: a text description of the problem. positioned based on constants
 (define (draw-rectangle device-context problemWidth problemHeight problemDescription)
-  (send device-context draw-rectangle geometryXPos geometryYPos problemWidth problemHeight)
-  (send device-context draw-text (number->string problemWidth) (+ geometryXPos (/ problemWidth 2)) (- geometryYPos 30))
-  (send device-context draw-text (number->string problemHeight) (- geometryXPos 30) (+ geometryYPos (/ problemHeight 2)))
+  (send device-context draw-rectangle geometryXPos geometryYPos (* geometryScaling problemWidth) (* geometryScaling problemHeight))
+  (send device-context draw-text (number->string problemWidth) (+ geometryXPos (* geometryScaling (/ problemWidth 2))) (- geometryYPos 30))
+  (send device-context draw-text (number->string problemHeight) (- geometryXPos 30) (+ geometryYPos (* geometryScaling (/ problemHeight 2))))
   (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
 
@@ -74,11 +74,11 @@
 ; problemDescription: the text description of the problem
 (define (draw-trapezoid device-context bottom-length top-length height problemDescriptionList)
   (send device-context draw-polygon (list (cons geometryXPos geometryYPos)
-                                          (cons (+ geometryXPos top-length) geometryYPos)
-                                          (cons (+ geometryXPos bottom-length) (+ geometryYPos height))
-                                          (cons (+ geometryXPos 5) (+ geometryYPos height)) ))
-  (send device-context draw-text (number->string bottom-length) (+ geometryXPos (/ bottom-length 2)) (+ geometryYPos height 10))
-  (send device-context draw-text (number->string top-length) (+ geometryXPos (/ top-length 2)) (- geometryYPos 30))
+                                          (cons (+ geometryXPos (* geometryScaling top-length)) geometryYPos)
+                                          (cons (+ geometryXPos (* geometryScaling bottom-length)) (+ geometryYPos (* geometryScaling height)))
+                                          (cons (+ geometryXPos (* geometryScaling 5)) (+ geometryYPos (* geometryScaling height))) ))
+  (send device-context draw-text (number->string bottom-length) (+ geometryXPos (* geometryScaling (/ bottom-length 2))) (+ geometryYPos (* geometryScaling height) 10))
+  (send device-context draw-text (number->string top-length) (+ geometryXPos (* geometryScaling (/ top-length 2))) (- geometryYPos 30))
   (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
   (draw-text-problem-with-multiple-lines device-context problemDescriptionList)
   )
@@ -118,6 +118,22 @@
 
 (provide draw-equi-triangle)
 
+; Draws a generic triangle that is defined in terms of only base and height
+; Parameters:
+; device-context: the device context to draw on
+; base: the base of the triangle
+; height: the height of the triangle
+(define (draw-regular-triangle device-context base height problemDescription)
+  (send device-context draw-polygon (list (cons geometryXPos geometryYPos)
+                                          (cons (- geometryXPos (* geometryScaling (/ base 2))) (+ geometryYPos (* geometryScaling height)))
+                                          (cons (+ geometryXPos (* geometryScaling (/ base 2))) (+ geometryYPos (* geometryScaling height)))
+                                          )
+        )
+  (draw-text-problem-with-multiple-lines device-context problemDescription)
+  )
+
+(provide draw-regular-triangle)
+
 ; Draws a circle onto the given device context
 ; Parameters:
 ; device-context: the device context
@@ -131,6 +147,7 @@
   (send device-context draw-text (string-append "Radius: " (number->string radius)) (- geometryXPos 100) geometryYPos)
   (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
+
 
 
 (provide draw-circle)
