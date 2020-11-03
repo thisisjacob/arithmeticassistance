@@ -31,6 +31,10 @@
            [(eq? 4 newProblemNum)       (parallelogram-area deviceContext)]
            )
          ]
+        [(eq? (send problemCategory getId) (send ELEMENTARY-SCHOOL getId))
+         (middle-school-level-arithmetic-problem deviceContext)
+         ]
+
         )
       )
 
@@ -154,6 +158,166 @@
                                                           (string-append "Base is: " (number->string base))
                                                           (string-append "Height is: " (number->string height))))
       )
+
+
+    (define (middle-school-level-arithmetic-problem device-context)
+      (define a (random-natural 25))
+      (define b (random-natural 25))
+      (define c (random-natural 25))
+      (define d (random-natural 25))
+
+      (define op1 (random-natural 4))
+      (define op2 (random-natural 4))
+      (define op3 (random-natural 4))
+      (define o (open-output-string))
+
+      (set! answer 0)
+
+      ; Writes out expression in the infix format
+
+      (write a o)
+
+      (define sym1
+        (case (+ op1)
+          [(0) (write '+ o)
+               (write b o)]
+          [(1) (write '- o)
+               (write b o)]
+          [(2) (write '* o)
+               (write b o)]
+          [(3) (write '/ o)
+               (write b o)]))
+
+      (define sym2
+        (case (+ op2)
+          [(0) (write '+ o)
+               (write c o)
+               (+ answer c)]
+          [(1) (write '- o)
+               (write c o)
+               (- answer c)]
+          [(2) (write '* o)
+               (write c o)
+               (* answer c)]
+          [(3) (write '/ o)
+               (write c o)]))
+
+      (define sym3
+        (case (+ op3)
+          [(0) (write '+ o)
+               (write d o)
+               (+ answer d)]
+          [(1) (write '- o)
+               (write d o)
+               (- answer d)]
+          [(2) (write '* o)
+               (write d o)
+               (* answer d)]
+          [(3) (write '/ o)
+               (write d o)]))
+
+
+
+      ; Calculates the answer based on the variables and operations
+
+      (define equation
+        (case (+ op1)
+          [(0) (case (+ op2)
+                 [(0) (case (+ op3)
+                        [(0) (set! answer ($ a + b + c + d))]
+                        [(1) (set! answer ($ a + b + c - d))]
+                        [(2) (set! answer ($ a + b + c * d))]
+                        [(3) (set! answer ($ a + b + (floor (c / d))))])]
+                 [(1) (case (+ op3)
+                        [(0) (set! answer ($ a + b - c + d))]
+                        [(1) (set! answer ($ a + b - c - d))]
+                        [(2) (set! answer ($ a + b - c * d))]
+                        [(3) (set! answer ($ a + b - (floor (c / d))))])]
+                 [(2) (case (+ op3)
+                        [(0) (set! answer ($ a + b * c + d))]
+                        [(1) (set! answer ($ a + b * c - d))]
+                        [(2) (set! answer ($ a + b * c * d))]
+                        [(3) (set! answer ($ a + b * (floor (c / d))))])]
+                 [(3) (case (+ op3)
+                        [(0) (set! answer ($ a + (floor (b / c)) + d))]
+                        [(1) (set! answer ($ a + (floor (b / c)) - d))]
+                        [(2) (set! answer ($ a + (floor (b / c)) * d))]
+                        [(3) (set! answer ($ a + (floor (floor (b / c) / d))))])])]
+          [(1) (case (+ op2)
+                 [(0) (case (+ op3)
+                        [(0) (set! answer ($ a - b + c + d))]
+                        [(1) (set! answer ($ a - b + c - d))]
+                        [(2) (set! answer ($ a - b + c * d))]
+                        [(3) (set! answer ($ a - b + (floor (c / d))))])]
+                 [(1) (case (+ op3)
+                        [(0) (set! answer ($ a - b - c + d))]
+                        [(1) (set! answer ($ a - b - c - d))]
+                        [(2) (set! answer ($ a - b - c * d))]
+                        [(3) (set! answer ($ a - b - (floor (c / d))))])]
+                 [(2) (case (+ op3)
+                        [(0) (set! answer ($ a - b * c + d))]
+                        [(1) (set! answer ($ a - b * c - d))]
+                        [(2) (set! answer ($ a - b * c * d))]
+                        [(3) (set! answer ($ a - b * (floor (c / d))))])]
+                 [(3) (case (+ op3)
+                        [(0) (set! answer ($ a - (floor (b / c)) + d))]
+                        [(1) (set! answer ($ a - (floor (b / c)) - d))]
+                        [(2) (set! answer ($ a - (floor (b / c)) * d))]
+                        [(3) (set! answer ($ a - (floor (floor (b / c)) / d)))])])]
+          [(2) (case (+ op2)
+                 [(0) (case (+ op3)
+                        [(0) (set! answer ($ a * b + c + d))]
+                        [(1) (set! answer ($ a * b + c - d))]
+                        [(2) (set! answer ($ a * b + c * d))]
+                        [(3) (set! answer ($ a * b + (floor (c / d))))])]
+                 [(1) (case (+ op3)
+                        [(0) (set! answer ($ a * b - c + d))]
+                        [(1) (set! answer ($ a * b - c - d))]
+                        [(2) (set! answer ($ a * b - c * d))]
+                        [(3) (set! answer ($ a * b - (floor (c / d))))])]
+                 [(2) (case (+ op3)
+                        [(0) (set! answer ($ a * b * c + d))]
+                        [(1) (set! answer ($ a * b * c - d))]
+                        [(2) (set! answer ($ a * b * c * d))]
+                        [(3) (set! answer ($ a * b * (floor (c / d))))])]
+                 [(3) (case (+ op3)
+                        [(0) (set! answer ($ a * (floor (b / c)) + d))]
+                        [(1) (set! answer ($ a * (floor (b / c)) - d))]
+                        [(2) (set! answer ($ a * (floor (b / c)) * d))]
+                        [(3) (set! answer ($ a * (floor (floor (b / c)) / d)))])])]
+          [(3) (case (+ op2)
+                 [(0) (case (+ op3)
+                        [(0) (set! answer ($ (floor (a / b)) + c + d))]
+                        [(1) (set! answer ($ (floor (a / b)) + c - d))]
+                        [(2) (set! answer ($ (floor (a / b)) + c * d))]
+                        [(3) (set! answer ($ (floor (a / b)) + (floor (c / d))))])]
+                 [(1) (case (+ op3)
+                        [(0) (set! answer ($ (floor (a / b)) - c + d))]
+                        [(1) (set! answer ($ (floor (a / b)) - c - d))]
+                        [(2) (set! answer ($ (floor (a / b)) - c * d))]
+                        [(3) (set! answer ($ (floor (a / b)) - (floor (c / d))))])]
+                 [(2) (case (+ op3)
+                        [(0) (set! answer ($ (floor (a / b)) * c + d))]
+                        [(1) (set! answer ($ (floor (a / b)) * c - d))]
+                        [(2) (set! answer ($ (floor (a / b)) * c * d))]
+                        [(3) (set! answer ($ (floor (a / b)) * (floor (c / d))))])]
+                 [(3) (case (+ op3)
+                        [(0) (set! answer ($ (floor (floor (a / b)) / c) + d))]
+                        [(1) (set! answer ($ (floor (floor (a / b)) / c) - d))]
+                        [(2) (set! answer ($ (floor (floor (a / b)) / c) * d))]
+                        [(3) (set! answer ($ (floor (floor (floor (a / b) / c) / d))))])])]))
+
+      ; Makes the value of the answer variable a string for later comparisons
+      ;(print "Solve the following equation: ")
+      ;(get-output-string o)
+      (print answer)
+      (draw-text-problem-with-multiple-lines device-context (list "Solve the following equation: " (get-output-string o)))
+
+    
+      )
+
+
+    
     )
   )
 
