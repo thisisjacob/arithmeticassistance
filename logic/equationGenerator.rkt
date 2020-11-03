@@ -4,20 +4,24 @@
 (require "../drawing/canvasShapeDrawingFunctions.rkt")
 (require "../constants/difficultiesAndCategories.rkt")
 
+; This class is used for generating problems
+; No initialization parameters are needed
+; Available problems defined in difficultiesAndCategories.rkt constants file
+
 (define equation-generator%
   (class object%
     (init-field)
     (super-new)
 
     (define answer null)
-    (define device-context null)
 
     ; Use this function to retrieve the numeric answer for the problems screen
     (define/public (getAnswer)
       answer)
 
-    ; Modify this function so it calls an available problem for the given problem category.
-    ; The problems screen will call this function to create new problems
+    ; Generates a problem based on the given given problemCategory
+    ; Projects it to the given deviceContext
+    ; Answer of the problem can be retrieved with the getAnswer function
     (define/public (generateProblem deviceContext problemCategory)
       (define newProblemNum (random-integer 0 5))
       ; If geometric problem, randomly call one of the geometric problem generators
@@ -38,6 +42,8 @@
         )
       )
 
+    ; Generates and renders a trapezoid problem rendered onto the given deviceContext
+    ; Updates answer
     (define (trapezoid-area deviceContext)
       (define a (random-integer 5 14))
       (set! a ($ (a * 1.0)))
@@ -73,7 +79,8 @@
 
       )
 
-
+    ; Generates and renders a rectangle area problem onto the given device context
+    ; Updates answer
     (define (rectangle-area deviceContext)
       (define length (random-integer 1 20))
       (define width (random-integer 1 20))
@@ -94,6 +101,8 @@
                                                        (string-append "Width is: " (number->string width))))
       )
 
+    ; Generates and renders a triangle area problem onto the given device context
+    ; Updates answer
     (define (triangle-area deviceContext)
       (define base (random-integer 1 10))
       (set! base ($ (base * 1.0)))
@@ -116,6 +125,8 @@
                                                 (string-append "Height is: " (number->string height))))
       )
 
+    ; Generates and renders a circle area problem onto the given device context
+    ; Updates answer
     (define (circle-area deviceContext)
       (define radius (random-integer 1 25))
       (set! radius ($ (radius * 1.0)))
@@ -138,6 +149,8 @@
                                                 (string-append "Radius is: " (number->string radius))))
       )
 
+    ; Generates and renders a parallelogram area problem onto the given device context
+    ; Updates answer
     (define (parallelogram-area deviceContext)
       (define base (random-integer 1 10))
       (define height (random-integer 1 10))
@@ -159,7 +172,8 @@
                                                           (string-append "Height is: " (number->string height))))
       )
 
-
+    ; Generates and renders a "middle school arithmetic problem"
+    ; Updates answer
     (define (middle-school-level-arithmetic-problem device-context)
       (define a (random-natural 25))
       (define b (random-natural 25))
