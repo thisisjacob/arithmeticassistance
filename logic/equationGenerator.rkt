@@ -36,6 +36,8 @@
            )
          ]
         [(eq? (send problemCategory getId) (send ELEMENTARY-SCHOOL getId))
+         (elementary-level-arithmetic-problem deviceContext)]
+        [(eq? (send problemCategory getId) (send MIDDLE-SCHOOL getId))
          (middle-school-level-arithmetic-problem deviceContext)
          ]
 
@@ -328,6 +330,47 @@
       (draw-text-problem-with-multiple-lines device-context (list "Solve the following equation: " (get-output-string o)))
 
     
+      )
+
+    ; Generates and renders a "elementary arithmetic problem"
+    ; Updates answer
+    (define (elementary-level-arithmetic-problem device-context)
+      ;Elementary-school algorithm
+      (define a (random-natural 10))
+      (define b (random-natural 10))
+
+      (define op1 (random-natural 4))
+      (define o (open-output-string))
+
+      (set! answer 0)
+
+      ; Writes out expression in the infix format
+
+      (write a o)
+
+      (define sym1
+        (case (+ op1)
+          [(0) (write '+ o)
+               (write b o)]
+          [(1) (write '- o)
+               (write b o)]
+          [(2) (write '* o)
+               (write b o)]
+          [(3) (write '/ o)
+               (write b o)]))
+
+      ; Calculates the answer based on the variables and operations
+
+      (define equation
+        (case (+ op1)
+          [(0) (set! answer ($ a + b))]
+          [(1) (set! answer ($ a - b))]
+          [(2) (set! answer ($ a * b))]
+          [(3) (set! answer (floor ($ a / b)))]))
+
+      (print answer)
+      (draw-text-problem-with-multiple-lines device-context (list "Solve the following equation: " (get-output-string o)))
+      
       )
 
 
