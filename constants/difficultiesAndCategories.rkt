@@ -99,6 +99,13 @@
                                )
   )
 
+(provide ELEMENTARY-SCHOOL)
+(provide MIDDLE-SCHOOL)
+(provide HIGH-SCHOOL)
+(provide ARITHMETIC)
+(provide ALGEBRA)
+(provide GEOMETRY)
+
 ; The predefined manager to be used throughout the program
 ; Use this to pass information on difficulties and categories throughout the program
 (define difficulties (new difficulty-manager%
