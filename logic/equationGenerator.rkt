@@ -2,6 +2,7 @@
 (require math/base)
 (require k-infix)
 (require "../drawing/canvasShapeDrawingFunctions.rkt")
+(require "../constants/difficultiesAndCategories.rkt")
 
 (define equation-generator%
   (class object%
@@ -18,13 +19,19 @@
     ; Modify this function so it calls an available problem for the given problem category.
     ; The problems screen will call this function to create new problems
     (define/public (generateProblem deviceContext problemCategory)
-      (trapezoid-area deviceContext)
-
-      (rectangle-area deviceContext)
-      (triangle-area deviceContext)
-      (circle-area deviceContext)
-      (parallelogram-area deviceContext)
-
+      (define newProblemNum (random-integer 0 5))
+      ; If geometric problem, randomly call one of the geometric problem generators
+      (cond
+        [(eq? (send problemCategory getId) (send GEOMETRY getId))
+         (cond 
+           [(eq? 0 newProblemNum)       (trapezoid-area deviceContext)]
+           [(eq? 1 newProblemNum)       (rectangle-area deviceContext)]
+           [(eq? 2 newProblemNum)       (triangle-area deviceContext)]
+           [(eq? 3 newProblemNum)       (circle-area deviceContext)]
+           [(eq? 4 newProblemNum)       (parallelogram-area deviceContext)]
+           )
+         ]
+        )
       )
 
     (define (trapezoid-area deviceContext)
