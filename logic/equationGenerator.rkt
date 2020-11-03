@@ -40,6 +40,9 @@
         [(eq? (send problemCategory getId) (send MIDDLE-SCHOOL getId))
          (middle-school-level-arithmetic-problem deviceContext)
          ]
+        [(eq? (send problemCategory getId) (send HIGH-SCHOOL getId))
+         (high-level-arithmetic-problem deviceContext)
+         ]
 
         )
       )
@@ -371,6 +374,1469 @@
       (print answer)
       (draw-text-problem-with-multiple-lines device-context (list "Solve the following equation: " (get-output-string o)))
       
+      )
+
+    (define (high-level-arithmetic-problem device-context)
+
+      (define b (random-natural 10))
+      (define c (random-natural 10))
+      (define d (random-natural 10))
+      (define e (random-natural 10))
+      (define f (random-natural 10))
+      (define g (random-natural 10))
+
+      (define op2 (random-natural 4))
+      (define op3 (random-natural 4))
+      (define op4 (random-natural 4))
+      (define op5 (random-natural 4))
+      (define op6 (random-natural 4))
+
+      ;(define sq1 (random-natural 4))
+      ;(define sq1 (random-natural 4))
+      ;(define sq1 (random-natural 4))
+      ;(define sq1 (random-natural 4))
+      ;(define sq1 (random-natural 4))
+      ;(define sq1 (random-natural 4))
+      ;(define sq1 (random-natural 4))
+
+      (define o (open-output-string))
+
+      (set! answer 0)
+
+      ; Writes out expression in the infix format
+
+      (write b o)
+
+      (define sym1
+        (case (+ op2)
+          [(0) (write '+ o)
+               (write c o)]
+          [(1) (write '- o)
+               (write c o)]
+          [(2) (write '* o)
+               (write c o)]
+          [(3) (write '/ o)
+               (write c o)]))
+
+      (define sym2
+        (case (+ op3)
+          [(0) (write '+ o)
+               (write d o)]
+          [(1) (write '- o)
+               (write d o)]
+          [(2) (write '* o)
+               (write d o)]
+          [(3) (write '/ o)
+               (write d o)]))
+
+      (define sym3
+        (case (+ op4)
+          [(0) (write '+ o)
+               (write e o)]
+          [(1) (write '- o)
+               (write e o)]
+          [(2) (write '* o)
+               (write e o)]
+          [(3) (write '/ o)
+               (write e o)]))
+
+      (define sym4
+        (case (+ op5)
+          [(0) (write '+ o)
+               (write f o)]
+          [(1) (write '- o)
+               (write f o)]
+          [(2) (write '* o)
+               (write f o)]
+          [(3) (write '/ o)
+               (write f o)]))
+
+      (define sym5
+        (case (+ op6)
+          [(0) (write '+ o)
+               (write g o)]
+          [(1) (write '- o)
+               (write g o)]
+          [(2) (write '* o)
+               (write g o)]
+          [(3) (write '/ o)
+               (write g o)]))
+
+
+      ;(print "Solve the following equation: ")
+      ;(get-output-string o)
+
+      ; Calculates the answer based on the variables and operations
+
+      (define equation
+        (case (+ op2)
+          [(0) (case (+ op3)
+                 [(0) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d + e + f + g))]
+                                      [(1) (set! answer ($ b + c + d + e + f - g))]
+                                      [(2) (set! answer ($ b + c + d + e + f * g))]
+                                      [(3) (set! answer ($ b + c + d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d + e - f + g))]
+                                      [(1) (set! answer ($ b + c + d + e - f - g))]
+                                      [(2) (set! answer ($ b + c + d + e - f * g))]
+                                      [(3) (set! answer ($ b + c + d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d + e * f + g))]
+                                      [(1) (set! answer ($ b + c + d + e * f - g))]
+                                      [(2) (set! answer ($ b + c + d + e * f * g))]
+                                      [(3) (set! answer ($ b + c + d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + c + d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + c + d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + c + d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d - e + f + g))]
+                                      [(1) (set! answer ($ b + c + d - e + f - g))]
+                                      [(2) (set! answer ($ b + c + d - e + f * g))]
+                                      [(3) (set! answer ($ b + c + d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d - e - f + g))]
+                                      [(1) (set! answer ($ b + c + d - e - f - g))]
+                                      [(2) (set! answer ($ b + c + d - e - f * g))]
+                                      [(3) (set! answer ($ b + c + d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d - e * f + g))]
+                                      [(1) (set! answer ($ b + c + d - e * f - g))]
+                                      [(2) (set! answer ($ b + c + d - e * f * g))]
+                                      [(3) (set! answer ($ b + c + d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + c + d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + c + d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + c + d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d * e + f + g))]
+                                      [(1) (set! answer ($ b + c + d * e + f - g))]
+                                      [(2) (set! answer ($ b + c + d * e + f * g))]
+                                      [(3) (set! answer ($ b + c + d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d * e - f + g))]
+                                      [(1) (set! answer ($ b + c + d * e - f - g))]
+                                      [(2) (set! answer ($ b + c + d * e - f * g))]
+                                      [(3) (set! answer ($ b + c + d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d * e * f + g))]
+                                      [(1) (set! answer ($ b + c + d * e * f - g))]
+                                      [(2) (set! answer ($ b + c + d * e * f * g))]
+                                      [(3) (set! answer ($ b + c + d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + c + d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + c + d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + c + d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ b + c + (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ b + c + (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ b + c + (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ b + c + (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ b + c + (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ b + c + (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ b + c + (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ b + c + (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ b + c + (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c + (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ b + c + (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ b + c + (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ b + c + (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(1) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d + e + f + g))]
+                                      [(1) (set! answer ($ b + c - d + e + f - g))]
+                                      [(2) (set! answer ($ b + c - d + e + f * g))]
+                                      [(3) (set! answer ($ b + c - d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d + e - f + g))]
+                                      [(1) (set! answer ($ b + c - d + e - f - g))]
+                                      [(2) (set! answer ($ b + c - d + e - f * g))]
+                                      [(3) (set! answer ($ b + c - d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d + e * f + g))]
+                                      [(1) (set! answer ($ b + c - d + e * f - g))]
+                                      [(2) (set! answer ($ b + c - d + e * f * g))]
+                                      [(3) (set! answer ($ b + c - d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + c - d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + c - d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + c - d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d - e + f + g))]
+                                      [(1) (set! answer ($ b + c - d - e + f - g))]
+                                      [(2) (set! answer ($ b + c - d - e + f * g))]
+                                      [(3) (set! answer ($ b + c - d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d - e - f + g))]
+                                      [(1) (set! answer ($ b + c - d - e - f - g))]
+                                      [(2) (set! answer ($ b + c - d - e - f * g))]
+                                      [(3) (set! answer ($ b + c - d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d - e * f + g))]
+                                      [(1) (set! answer ($ b + c - d - e * f - g))]
+                                      [(2) (set! answer ($ b + c - d - e * f * g))]
+                                      [(3) (set! answer ($ b + c - d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + c - d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + c - d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + c - d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d * e + f + g))]
+                                      [(1) (set! answer ($ b + c - d * e + f - g))]
+                                      [(2) (set! answer ($ b + c - d * e + f * g))]
+                                      [(3) (set! answer ($ b + c - d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d * e - f + g))]
+                                      [(1) (set! answer ($ b + c - d * e - f - g))]
+                                      [(2) (set! answer ($ b + c - d * e - f * g))]
+                                      [(3) (set! answer ($ b + c - d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d * e * f + g))]
+                                      [(1) (set! answer ($ b + c - d * e * f - g))]
+                                      [(2) (set! answer ($ b + c - d * e * f * g))]
+                                      [(3) (set! answer ($ b + c - d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + c - d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + c - d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + c - d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ b + c - (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ b + c - (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ b + c - (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ b + c - (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ b + c - (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ b + c - (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ b + c - (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ b + c - (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ b + c - (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c - (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ b + c - (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ b + c - (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ b + c - (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(2) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d + e + f + g))]
+                                      [(1) (set! answer ($ b + c * d + e + f - g))]
+                                      [(2) (set! answer ($ b + c * d + e + f * g))]
+                                      [(3) (set! answer ($ b + c * d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d + e - f + g))]
+                                      [(1) (set! answer ($ b + c * d + e - f - g))]
+                                      [(2) (set! answer ($ b + c * d + e - f * g))]
+                                      [(3) (set! answer ($ b + c * d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d + e * f + g))]
+                                      [(1) (set! answer ($ b + c * d + e * f - g))]
+                                      [(2) (set! answer ($ b + c * d + e * f * g))]
+                                      [(3) (set! answer ($ b + c * d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + c * d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + c * d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + c * d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d - e + f + g))]
+                                      [(1) (set! answer ($ b + c * d - e + f - g))]
+                                      [(2) (set! answer ($ b + c * d - e + f * g))]
+                                      [(3) (set! answer ($ b + c * d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d - e - f + g))]
+                                      [(1) (set! answer ($ b + c * d - e - f - g))]
+                                      [(2) (set! answer ($ b + c * d - e - f * g))]
+                                      [(3) (set! answer ($ b + c * d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d - e * f + g))]
+                                      [(1) (set! answer ($ b + c * d - e * f - g))]
+                                      [(2) (set! answer ($ b + c * d - e * f * g))]
+                                      [(3) (set! answer ($ b + c * d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + c * d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + c * d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + c * d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d * e + f + g))]
+                                      [(1) (set! answer ($ b + c * d * e + f - g))]
+                                      [(2) (set! answer ($ b + c * d * e + f * g))]
+                                      [(3) (set! answer ($ b + c * d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d * e - f + g))]
+                                      [(1) (set! answer ($ b + c * d * e - f - g))]
+                                      [(2) (set! answer ($ b + c * d * e - f * g))]
+                                      [(3) (set! answer ($ b + c * d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d * e * f + g))]
+                                      [(1) (set! answer ($ b + c * d * e * f - g))]
+                                      [(2) (set! answer ($ b + c * d * e * f * g))]
+                                      [(3) (set! answer ($ b + c * d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + c * d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + c * d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + c * d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ b + c * (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ b + c * (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ b + c * (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ b + c * (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ b + c * (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ b + c * (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ b + c * (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ b + c * (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ b + c * (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + c * (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ b + c * (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ b + c * (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ b + c * (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(3) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) + e + f + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) + e + f - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) + e + f * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) + e - f + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) + e - f - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) + e - f * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) + e * f + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) + e * f - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) + e * f * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) - e + f + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) - e + f - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) - e + f * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) - e - f + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) - e - f - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) - e - f * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) - e * f + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) - e * f - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) - e * f * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) * e + f + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) * e + f - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) * e + f * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) * e - f + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) * e - f - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) * e - f * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) * e * f + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) * e * f - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) * e * f * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (c / d)) * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b + (floor (c / d)) * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b + (floor (c / d)) * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b + (floor (c / d)) * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (floor (c / d) / e)) + f + g))]
+                                      [(1) (set! answer ($ b + (floor (floor (c / d) / e)) + f - g))]
+                                      [(2) (set! answer ($ b + (floor (floor (c / d) / e)) + f * g))]
+                                      [(3) (set! answer ($ b + (floor (floor (c / d) / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (floor (c / d) / e)) - f + g))]
+                                      [(1) (set! answer ($ b + (floor (floor (c / d) / e)) - f - g))]
+                                      [(2) (set! answer ($ b + (floor (floor (c / d) / e)) - f * g))]
+                                      [(3) (set! answer ($ b + (floor (floor (c / d) / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (floor (c / d) / e)) * f + g))]
+                                      [(1) (set! answer ($ b + (floor (floor (c / d) / e)) * f - g))]
+                                      [(2) (set! answer ($ b + (floor (floor (c / d) / e)) * f * g))]
+                                      [(3) (set! answer ($ b + (floor (floor (c / d) / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b + (floor (floor (floor (c / d)) / e) / f) + g))]
+                                      [(1) (set! answer ($ b + (floor (floor (floor (c / d)) / e) / f) - g))]
+                                      [(2) (set! answer ($ b + (floor (floor (floor (c / d)) / e) / f) * g))]
+                                      [(3) (set! answer ($ b + (floor (floor (floor (floor (c / d) / e) / f) / g))))])])])])]
+          [(1) (case (+ op3)
+                 [(0) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d + e + f + g))]
+                                      [(1) (set! answer ($ b - c + d + e + f - g))]
+                                      [(2) (set! answer ($ b - c + d + e + f * g))]
+                                      [(3) (set! answer ($ b - c + d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d + e - f + g))]
+                                      [(1) (set! answer ($ b - c + d + e - f - g))]
+                                      [(2) (set! answer ($ b - c + d + e - f * g))]
+                                      [(3) (set! answer ($ b - c + d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d + e * f + g))]
+                                      [(1) (set! answer ($ b - c + d + e * f - g))]
+                                      [(2) (set! answer ($ b - c + d + e * f * g))]
+                                      [(3) (set! answer ($ b - c + d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - c + d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - c + d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - c + d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d - e + f + g))]
+                                      [(1) (set! answer ($ b - c + d - e + f - g))]
+                                      [(2) (set! answer ($ b - c + d - e + f * g))]
+                                      [(3) (set! answer ($ b - c + d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d - e - f + g))]
+                                      [(1) (set! answer ($ b - c + d - e - f - g))]
+                                      [(2) (set! answer ($ b - c + d - e - f * g))]
+                                      [(3) (set! answer ($ b - c + d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d - e * f + g))]
+                                      [(1) (set! answer ($ b - c + d - e * f - g))]
+                                      [(2) (set! answer ($ b - c + d - e * f * g))]
+                                      [(3) (set! answer ($ b - c + d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - c + d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - c + d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - c + d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d * e + f + g))]
+                                      [(1) (set! answer ($ b - c + d * e + f - g))]
+                                      [(2) (set! answer ($ b - c + d * e + f * g))]
+                                      [(3) (set! answer ($ b - c + d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d * e - f + g))]
+                                      [(1) (set! answer ($ b - c + d * e - f - g))]
+                                      [(2) (set! answer ($ b - c + d * e - f * g))]
+                                      [(3) (set! answer ($ b - c + d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d * e * f + g))]
+                                      [(1) (set! answer ($ b - c + d * e * f - g))]
+                                      [(2) (set! answer ($ b - c + d * e * f * g))]
+                                      [(3) (set! answer ($ b - c + d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - c + d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - c + d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - c + d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ b - c + (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ b - c + (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ b - c + (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ b - c + (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ b - c + (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ b - c + (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ b - c + (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ b - c + (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ b - c + (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c + (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ b - c + (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ b - c + (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ b - c + (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(1) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d + e + f + g))]
+                                      [(1) (set! answer ($ b - c - d + e + f - g))]
+                                      [(2) (set! answer ($ b - c - d + e + f * g))]
+                                      [(3) (set! answer ($ b - c - d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d + e - f + g))]
+                                      [(1) (set! answer ($ b - c - d + e - f - g))]
+                                      [(2) (set! answer ($ b - c - d + e - f * g))]
+                                      [(3) (set! answer ($ b - c - d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d + e * f + g))]
+                                      [(1) (set! answer ($ b - c - d + e * f - g))]
+                                      [(2) (set! answer ($ b - c - d + e * f * g))]
+                                      [(3) (set! answer ($ b - c - d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - c - d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - c - d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - c - d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d - e + f + g))]
+                                      [(1) (set! answer ($ b - c - d - e + f - g))]
+                                      [(2) (set! answer ($ b - c - d - e + f * g))]
+                                      [(3) (set! answer ($ b - c - d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d - e - f + g))]
+                                      [(1) (set! answer ($ b - c - d - e - f - g))]
+                                      [(2) (set! answer ($ b - c - d - e - f * g))]
+                                      [(3) (set! answer ($ b - c - d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d - e * f + g))]
+                                      [(1) (set! answer ($ b - c - d - e * f - g))]
+                                      [(2) (set! answer ($ b - c - d - e * f * g))]
+                                      [(3) (set! answer ($ b - c - d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - c - d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - c - d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - c - d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d * e + f + g))]
+                                      [(1) (set! answer ($ b - c - d * e + f - g))]
+                                      [(2) (set! answer ($ b - c - d * e + f * g))]
+                                      [(3) (set! answer ($ b - c - d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d * e - f + g))]
+                                      [(1) (set! answer ($ b - c - d * e - f - g))]
+                                      [(2) (set! answer ($ b - c - d * e - f * g))]
+                                      [(3) (set! answer ($ b - c - d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d * e * f + g))]
+                                      [(1) (set! answer ($ b - c - d * e * f - g))]
+                                      [(2) (set! answer ($ b - c - d * e * f * g))]
+                                      [(3) (set! answer ($ b - c - d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - c - d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - c - d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - c - d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ b - c - (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ b - c - (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ b - c - (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ b - c - (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ b - c - (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ b - c - (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ b - c - (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ b - c - (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ b - c - (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c - (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ b - c - (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ b - c - (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ b - c - (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(2) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d + e + f + g))]
+                                      [(1) (set! answer ($ b - c * d + e + f - g))]
+                                      [(2) (set! answer ($ b - c * d + e + f * g))]
+                                      [(3) (set! answer ($ b - c * d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d + e - f + g))]
+                                      [(1) (set! answer ($ b - c * d + e - f - g))]
+                                      [(2) (set! answer ($ b - c * d + e - f * g))]
+                                      [(3) (set! answer ($ b - c * d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d + e * f + g))]
+                                      [(1) (set! answer ($ b - c * d + e * f - g))]
+                                      [(2) (set! answer ($ b - c * d + e * f * g))]
+                                      [(3) (set! answer ($ b - c * d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - c * d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - c * d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - c * d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d - e + f + g))]
+                                      [(1) (set! answer ($ b - c * d - e + f - g))]
+                                      [(2) (set! answer ($ b - c * d - e + f * g))]
+                                      [(3) (set! answer ($ b - c * d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d - e - f + g))]
+                                      [(1) (set! answer ($ b - c * d - e - f - g))]
+                                      [(2) (set! answer ($ b - c * d - e - f * g))]
+                                      [(3) (set! answer ($ b - c * d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d - e * f + g))]
+                                      [(1) (set! answer ($ b - c * d - e * f - g))]
+                                      [(2) (set! answer ($ b - c * d - e * f * g))]
+                                      [(3) (set! answer ($ b - c * d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - c * d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - c * d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - c * d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d * e + f + g))]
+                                      [(1) (set! answer ($ b - c * d * e + f - g))]
+                                      [(2) (set! answer ($ b - c * d * e + f * g))]
+                                      [(3) (set! answer ($ b - c * d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d * e - f + g))]
+                                      [(1) (set! answer ($ b - c * d * e - f - g))]
+                                      [(2) (set! answer ($ b - c * d * e - f * g))]
+                                      [(3) (set! answer ($ b - c * d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d * e * f + g))]
+                                      [(1) (set! answer ($ b - c * d * e * f - g))]
+                                      [(2) (set! answer ($ b - c * d * e * f * g))]
+                                      [(3) (set! answer ($ b - c * d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - c * d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - c * d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - c * d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ b - c * (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ b - c * (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ b - c * (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ b - c * (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ b - c * (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ b - c * (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ b - c * (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ b - c * (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ b - c * (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - c * (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ b - c * (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ b - c * (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ b - c * (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(3) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) + e + f + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) + e + f - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) + e + f * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) + e - f + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) + e - f - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) + e - f * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) + e * f + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) + e * f - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) + e * f * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) - e + f + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) - e + f - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) - e + f * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) - e - f + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) - e - f - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) - e - f * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) - e * f + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) - e * f - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) - e * f * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) * e + f + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) * e + f - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) * e + f * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) * e - f + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) * e - f - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) * e - f * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) * e * f + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) * e * f - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) * e * f * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (c / d)) * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b - (floor (c / d)) * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b - (floor (c / d)) * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b - (floor (c / d)) * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (floor (c / d) / e)) + f + g))]
+                                      [(1) (set! answer ($ b - (floor (floor (c / d) / e)) + f - g))]
+                                      [(2) (set! answer ($ b - (floor (floor (c / d) / e)) + f * g))]
+                                      [(3) (set! answer ($ b - (floor (floor (c / d) / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (floor (c / d) / e)) - f + g))]
+                                      [(1) (set! answer ($ b - (floor (floor (c / d) / e)) - f - g))]
+                                      [(2) (set! answer ($ b - (floor (floor (c / d) / e)) - f * g))]
+                                      [(3) (set! answer ($ b - (floor (floor (c / d) / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (floor (c / d) / e)) * f + g))]
+                                      [(1) (set! answer ($ b - (floor (floor (c / d) / e)) * f - g))]
+                                      [(2) (set! answer ($ b - (floor (floor (c / d) / e)) * f * g))]
+                                      [(3) (set! answer ($ b - (floor (floor (c / d) / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b - (floor (floor (floor (c / d)) / e) / f) + g))]
+                                      [(1) (set! answer ($ b - (floor (floor (floor (c / d)) / e) / f) - g))]
+                                      [(2) (set! answer ($ b - (floor (floor (floor (c / d)) / e) / f) * g))]
+                                      [(3) (set! answer ($ b - (floor (floor (floor (floor (c / d) / e) / f) / g))))])])])])]
+          [(2) (case (+ op3)
+                 [(0) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d + e + f + g))]
+                                      [(1) (set! answer ($ b * c + d + e + f - g))]
+                                      [(2) (set! answer ($ b * c + d + e + f * g))]
+                                      [(3) (set! answer ($ b * c + d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d + e - f + g))]
+                                      [(1) (set! answer ($ b * c + d + e - f - g))]
+                                      [(2) (set! answer ($ b * c + d + e - f * g))]
+                                      [(3) (set! answer ($ b * c + d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d + e * f + g))]
+                                      [(1) (set! answer ($ b * c + d + e * f - g))]
+                                      [(2) (set! answer ($ b * c + d + e * f * g))]
+                                      [(3) (set! answer ($ b * c + d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * c + d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * c + d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * c + d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d - e + f + g))]
+                                      [(1) (set! answer ($ b * c + d - e + f - g))]
+                                      [(2) (set! answer ($ b * c + d - e + f * g))]
+                                      [(3) (set! answer ($ b * c + d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d - e - f + g))]
+                                      [(1) (set! answer ($ b * c + d - e - f - g))]
+                                      [(2) (set! answer ($ b * c + d - e - f * g))]
+                                      [(3) (set! answer ($ b * c + d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d - e * f + g))]
+                                      [(1) (set! answer ($ b * c + d - e * f - g))]
+                                      [(2) (set! answer ($ b * c + d - e * f * g))]
+                                      [(3) (set! answer ($ b * c + d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * c + d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * c + d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * c + d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d * e + f + g))]
+                                      [(1) (set! answer ($ b * c + d * e + f - g))]
+                                      [(2) (set! answer ($ b * c + d * e + f * g))]
+                                      [(3) (set! answer ($ b * c + d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d * e - f + g))]
+                                      [(1) (set! answer ($ b * c + d * e - f - g))]
+                                      [(2) (set! answer ($ b * c + d * e - f * g))]
+                                      [(3) (set! answer ($ b * c + d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d * e * f + g))]
+                                      [(1) (set! answer ($ b * c + d * e * f - g))]
+                                      [(2) (set! answer ($ b * c + d * e * f * g))]
+                                      [(3) (set! answer ($ b * c + d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * c + d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * c + d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * c + d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ b * c + (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ b * c + (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ b * c + (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ b * c + (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ b * c + (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ b * c + (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ b * c + (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ b * c + (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ b * c + (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c + (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ b * c + (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ b * c + (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ b * c + (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(1) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d + e + f + g))]
+                                      [(1) (set! answer ($ b * c - d + e + f - g))]
+                                      [(2) (set! answer ($ b * c - d + e + f * g))]
+                                      [(3) (set! answer ($ b * c - d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d + e - f + g))]
+                                      [(1) (set! answer ($ b * c - d + e - f - g))]
+                                      [(2) (set! answer ($ b * c - d + e - f * g))]
+                                      [(3) (set! answer ($ b * c - d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d + e * f + g))]
+                                      [(1) (set! answer ($ b * c - d + e * f - g))]
+                                      [(2) (set! answer ($ b * c - d + e * f * g))]
+                                      [(3) (set! answer ($ b * c - d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * c - d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * c - d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * c - d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d - e + f + g))]
+                                      [(1) (set! answer ($ b * c - d - e + f - g))]
+                                      [(2) (set! answer ($ b * c - d - e + f * g))]
+                                      [(3) (set! answer ($ b * c - d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d - e - f + g))]
+                                      [(1) (set! answer ($ b * c - d - e - f - g))]
+                                      [(2) (set! answer ($ b * c - d - e - f * g))]
+                                      [(3) (set! answer ($ b * c - d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d - e * f + g))]
+                                      [(1) (set! answer ($ b * c - d - e * f - g))]
+                                      [(2) (set! answer ($ b * c - d - e * f * g))]
+                                      [(3) (set! answer ($ b * c - d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * c - d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * c - d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * c - d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d * e + f + g))]
+                                      [(1) (set! answer ($ b * c - d * e + f - g))]
+                                      [(2) (set! answer ($ b * c - d * e + f * g))]
+                                      [(3) (set! answer ($ b * c - d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d * e - f + g))]
+                                      [(1) (set! answer ($ b * c - d * e - f - g))]
+                                      [(2) (set! answer ($ b * c - d * e - f * g))]
+                                      [(3) (set! answer ($ b * c - d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d * e * f + g))]
+                                      [(1) (set! answer ($ b * c - d * e * f - g))]
+                                      [(2) (set! answer ($ b * c - d * e * f * g))]
+                                      [(3) (set! answer ($ b * c - d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * c - d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * c - d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * c - d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ b * c - (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ b * c - (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ b * c - (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ b * c - (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ b * c - (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ b * c - (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ b * c - (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ b * c - (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ b * c - (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c - (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ b * c - (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ b * c - (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ b * c - (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(2) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d + e + f + g))]
+                                      [(1) (set! answer ($ b * c * d + e + f - g))]
+                                      [(2) (set! answer ($ b * c * d + e + f * g))]
+                                      [(3) (set! answer ($ b * c * d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d + e - f + g))]
+                                      [(1) (set! answer ($ b * c * d + e - f - g))]
+                                      [(2) (set! answer ($ b * c * d + e - f * g))]
+                                      [(3) (set! answer ($ b * c * d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d + e * f + g))]
+                                      [(1) (set! answer ($ b * c * d + e * f - g))]
+                                      [(2) (set! answer ($ b * c * d + e * f * g))]
+                                      [(3) (set! answer ($ b * c * d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * c * d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * c * d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * c * d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d - e + f + g))]
+                                      [(1) (set! answer ($ b * c * d - e + f - g))]
+                                      [(2) (set! answer ($ b * c * d - e + f * g))]
+                                      [(3) (set! answer ($ b * c * d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d - e - f + g))]
+                                      [(1) (set! answer ($ b * c * d - e - f - g))]
+                                      [(2) (set! answer ($ b * c * d - e - f * g))]
+                                      [(3) (set! answer ($ b * c * d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d - e * f + g))]
+                                      [(1) (set! answer ($ b * c * d - e * f - g))]
+                                      [(2) (set! answer ($ b * c * d - e * f * g))]
+                                      [(3) (set! answer ($ b * c * d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * c * d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * c * d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * c * d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d * e + f + g))]
+                                      [(1) (set! answer ($ b * c * d * e + f - g))]
+                                      [(2) (set! answer ($ b * c * d * e + f * g))]
+                                      [(3) (set! answer ($ b * c * d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d * e - f + g))]
+                                      [(1) (set! answer ($ b * c * d * e - f - g))]
+                                      [(2) (set! answer ($ b * c * d * e - f * g))]
+                                      [(3) (set! answer ($ b * c * d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d * e * f + g))]
+                                      [(1) (set! answer ($ b * c * d * e * f - g))]
+                                      [(2) (set! answer ($ b * c * d * e * f * g))]
+                                      [(3) (set! answer ($ b * c * d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * c * d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * c * d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * c * d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ b * c * (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ b * c * (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ b * c * (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ b * c * (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ b * c * (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ b * c * (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ b * c * (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ b * c * (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ b * c * (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * c * (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ b * c * (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ b * c * (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ b * c * (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(3) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) + e + f + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) + e + f - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) + e + f * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) + e - f + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) + e - f - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) + e - f * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) + e * f + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) + e * f - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) + e * f * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) - e + f + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) - e + f - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) - e + f * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) - e - f + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) - e - f - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) - e - f * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) - e * f + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) - e * f - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) - e * f * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) * e + f + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) * e + f - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) * e + f * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) * e - f + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) * e - f - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) * e - f * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) * e * f + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) * e * f - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) * e * f * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (c / d)) * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ b * (floor (c / d)) * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ b * (floor (c / d)) * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ b * (floor (c / d)) * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (floor (c / d) / e)) + f + g))]
+                                      [(1) (set! answer ($ b * (floor (floor (c / d) / e)) + f - g))]
+                                      [(2) (set! answer ($ b * (floor (floor (c / d) / e)) + f * g))]
+                                      [(3) (set! answer ($ b * (floor (floor (c / d) / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (floor (c / d) / e)) - f + g))]
+                                      [(1) (set! answer ($ b * (floor (floor (c / d) / e)) - f - g))]
+                                      [(2) (set! answer ($ b * (floor (floor (c / d) / e)) - f * g))]
+                                      [(3) (set! answer ($ b * (floor (floor (c / d) / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (floor (c / d) / e)) * f + g))]
+                                      [(1) (set! answer ($ b * (floor (floor (c / d) / e)) * f - g))]
+                                      [(2) (set! answer ($ b * (floor (floor (c / d) / e)) * f * g))]
+                                      [(3) (set! answer ($ b * (floor (floor (c / d) / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ b * (floor (floor (floor (c / d)) / e) / f) + g))]
+                                      [(1) (set! answer ($ b * (floor (floor (floor (c / d)) / e) / f) - g))]
+                                      [(2) (set! answer ($ b * (floor (floor (floor (c / d)) / e) / f) * g))]
+                                      [(3) (set! answer ($ b * (floor (floor (floor (floor (c / d) / e) / f) / g))))])])])])]
+          [(3) (case (+ op3)
+                 [(0) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d + e + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d + e + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d + e + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d + e - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d + e - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d + e - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d + e * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d + e * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d + e * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d - e + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d - e + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d - e + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d - e - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d - e - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d - e - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d - e * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d - e * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d - e * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d * e + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d * e + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d * e + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d * e - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d * e - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d * e - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d * e * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d * e * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d * e * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) + (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) + (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) + (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) + (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(1) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d + e + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d + e + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d + e + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d + e - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d + e - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d + e - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d + e * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d + e * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d + e * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d - e + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d - e + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d - e + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d - e - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d - e - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d - e - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d - e * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d - e * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d - e * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d * e + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d * e + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d * e + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d * e - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d * e - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d * e - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d * e * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d * e * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d * e * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) - (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) - (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) - (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) - (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(2) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d + e + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d + e + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d + e + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d + e - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d + e - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d + e - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d + e * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d + e * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d + e * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d - e + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d - e + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d - e + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d - e - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d - e - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d - e - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d - e * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d - e * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d - e * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d * e + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d * e + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d * e + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d * e - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d * e - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d * e - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d * e * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d * e * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d * e * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * d * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * d * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * d * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * d * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * (floor (d / e)) + f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * (floor (d / e)) + f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * (floor (d / e)) + f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * (floor (d / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * (floor (d / e)) - f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * (floor (d / e)) - f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * (floor (d / e)) - f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * (floor (d / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * (floor (d / e)) * f + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * (floor (d / e)) * f - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * (floor (d / e)) * f * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * (floor (d / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (b / c)) * (floor (floor (d / e)) / f) + g))]
+                                      [(1) (set! answer ($ (floor (b / c)) * (floor (floor (d / e)) / f) - g))]
+                                      [(2) (set! answer ($ (floor (b / c)) * (floor (floor (d / e)) / f) * g))]
+                                      [(3) (set! answer ($ (floor (b / c)) * (floor (floor (floor (d / e)) / f) / g)))])])])]
+                 [(3) (case (+ op4)
+                        [(0) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) + e + f + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) + e + f - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) + e + f * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) + e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) + e - f + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) + e - f - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) + e - f * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) + e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) + e * f + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) + e * f - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) + e * f * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) + e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) + (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) + (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) + (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) + (floor (floor (e / f)) / g)))])])]
+                        [(1) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) - e + f + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) - e + f - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) - e + f * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) - e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) - e - f + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) - e - f - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) - e - f * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) - e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) - e * f + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) - e * f - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) - e * f * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) - e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) - (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) - (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) - (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) - (floor (floor (e / f)) / g)))])])]
+                        [(2) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) * e + f + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) * e + f - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) * e + f * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) * e + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) * e - f + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) * e - f - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) * e - f * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) * e - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) * e * f + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) * e * f - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) * e * f * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) * e * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (b / c) / d)) * (floor (e / f)) + g))]
+                                      [(1) (set! answer ($ (floor (floor (b / c) / d)) * (floor (e / f)) - g))]
+                                      [(2) (set! answer ($ (floor (floor (b / c) / d)) * (floor (e / f)) * g))]
+                                      [(3) (set! answer ($ (floor (floor (b / c) / d)) * (floor (floor (e / f)) / g)))])])]
+                        [(3) (case (+ op5)
+                               [(0) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + f + g))]
+                                      [(1) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + f - g))]
+                                      [(2) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + f * g))]
+                                      [(3) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + (floor (f / g))))])]
+                               [(1) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - f + g))]
+                                      [(1) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - f - g))]
+                                      [(2) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - f * g))]
+                                      [(3) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - (floor (f / g))))])]
+                               [(2) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * f + g))]
+                                      [(1) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * f - g))]
+                                      [(2) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * f * g))]
+                                      [(3) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * (floor (f / g))))])]
+                               [(3) (case (+ op6)
+                                      [(0) (set! answer ($ (floor (floor (floor (floor (b / c) / d) / e) / f)) + g))]
+                                      [(1) (set! answer ($ (floor (floor (floor (floor (b / c) / d) / e) / f)) - g))]
+                                      [(2) (set! answer ($ (floor (floor (floor (floor (b / c) / d) / e) / f)) * g))]
+                                      [(3) (set! answer ($ (floor (floor (floor (floor (floor (b / c) / d) / e) / f) / g))))])])])])]))
+
+      (draw-text-problem-with-multiple-lines device-context (list "Solve the following equation: " (get-output-string o)))
+
       )
 
 
