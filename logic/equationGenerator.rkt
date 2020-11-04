@@ -4,7 +4,7 @@
 (require "../drawing/canvasShapeDrawingFunctions.rkt")
 (require "../constants/difficultiesAndCategories.rkt")
 
-; This class is used for generating problems
+; This class is used for generating problems and calling drawing functions
 ; No initialization parameters are needed
 ; Available problems defined in difficultiesAndCategories.rkt constants file
 
@@ -86,7 +86,7 @@
       (display "The height is: " H)
       (write h H)
 
-      (draw-trapezoid deviceContext b a h (list "Find the area of the trapezoid"
+      (draw-trapezoid deviceContext b a h (list "Find the area of the trapezoid, round down answer."
                                                 (string-append "a is: " (number->string a))
                                                 (string-append "b is: " (number->string b))
                                                 (string-append "The height is: " (number->string h))))
@@ -110,7 +110,7 @@
       (display "The width is: " w)
       (write width w)
 
-      (draw-rectangle deviceContext width length (list "Find the area of the rectangle"
+      (draw-rectangle deviceContext width length (list "Find the area of the rectangle, round down answer."
                                                        (string-append "Length is: " (number->string length))
                                                        (string-append "Width is: " (number->string width))))
       )
@@ -134,7 +134,7 @@
       (display "The height is: " h)
       (write height h)
 
-      (draw-regular-triangle deviceContext base height (list "Find the area of the triangle"
+      (draw-regular-triangle deviceContext base height (list "Find the area of the triangle, round down answer."
                                                 (string-append "Base is: " (number->string base))
                                                 (string-append "Height is: " (number->string height))))
       )
@@ -159,7 +159,7 @@
       (write radius r)
       (display "Round to the nearest whole number." q)
 
-      (draw-circle deviceContext radius (list "Find the area of the circle"
+      (draw-circle deviceContext radius (list "Find the area of the circle, round down answer."
                                                 (string-append "Radius is: " (number->string radius))))
       )
 
@@ -181,7 +181,7 @@
       (display "The height is: " h)
       (write height h)
 
-      (draw-parallelogram deviceContext base height (list "Find the area of the parallelogram"
+      (draw-parallelogram deviceContext base height (list "Find the area of the parallelogram, round down answer."
                                                           (string-append "Base is: " (number->string base))
                                                           (string-append "Height is: " (number->string height))))
       )
