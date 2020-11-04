@@ -35,6 +35,15 @@
            [(eq? 4 newProblemNum)       (parallelogram-area deviceContext)]
            )
          ]
+        ; calls a random arithmetic problem
+        ; weighted towards generating high school level problems
+        [(eq? (send problemCategory getId) (send ARITHMETIC getId))
+              (cond
+                [(eq? 0 newProblemNum) (elementary-level-arithmetic-problem deviceContext)]
+                [(eq? 1 newProblemNum) (middle-school-level-arithmetic-problem deviceContext)]
+                [else (high-level-arithmetic-problem deviceContext)]
+                )
+              ]
         [(eq? (send problemCategory getId) (send ELEMENTARY-SCHOOL getId))
          (elementary-level-arithmetic-problem deviceContext)]
         [(eq? (send problemCategory getId) (send MIDDLE-SCHOOL getId))
