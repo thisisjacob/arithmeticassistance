@@ -43,10 +43,10 @@
 ; playerOneScore: the score of player one to draw
 ; playerTwoScore: the score of player two to draw
 (define (draw-score device-context currentPlayer playerOneScore playerTwoScore)
-  (send device-context draw-rectangle scoreboardPosition 0 250 80)
-  (send device-context draw-text currentPlayer scoreboardPosition 0)
-  (send device-context draw-text (string-append "Player One: " (number->string playerOneScore)) scoreboardPosition scoreboardPushNum)
-  (send device-context draw-text (string-append "Player Two: " (number->string playerTwoScore)) scoreboardPosition (* 2 scoreboardPushNum))
+  (send device-context draw-rectangle scoreboardXPosition scoreboardYPosition scoreboardWidth scoreboardHeight)
+  (send device-context draw-text currentPlayer scoreboardXPosition scoreboardYPosition)
+  (send device-context draw-text (string-append "Player One: " (number->string playerOneScore)) scoreboardXPosition scoreboardPushNum)
+  (send device-context draw-text (string-append "Player Two: " (number->string playerTwoScore)) scoreboardXPosition (* 2 scoreboardPushNum))
   )
 
 (provide draw-score)
