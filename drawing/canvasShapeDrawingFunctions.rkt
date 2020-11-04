@@ -97,10 +97,10 @@
 ; problemDescription: the text description of the problem
 (define (draw-parallelogram device-context base height problemDescription)
   (send device-context draw-polygon (list (cons  (+ geometryXPos 10) geometryYPos)
-                                          (cons (+ geometryXPos base 10) geometryYPos)
-                                          (cons (+ geometryXPos base) (+ geometryYPos height))
-                                          (cons geometryXPos (+ geometryYPos height))))
-  (send device-context draw-text (string-append "Base: " (number->string base)) (- (+ geometryXPos (/ base 2)) 30) (+ geometryYPos height 10))
+                                          (cons (+ geometryXPos (* base geometryScaling) 10) geometryYPos)
+                                          (cons (+ geometryXPos (* base geometryScaling)) (+ geometryYPos (* height geometryScaling)))
+                                          (cons geometryXPos (+ geometryYPos (* height geometryScaling)))))
+  (send device-context draw-text (string-append "Base: " (number->string base)) (- (+ geometryXPos (* (/ base 2) geometryScaling)) 30) (+ geometryYPos (* height geometryScaling) 10))
   (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
   (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
@@ -144,9 +144,8 @@
 ; pixel-radius: the radius on the screen of the circle
 ; x: x position
 ; y: y position
-; TODO: Add text next to the circle for problem information
 (define (draw-circle device-context radius problemDescription)
-  (send device-context draw-ellipse geometryXPos geometryYPos radius radius)
+  (send device-context draw-ellipse geometryXPos geometryYPos (* radius geometryScaling) (* radius geometryScaling))
   (send device-context draw-text (string-append "Radius: " (number->string radius)) (- geometryXPos 100) geometryYPos)
   (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
