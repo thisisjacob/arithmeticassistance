@@ -11,6 +11,7 @@
 ; device-context: the device context
 ; string: a string holding the problem
 (define (draw-text-problem device-context string)
+  (send device-context draw-rectangle 0 (+ problemYPos) (- frameWidthAndHeight 8) (/ frameWidthAndHeight 4))
   (send device-context draw-text string problemXPos problemYPos)
   )
 
@@ -21,6 +22,7 @@
 ; device-context: the device context
 ; string-list: a list of strings, where each string is drawn onto a separate line
 (define (draw-text-problem-with-multiple-lines device-context string-list)
+  (send device-context draw-rectangle 0 (+ problemYPos) (- frameWidthAndHeight 8) (/ frameWidthAndHeight 4))
   (define (create-text list iterator)
     (cond
       [(empty? list) 0]
@@ -40,6 +42,7 @@
 ; playerOneScore: the score of player one to draw
 ; playerTwoScore: the score of player two to draw
 (define (draw-score device-context currentPlayer playerOneScore playerTwoScore)
+  (send device-context draw-rectangle scoreboardPosition 0 250 80)
   (send device-context draw-text currentPlayer scoreboardPosition 0)
   (send device-context draw-text (string-append "Player One: " (number->string playerOneScore)) scoreboardPosition scoreboardPushNum)
   (send device-context draw-text (string-append "Player Two: " (number->string playerTwoScore)) scoreboardPosition (* 2 scoreboardPushNum))
