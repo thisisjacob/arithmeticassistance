@@ -68,7 +68,19 @@
 
 ; Coloring constants
 (define problemCanvasBackground (send the-color-database find-color "lavenderblush"))
+(define problemCanvasTextColor (send the-color-database find-color "black"))
+(define geometricShapeBackground (send the-color-database find-color "crimson"))
+(define geometricShapeBackgroundStyle (quote solid))
+(define penBackgroundColor (send the-color-database find-color "black"))
+(define penWidth 1)
+(define penStyle (quote solid))
 (provide problemCanvasBackground)
+(provide problemCanvasTextColor)
+(provide geometricShapeBackground)
+(provide geometricShapeBackgroundStyle)
+(provide penBackgroundColor)
+(provide penWidth)
+(provide penStyle)
 
 
 
