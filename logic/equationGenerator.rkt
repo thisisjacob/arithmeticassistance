@@ -118,9 +118,9 @@
     ; Generates and renders a triangle area problem onto the given device context
     ; Updates answer
     (define (triangle-area deviceContext)
-      (define base (random-integer 1 10))
+      (define base (random-integer 4 10))
       (set! base ($ (base * 1.0)))
-      (define height (random-integer 1 10))
+      (define height (random-integer 4 10))
       (set! height ($ (height * 1.0)))
       (set! answer ($ (base * height) / 2))
 
@@ -142,7 +142,7 @@
     ; Generates and renders a circle area problem onto the given device context
     ; Updates answer
     (define (circle-area deviceContext)
-      (define radius (random-integer 1 25))
+      (define radius (random-integer 5 15))
       (set! radius ($ (radius * 1.0)))
       (define p 3.14)
       (define rs (expt radius 2))
