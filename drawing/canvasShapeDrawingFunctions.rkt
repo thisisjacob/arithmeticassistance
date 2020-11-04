@@ -132,6 +132,8 @@
                                           (cons (+ geometryXPos (* geometryScaling (/ base 2))) (+ geometryYPos (* geometryScaling height)))
                                           )
         )
+  (send device-context draw-text (string-append "Base: " (number->string base)) (- (+ geometryXPos (* (/ base 2) geometryScaling)) 30) (+ geometryYPos (* height geometryScaling) 10))
+  (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
   (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
 
