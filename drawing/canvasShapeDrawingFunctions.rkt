@@ -5,13 +5,14 @@
 ; This file holds a collection of functions that are used to draw math and geometrical problems onto a given device context
 ; These are designed specifically for this math project
 
+(define problemDescBoxWidth (- frameWidthAndHeight 7))
 
 ; Draws text onto the screen, to be used for drawing non geometric math problems
 ; Parameters:
 ; device-context: the device context
 ; string: a string holding the problem
 (define (draw-text-problem device-context string)
-  (send device-context draw-rectangle 0 (+ problemYPos) (- frameWidthAndHeight 8) (/ frameWidthAndHeight 4))
+  (send device-context draw-rectangle 0 (+ problemYPos) problemDescBoxWidth) (/ frameWidthAndHeight 4)
   (send device-context draw-text string problemXPos problemYPos)
   )
 
@@ -22,7 +23,7 @@
 ; device-context: the device context
 ; string-list: a list of strings, where each string is drawn onto a separate line
 (define (draw-text-problem-with-multiple-lines device-context string-list)
-  (send device-context draw-rectangle 0 (+ problemYPos) (- frameWidthAndHeight 8) (/ frameWidthAndHeight 4))
+  (send device-context draw-rectangle 0 (+ problemYPos) problemDescBoxWidth (/ frameWidthAndHeight 4))
   (define (create-text list iterator)
     (cond
       [(empty? list) 0]
