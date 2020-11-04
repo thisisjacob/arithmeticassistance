@@ -88,11 +88,6 @@
                                [name "Arithmetic"]
                                )
   )
-(define ALGEBRA (new difficulty-class%
-                               [id 4]
-                               [name "Algebra"]
-                               )
-  )
 (define GEOMETRY (new difficulty-class%
                                [id 5]
                                [name "Geometry"]
@@ -103,7 +98,6 @@
 (provide MIDDLE-SCHOOL)
 (provide HIGH-SCHOOL)
 (provide ARITHMETIC)
-(provide ALGEBRA)
 (provide GEOMETRY)
 
 ; The predefined manager to be used throughout the program
@@ -114,7 +108,6 @@
                                                      MIDDLE-SCHOOL
                                                      HIGH-SCHOOL
                                                      ARITHMETIC
-                                                     ALGEBRA
                                                      GEOMETRY
                                                      )
                                                     ]
