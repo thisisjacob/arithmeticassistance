@@ -66,5 +66,9 @@
 (provide buttonMinHeight)
 (provide buttonVertMargin)
 
+; Coloring constants
+(define problemCanvasBackground (send the-color-database find-color "lavenderblush"))
+(provide problemCanvasBackground)
+
 
 
