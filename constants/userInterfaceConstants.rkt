@@ -36,11 +36,16 @@
 
 ; top left position of scoreboard
 ; how many points to push down each element from element above
-(define scoreboardPosition 540)
+(define scoreboardXPosition 540)
+(define scoreboardYPosition 0)
 (define scoreboardPushNum 20)
-(provide scoreboardPosition)
+(define scoreboardWidth 250)
+(define scoreboardHeight 80)
+(provide scoreboardXPosition)
+(provide scoreboardYPosition)
 (provide scoreboardPushNum)
-; end of problems screen constants
+(provide scoreboardWidth)
+(provide scoreboardHeight)
 
 ; problem text constants
 (define problemXPos 20)
