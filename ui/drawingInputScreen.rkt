@@ -1732,8 +1732,7 @@
     ; Currently needs: information provided that will tell the program which
     ; shape to draw
     (define (canvasPaintingCallbackFunction canvas dc)
-      (send dc erase)
-      (send dc set-text-foreground "blue")
+      (send dc clear)
       ; Draws score if set to multiplayer
       (cond
         [(eq? currentGameMode (first (rest (rest game-modes))))
@@ -1794,6 +1793,9 @@
                                [paint-callback canvasPaintingCallbackFunction]
                                )
       )
+    ; Initialized canvas appearance
+    (send (send drawingCanvas get-dc) set-background problemCanvasBackground)
+    (send (send drawingCanvas get-dc) set-text-foreground "blue")
     
     (define inputPanel (new horizontal-panel%
                             [parent drawingInputMenu]
