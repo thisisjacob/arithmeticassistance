@@ -1795,7 +1795,9 @@
       )
     ; Initialized canvas appearance
     (send (send drawingCanvas get-dc) set-background problemCanvasBackground)
-    (send (send drawingCanvas get-dc) set-text-foreground "blue")
+    (send (send drawingCanvas get-dc) set-text-foreground problemCanvasTextColor)
+    (send (send drawingCanvas get-dc) set-brush geometricShapeBackground geometricShapeBackgroundStyle)
+    (send (send drawingCanvas get-dc) set-pen penBackgroundColor penWidth penStyle)
     
     (define inputPanel (new horizontal-panel%
                             [parent drawingInputMenu]

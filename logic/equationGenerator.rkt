@@ -4,7 +4,7 @@
 (require "../drawing/canvasShapeDrawingFunctions.rkt")
 (require "../constants/difficultiesAndCategories.rkt")
 
-; This class is used for generating problems
+; This class is used for generating problems and calling drawing functions
 ; No initialization parameters are needed
 ; Available problems defined in difficultiesAndCategories.rkt constants file
 
@@ -35,6 +35,15 @@
            [(eq? 4 newProblemNum)       (parallelogram-area deviceContext)]
            )
          ]
+        ; calls a random arithmetic problem
+        ; weighted towards generating high school level problems
+        [(eq? (send problemCategory getId) (send ARITHMETIC getId))
+              (cond
+                [(eq? 0 newProblemNum) (elementary-level-arithmetic-problem deviceContext)]
+                [(eq? 1 newProblemNum) (middle-school-level-arithmetic-problem deviceContext)]
+                [else (high-level-arithmetic-problem deviceContext)]
+                )
+              ]
         [(eq? (send problemCategory getId) (send ELEMENTARY-SCHOOL getId))
          (elementary-level-arithmetic-problem deviceContext)]
         [(eq? (send problemCategory getId) (send MIDDLE-SCHOOL getId))
@@ -77,7 +86,7 @@
       (display "The height is: " H)
       (write h H)
 
-      (draw-trapezoid deviceContext b a h (list "Find the area of the trapezoid"
+      (draw-trapezoid deviceContext b a h (list "Find the area of the trapezoid, round down answer."
                                                 (string-append "a is: " (number->string a))
                                                 (string-append "b is: " (number->string b))
                                                 (string-append "The height is: " (number->string h))))
@@ -101,7 +110,7 @@
       (display "The width is: " w)
       (write width w)
 
-      (draw-rectangle deviceContext width length (list "Find the area of the rectangle"
+      (draw-rectangle deviceContext width length (list "Find the area of the rectangle, round down answer."
                                                        (string-append "Length is: " (number->string length))
                                                        (string-append "Width is: " (number->string width))))
       )
@@ -109,9 +118,9 @@
     ; Generates and renders a triangle area problem onto the given device context
     ; Updates answer
     (define (triangle-area deviceContext)
-      (define base (random-integer 1 10))
+      (define base (random-integer 4 10))
       (set! base ($ (base * 1.0)))
-      (define height (random-integer 1 10))
+      (define height (random-integer 4 10))
       (set! height ($ (height * 1.0)))
       (set! answer ($ (base * height) / 2))
 
@@ -125,7 +134,7 @@
       (display "The height is: " h)
       (write height h)
 
-      (draw-regular-triangle deviceContext base height (list "Find the area of the triangle"
+      (draw-regular-triangle deviceContext base height (list "Find the area of the triangle, round down answer."
                                                 (string-append "Base is: " (number->string base))
                                                 (string-append "Height is: " (number->string height))))
       )
@@ -133,7 +142,7 @@
     ; Generates and renders a circle area problem onto the given device context
     ; Updates answer
     (define (circle-area deviceContext)
-      (define radius (random-integer 1 25))
+      (define radius (random-integer 5 15))
       (set! radius ($ (radius * 1.0)))
       (define p 3.14)
       (define rs (expt radius 2))
@@ -150,7 +159,7 @@
       (write radius r)
       (display "Round to the nearest whole number." q)
 
-      (draw-circle deviceContext radius (list "Find the area of the circle"
+      (draw-circle deviceContext radius (list "Find the area of the circle, round down answer."
                                                 (string-append "Radius is: " (number->string radius))))
       )
 
@@ -172,7 +181,7 @@
       (display "The height is: " h)
       (write height h)
 
-      (draw-parallelogram deviceContext base height (list "Find the area of the parallelogram"
+      (draw-parallelogram deviceContext base height (list "Find the area of the parallelogram, round down answer."
                                                           (string-append "Base is: " (number->string base))
                                                           (string-append "Height is: " (number->string height))))
       )

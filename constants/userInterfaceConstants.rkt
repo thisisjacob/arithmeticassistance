@@ -36,11 +36,16 @@
 
 ; top left position of scoreboard
 ; how many points to push down each element from element above
-(define scoreboardPosition 540)
+(define scoreboardXPosition 540)
+(define scoreboardYPosition 0)
 (define scoreboardPushNum 20)
-(provide scoreboardPosition)
+(define scoreboardWidth 250)
+(define scoreboardHeight 80)
+(provide scoreboardXPosition)
+(provide scoreboardYPosition)
 (provide scoreboardPushNum)
-; end of problems screen constants
+(provide scoreboardWidth)
+(provide scoreboardHeight)
 
 ; problem text constants
 (define problemXPos 20)
@@ -65,6 +70,22 @@
 (provide buttonMinWidth)
 (provide buttonMinHeight)
 (provide buttonVertMargin)
+
+; Coloring constants
+(define problemCanvasBackground (send the-color-database find-color "lavenderblush"))
+(define problemCanvasTextColor (send the-color-database find-color "black"))
+(define geometricShapeBackground (send the-color-database find-color "crimson"))
+(define geometricShapeBackgroundStyle (quote solid))
+(define penBackgroundColor (send the-color-database find-color "black"))
+(define penWidth 1)
+(define penStyle (quote solid))
+(provide problemCanvasBackground)
+(provide problemCanvasTextColor)
+(provide geometricShapeBackground)
+(provide geometricShapeBackgroundStyle)
+(provide penBackgroundColor)
+(provide penWidth)
+(provide penStyle)
 
 
 

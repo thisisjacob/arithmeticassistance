@@ -5,12 +5,14 @@
 ; This file holds a collection of functions that are used to draw math and geometrical problems onto a given device context
 ; These are designed specifically for this math project
 
+(define problemDescBoxWidth (- frameWidthAndHeight 7))
 
 ; Draws text onto the screen, to be used for drawing non geometric math problems
 ; Parameters:
 ; device-context: the device context
 ; string: a string holding the problem
 (define (draw-text-problem device-context string)
+  (send device-context draw-rectangle 0 (+ problemYPos) problemDescBoxWidth) (/ frameWidthAndHeight 4)
   (send device-context draw-text string problemXPos problemYPos)
   )
 
@@ -21,6 +23,7 @@
 ; device-context: the device context
 ; string-list: a list of strings, where each string is drawn onto a separate line
 (define (draw-text-problem-with-multiple-lines device-context string-list)
+  (send device-context draw-rectangle 0 (+ problemYPos) problemDescBoxWidth (/ frameWidthAndHeight 4))
   (define (create-text list iterator)
     (cond
       [(empty? list) 0]
@@ -40,9 +43,10 @@
 ; playerOneScore: the score of player one to draw
 ; playerTwoScore: the score of player two to draw
 (define (draw-score device-context currentPlayer playerOneScore playerTwoScore)
-  (send device-context draw-text currentPlayer scoreboardPosition 0)
-  (send device-context draw-text (string-append "Player One: " (number->string playerOneScore)) scoreboardPosition scoreboardPushNum)
-  (send device-context draw-text (string-append "Player Two: " (number->string playerTwoScore)) scoreboardPosition (* 2 scoreboardPushNum))
+  (send device-context draw-rectangle scoreboardXPosition scoreboardYPosition scoreboardWidth scoreboardHeight)
+  (send device-context draw-text currentPlayer scoreboardXPosition scoreboardYPosition)
+  (send device-context draw-text (string-append "Player One: " (number->string playerOneScore)) scoreboardXPosition scoreboardPushNum)
+  (send device-context draw-text (string-append "Player Two: " (number->string playerTwoScore)) scoreboardXPosition (* 2 scoreboardPushNum))
   )
 
 (provide draw-score)
@@ -94,10 +98,10 @@
 ; problemDescription: the text description of the problem
 (define (draw-parallelogram device-context base height problemDescription)
   (send device-context draw-polygon (list (cons  (+ geometryXPos 10) geometryYPos)
-                                          (cons (+ geometryXPos base 10) geometryYPos)
-                                          (cons (+ geometryXPos base) (+ geometryYPos height))
-                                          (cons geometryXPos (+ geometryYPos height))))
-  (send device-context draw-text (string-append "Base: " (number->string base)) (- (+ geometryXPos (/ base 2)) 30) (+ geometryYPos height 10))
+                                          (cons (+ geometryXPos (* base geometryScaling) 10) geometryYPos)
+                                          (cons (+ geometryXPos (* base geometryScaling)) (+ geometryYPos (* height geometryScaling)))
+                                          (cons geometryXPos (+ geometryYPos (* height geometryScaling)))))
+  (send device-context draw-text (string-append "Base: " (number->string base)) (- (+ geometryXPos (* (/ base 2) geometryScaling)) 30) (+ geometryYPos (* height geometryScaling) 10))
   (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
   (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
@@ -129,6 +133,8 @@
                                           (cons (+ geometryXPos (* geometryScaling (/ base 2))) (+ geometryYPos (* geometryScaling height)))
                                           )
         )
+  (send device-context draw-text (string-append "Base: " (number->string base)) (- (+ geometryXPos (* (/ base 2) geometryScaling)) 30) (+ geometryYPos (* height geometryScaling) 10))
+  (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
   (draw-text-problem-with-multiple-lines device-context problemDescription)
   )
 
@@ -141,9 +147,8 @@
 ; pixel-radius: the radius on the screen of the circle
 ; x: x position
 ; y: y position
-; TODO: Add text next to the circle for problem information
 (define (draw-circle device-context radius problemDescription)
-  (send device-context draw-ellipse geometryXPos geometryYPos radius radius)
+  (send device-context draw-ellipse geometryXPos geometryYPos (* radius geometryScaling) (* radius geometryScaling))
   (send device-context draw-text (string-append "Radius: " (number->string radius)) (- geometryXPos 100) geometryYPos)
   (draw-text-problem-with-multiple-lines device-context problemDescription)
   )

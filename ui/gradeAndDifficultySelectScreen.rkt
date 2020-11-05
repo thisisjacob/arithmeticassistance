@@ -47,6 +47,8 @@
                              [spacing 5]))
 
 
+
+
            
            (define (return-callback button event)
              (menuReturnFunction)
@@ -94,6 +96,11 @@
                          (send menu delete-child arg)
                          )
                        current-buttons)
+             (define header (new message%
+                                 [parent menu]
+                                 [label "Problem Categories"]
+                                 )
+               )
              (define buttons (new buttonGeneratorAndManager%
                                   [givenParent menu]
                                   [functionList (buttonFunctionGenerator (send difficulties list-of-categories) '()) ]
