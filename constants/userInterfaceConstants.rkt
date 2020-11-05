@@ -79,6 +79,9 @@
 (define penBackgroundColor (send the-color-database find-color "black"))
 (define penWidth 1)
 (define penStyle (quote solid))
+(define problemMenuBackgroundColor (send the-color-database find-color "lemonchiffon"))
+(define problemMenuStyle (quote solid))
+(define problemMenuTextColor (send the-color-database find-color "sienna"))
 (provide problemCanvasBackground)
 (provide problemCanvasTextColor)
 (provide geometricShapeBackground)
@@ -86,6 +89,9 @@
 (provide penBackgroundColor)
 (provide penWidth)
 (provide penStyle)
+(provide problemMenuBackgroundColor)
+(provide problemMenuStyle)
+(provide problemMenuTextColor)
 
 
 
