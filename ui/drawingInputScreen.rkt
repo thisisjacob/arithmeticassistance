@@ -56,7 +56,12 @@
     ; Currently needs: information provided that will tell the program which
     ; shape to draw
     (define (canvasPaintingCallbackFunction canvas dc)
+      ; set-background not needed here - kept to keep appearance contained into one location
+      (send (send drawingCanvas get-dc) set-background problemCanvasBackground)
       (send dc clear)
+      ; Menu appearance/applied only to scoreboard in this layer
+      (send dc set-brush problemMenuBackgroundColor problemMenuStyle)
+      (send (send drawingCanvas get-dc) set-text-foreground problemMenuTextColor)
       ; Draws score if set to multiplayer
       (cond
         [(eq? currentGameMode (first (rest (rest game-modes))))
@@ -117,9 +122,7 @@
                                [paint-callback canvasPaintingCallbackFunction]
                                )
       )
-    ; Initialized canvas appearance
-    (send (send drawingCanvas get-dc) set-background problemCanvasBackground)
-    (send (send drawingCanvas get-dc) set-text-foreground "blue")
+
     
     (define inputPanel (new horizontal-panel%
                             [parent drawingInputMenu]
