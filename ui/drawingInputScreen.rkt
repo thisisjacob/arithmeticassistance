@@ -68,7 +68,6 @@
          ]
         )
       (send problems generateProblem (send drawingCanvas get-dc) currentProblemCategory)
-      (print (send problems getAnswer))
       )
 
     ; Callback definitions
@@ -151,16 +150,11 @@
 
     (define/public (enable)
       (send drawingInputMenu show #t)
-      ;(print currentGameMode)
-      ;(print (send currentProblemCategory getName))
       )
     ; This sets the game mode and problem category of the current problemScreen instance to the passed values
     (define/public (pass-information game-mode problem-category)
       (set! currentGameMode game-mode)
       (set! currentProblemCategory problem-category)
-      (print (send game-mode getName))
-      (print "|")
-      (print (send problem-category getName))
       (set! playerOneScore 0)
       (set! playerTwoScore 0)
       (set! currentPlayer playerOne)
