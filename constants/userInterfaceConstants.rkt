@@ -2,10 +2,11 @@
 (require racket/draw)
 ; Constants for various UI elements of the program
 
-
+; General program
 (define programTitle "Mathematical Education Project")
 (provide programTitle)
 
+; Window frame appearances
 (define frameWidthAndHeight 800)
 (define frameStyle '(no-resize-border))
 (provide frameWidthAndHeight)
@@ -19,10 +20,11 @@
 (provide containerHorizMargin)
 (provide containerVerticalMargin)
 
-(define problemTextPushdown 100)
-(define problemTextPushRight 100)
-(provide problemTextPushdown)
-(provide problemTextPushRight)
+; Menu specific options
+(define menuTitleFont (make-object font% 18 #f (quote swiss)
+                           )
+  )
+(provide menuTitleFont)
 
 ; Problems screen constants:
 (define canvasHeight 550)
@@ -34,8 +36,7 @@
 (define textBoxWidth 100)
 (provide textBoxWidth)
 
-; top left position of scoreboard
-; how many points to push down each element from element above
+; Scoreboard location and size
 (define scoreboardXPosition 540)
 (define scoreboardYPosition 0)
 (define scoreboardPushNum 20)
@@ -47,14 +48,17 @@
 (provide scoreboardWidth)
 (provide scoreboardHeight)
 
-
 ; problem text constants
 (define problemXPos 20)
 (define problemYPos 440)
+(define problemTextPushdown 100)
+(define problemTextPushRight 100)
 (define linePushDown 20)
 (define geometryScaling 10)
 (provide problemXPos)
 (provide problemYPos)
+(provide problemTextPushdown)
+(provide problemTextPushRight)
 (provide linePushDown)
 (provide geometryScaling)
 

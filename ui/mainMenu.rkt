@@ -33,6 +33,7 @@
                       [spacing 5]))
 
      (define header (new message%
+                 [font menuTitleFont]
                  [parent menu]
                  [label "Main Menu"]))
 

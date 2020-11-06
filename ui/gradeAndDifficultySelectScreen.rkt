@@ -59,6 +59,7 @@
              )
 
            (define gradesHeader (new message%
+                                     [font menuTitleFont]
                                      [parent menu]
                                      [label "Grades"]
                                      )
@@ -97,6 +98,7 @@
                          )
                        current-buttons)
              (define header (new message%
+                                 [font menuTitleFont]
                                  [parent menu]
                                  [label "Problem Categories"]
                                  )
