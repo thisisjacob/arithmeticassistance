@@ -3,6 +3,7 @@
 (require k-infix)
 (require "../drawing/canvasShapeDrawingFunctions.rkt")
 (require "../constants/difficultiesAndCategories.rkt")
+(require "../constants/userInterfaceConstants.rkt")
 
 ; This class is used for generating problems and calling drawing functions
 ; No initialization parameters are needed
@@ -25,6 +26,9 @@
     (define/public (generateProblem deviceContext problemCategory)
       (define newProblemNum (random-integer 0 5))
       ; If geometric problem, randomly call one of the geometric problem generators
+      (send deviceContext set-brush geometricShapeBackground geometricShapeBackgroundStyle)
+      (send deviceContext set-pen penBackgroundColor penWidth penStyle)
+      (send deviceContext set-text-foreground geometricShapeTextColor)
       (cond
         [(eq? (send problemCategory getId) (send GEOMETRY getId))
          (cond 

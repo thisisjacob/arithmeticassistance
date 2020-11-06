@@ -59,6 +59,7 @@
       ; set-background not needed here - kept to keep appearance contained into one location
       ; problem description menu appearance is changed in the drawing class
       (send (send drawingCanvas get-dc) set-background problemCanvasBackground)
+      (send (send drawingCanvas get-dc) set-pen penBackgroundColor penWidth penStyle)
       (send dc clear)
       ; Draws score if set to multiplayer
       (cond
