@@ -44,7 +44,7 @@
     (define/public (disable)
       (send mainMenu show #f)
       )
-    ;the button manager for managing menu's buttons
+    ; the button manager for managing menu's buttons
     (define buttons (new buttonGeneratorAndManager%
                          [givenParent menu]
                          [functionList string-function-pair-list]
