@@ -27,7 +27,6 @@
       (define newProblemNum (random-integer 0 5))
       ; If geometric problem, randomly call one of the geometric problem generators
       (send deviceContext set-brush geometricShapeBackground geometricShapeBackgroundStyle)
-      (send deviceContext set-pen penBackgroundColor penWidth penStyle)
       (send deviceContext set-text-foreground geometricShapeTextColor)
       (cond
         [(eq? (send problemCategory getId) (send GEOMETRY getId))
