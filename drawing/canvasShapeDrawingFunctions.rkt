@@ -2,7 +2,7 @@
 (require racket/draw)
 (require "../constants/userInterfaceConstants.rkt")
 
-; This file holds a collection of functions that are used to draw math and geometrical problems onto a given device context
+; This file holds a collection of functions that are used to draw math and geometric problems onto a given device context
 ; These are designed specifically for this math project
 
 (define problemDescBoxWidth (- frameWidthAndHeight 7))
@@ -15,7 +15,7 @@
   (send device-context set-brush problemMenuBackgroundColor problemMenuStyle)
   (send device-context set-text-foreground problemMenuTextColor)
   (send device-context draw-rectangle 0 (+ problemYPos) problemDescBoxWidth) (/ frameWidthAndHeight 4)
-  (send device-context draw-text string problemXPos (+ problemYPos 10))
+  (send device-context draw-text string problemXPos (+ problemYPos menuTopTextMargin))
   )
 
 (provide draw-text-problem)
@@ -32,7 +32,7 @@
     (cond
       [(empty? list) 0]
       [else
-       (send device-context draw-text (first list) problemXPos (+ problemYPos (* linePushDown iterator) 10))
+       (send device-context draw-text (first list) problemXPos (+ problemYPos (* linePushDown iterator) menuTopTextMargin))
        (create-text (rest list) (+ iterator 1))]))
   (create-text string-list 0)
   )
@@ -51,8 +51,8 @@
   (send device-context set-text-foreground problemMenuTextColor)
   (send device-context draw-rectangle scoreboardXPosition scoreboardYPosition scoreboardWidth scoreboardHeight)
   (send device-context draw-text currentPlayer (+ scoreboardXPosition 10) (+ scoreboardYPosition 10))
-  (send device-context draw-text (string-append "Player One: " (number->string playerOneScore)) (+ scoreboardXPosition 10) (+ scoreboardPushNum 10))
-  (send device-context draw-text (string-append "Player Two: " (number->string playerTwoScore)) (+ scoreboardXPosition 10) (+ (* 2 scoreboardPushNum) 10))
+  (send device-context draw-text (string-append "Player One: " (number->string playerOneScore)) (+ scoreboardXPosition menuTopTextMargin) (+ scoreboardPushNum menuTopTextMargin))
+  (send device-context draw-text (string-append "Player Two: " (number->string playerTwoScore)) (+ scoreboardXPosition menuTopTextMargin) (+ (* 2 scoreboardPushNum) menuTopTextMargin))
   )
 
 (provide draw-score)

@@ -47,6 +47,7 @@
 (provide scoreboardWidth)
 (provide scoreboardHeight)
 
+
 ; problem text constants
 (define problemXPos 20)
 (define problemYPos 440)
@@ -83,6 +84,7 @@
 (define problemMenuBackgroundColor (send the-color-database find-color "lemonchiffon"))
 (define problemMenuStyle (quote solid))
 (define problemMenuTextColor (send the-color-database find-color "sienna"))
+(define menuTopTextMargin 10)
 (provide problemCanvasBackground)
 (provide problemCanvasTextColor)
 (provide geometricShapeBackground)
@@ -94,6 +96,7 @@
 (provide problemMenuBackgroundColor)
 (provide problemMenuStyle)
 (provide problemMenuTextColor)
+(provide menuTopTextMargin)
 
 
 
