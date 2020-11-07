@@ -14,10 +14,14 @@
     (super-new)
 
     (define answer null)
+    (define answer2 null)
 
     ; Use this function to retrieve the numeric answer for the problems screen
     (define/public (getAnswer)
       answer)
+
+    (define/public (getRound)
+      answer2)
 
     ; Generates a problem based on the given given problemCategory
     ; Projects it to the given deviceContext
@@ -69,6 +73,8 @@
 
       (set! answer ($ (((a + b) * h) / 2)))
 
+      (set! answer2 (inexact->exact answer))
+
       (set! a (inexact->exact a))
       (set! b (inexact->exact b))
       (set! h (inexact->exact h))
@@ -86,7 +92,7 @@
       (display "The height is: " H)
       (write h H)
 
-      (draw-trapezoid deviceContext b a h (list "Find the area of the trapezoid, round down answer."
+      (draw-trapezoid deviceContext b a h (list "Find the area of the trapezoid."
                                                 (string-append "a is: " (number->string a))
                                                 (string-append "b is: " (number->string b))
                                                 (string-append "The height is: " (number->string h))))
@@ -110,7 +116,7 @@
       (display "The width is: " w)
       (write width w)
 
-      (draw-rectangle deviceContext width length (list "Find the area of the rectangle, round down answer."
+      (draw-rectangle deviceContext width length (list "Find the area of the rectangle."
                                                        (string-append "Length is: " (number->string length))
                                                        (string-append "Width is: " (number->string width))))
       )
@@ -124,6 +130,8 @@
       (set! height ($ (height * 1.0)))
       (set! answer ($ (base * height) / 2))
 
+      (set! answer2 (inexact->exact answer))
+
       (define o (open-output-string))
       (define b (open-output-string))
       (define h (open-output-string))
@@ -134,7 +142,7 @@
       (display "The height is: " h)
       (write height h)
 
-      (draw-regular-triangle deviceContext base height (list "Find the area of the triangle, round down answer."
+      (draw-regular-triangle deviceContext base height (list "Find the area of the triangle."
                                                 (string-append "Base is: " (number->string base))
                                                 (string-append "Height is: " (number->string height))))
       )
@@ -149,6 +157,8 @@
       (set! answer ($ (p * rs)))
       (set! answer (round answer))
       (set! answer (inexact->exact answer))
+
+      (set! answer2 (inexact->exact answer))
 
       (define o (open-output-string))
       (define r (open-output-string))
@@ -171,6 +181,8 @@
 
       (set! answer ($ (base * height)))
 
+      (set! answer2 (inexact->exact answer))
+
       (define o (open-output-string))
       (define b (open-output-string))
       (define h (open-output-string))
@@ -181,7 +193,7 @@
       (display "The height is: " h)
       (write height h)
 
-      (draw-parallelogram deviceContext base height (list "Find the area of the parallelogram, round down answer."
+      (draw-parallelogram deviceContext base height (list "Find the area of the parallelogram."
                                                           (string-append "Base is: " (number->string base))
                                                           (string-append "Height is: " (number->string height))))
       )
@@ -194,55 +206,171 @@
       (define c (random-natural 25))
       (define d (random-natural 25))
 
+      (define a2 (random-natural 25))
+      (define b2 (random-natural 25))
+      (define c2 (random-natural 25))
+      (define d2 (random-natural 25))
+
       (define op1 (random-natural 4))
       (define op2 (random-natural 4))
       (define op3 (random-natural 4))
+
+      (define Op1 (random-natural 4))
+      (define Op2 (random-natural 4))
+      (define Op3 (random-natural 4))
+      (define Op4 (random-natural 4))
+
+      (define par1 (random-natural 5))
+      (define par2 (random-natural 5))
+      (define par3 (random-natural 5))
+      (define par4 (random-natural 5))
+      
       (define o (open-output-string))
 
       (set! answer 0)
 
       ; Writes out expression in the infix format
 
-      (write a o)
+      (cond [(eq? par1 3)
+             (write '< o)
+             (write a o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? middle-school-level-arithmetic-problem])
+               (case (+ Op1)
+                 [(0) (write '+ o)
+                      (write a2 o)
+                      (set! a ($ (a + a2)))
+                      ]
+                 [(1) (write '- o)
+                      (write a2 o)
+                      (set! a ($ (a - a2)))
+                      ]
+                 [(2) (write '* o)
+                      (write a2 o)
+                      (set! a ($ (a * a2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write a2 o)
+                      (set! a (floor ($ (a / a2))))
+                      ]))
+           
+             (write '> o)
+             ]
+            [else
+             (write a o)])
 
-      (define sym1
-        (case (+ op1)
-          [(0) (write '+ o)
-               (write b o)]
-          [(1) (write '- o)
-               (write b o)]
-          [(2) (write '* o)
-               (write b o)]
-          [(3) (write '/ o)
-               (write b o)]))
+      (case (+ op1)
+               [(0) (write '+ o)]
+               [(1) (write '- o)]
+               [(2) (write '* o)]
+               [(3) (write '/ o)])
+             
+    
+      (cond [(eq? par2 3)
+             (write '< o)
+             (write b o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? middle-school-level-arithmetic-problem])
+               (case (+ Op2)
+                 [(0) (write '+ o)
+                      (write b2 o)
+                      (set! b ($ (b + b2)))
+                      ]
+                 [(1) (write '- o)
+                      (write b2 o)
+                      (set! b ($ (b - b2)))
+                      ]
+                 [(2) (write '* o)
+                      (write b2 o)
+                      (set! b ($ (b * b2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write b2 o)
+                      (set! b (floor ($ (b / b2))))
+                      ]))
+           
+             (write '> o)
+             ]
 
-      (define sym2
-        (case (+ op2)
-          [(0) (write '+ o)
-               (write c o)
-               (+ answer c)]
-          [(1) (write '- o)
-               (write c o)
-               (- answer c)]
-          [(2) (write '* o)
-               (write c o)
-               (* answer c)]
-          [(3) (write '/ o)
-               (write c o)]))
+            [else
+             (write b o)]
+            )
 
-      (define sym3
-        (case (+ op3)
-          [(0) (write '+ o)
-               (write d o)
-               (+ answer d)]
-          [(1) (write '- o)
-               (write d o)
-               (- answer d)]
-          [(2) (write '* o)
-               (write d o)
-               (* answer d)]
-          [(3) (write '/ o)
-               (write d o)]))
+      (case (+ op2)
+               [(0) (write '+ o)]
+               [(1) (write '- o)]
+               [(2) (write '* o)]
+               [(3) (write '/ o)])
+
+      (cond [(eq? par3 3)
+             (write '< o)
+             (write c o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? middle-school-level-arithmetic-problem])
+               (case (+ Op3)
+                 [(0) (write '+ o)
+                      (write c2 o)
+                      (set! c ($ (c + c2)))
+                      ]
+                 [(1) (write '- o)
+                      (write c2 o)
+                      (set! c ($ (c - c2)))
+                      ]
+                 [(2) (write '* o)
+                      (write c2 o)
+                      (set! c ($ (c * c2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write c2 o)
+                      (set! c (floor ($ (c / c2))))
+                      ]))
+           
+             (write '> o)
+             ]
+
+            [else
+             (write c o)]
+            )
+
+      (case (+ op3)
+               [(0) (write '+ o)]
+               [(1) (write '- o)]
+               [(2) (write '* o)]
+               [(3) (write '/ o)])
+
+      (cond [(eq? par4 3)
+             (write '< o)
+             (write d o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? middle-school-level-arithmetic-problem])
+               (case (+ Op4)
+                 [(0) (write '+ o)
+                      (write d2 o)
+                      (set! d ($ (d + d2)))
+                      ]
+                 [(1) (write '- o)
+                      (write d2 o)
+                      (set! d ($ (d - d2)))
+                      ]
+                 [(2) (write '* o)
+                      (write d2 o)
+                      (set! d ($ (d * d2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write d2 o)
+                      (set! d (floor ($ (d / d2))))
+                      ]))
+           
+             (write '> o)
+             ]
+
+            [else
+             (write d o)]
+            )
 
 
 
@@ -254,89 +382,154 @@
           (case (+ op1)
             [(0) (case (+ op2)
                    [(0) (case (+ op3)
-                          [(0) (set! answer ($ a + b + c + d))]
-                          [(1) (set! answer ($ a + b + c - d))]
-                          [(2) (set! answer ($ a + b + c * d))]
-                          [(3) (set! answer ($ a + b + (floor (c / d))))])]
+                          [(0) (set! answer ($ a + b + c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a + b + c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a + b + c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a + b + (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(1) (case (+ op3)
-                          [(0) (set! answer ($ a + b - c + d))]
-                          [(1) (set! answer ($ a + b - c - d))]
-                          [(2) (set! answer ($ a + b - c * d))]
-                          [(3) (set! answer ($ a + b - (floor (c / d))))])]
+                          [(0) (set! answer ($ a + b - c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a + b - c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a + b - c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a + b - (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(2) (case (+ op3)
-                          [(0) (set! answer ($ a + b * c + d))]
-                          [(1) (set! answer ($ a + b * c - d))]
-                          [(2) (set! answer ($ a + b * c * d))]
-                          [(3) (set! answer ($ a + b * (floor (c / d))))])]
+                          [(0) (set! answer ($ a + b * c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a + b * c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a + b * c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a + b * (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(3) (case (+ op3)
-                          [(0) (set! answer ($ a + (floor (b / c)) + d))]
-                          [(1) (set! answer ($ a + (floor (b / c)) - d))]
-                          [(2) (set! answer ($ a + (floor (b / c)) * d))]
-                          [(3) (set! answer ($ a + (floor (floor (b / c) / d))))])])]
+                          [(0) (set! answer ($ a + (floor (b / c)) + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a + (floor (b / c)) - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a + (floor (b / c)) * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a + (floor (floor (b / c) / d))))
+                               (set! answer2 (inexact->exact answer))])])]
             [(1) (case (+ op2)
                    [(0) (case (+ op3)
-                          [(0) (set! answer ($ a - b + c + d))]
-                          [(1) (set! answer ($ a - b + c - d))]
-                          [(2) (set! answer ($ a - b + c * d))]
-                          [(3) (set! answer ($ a - b + (floor (c / d))))])]
+                          [(0) (set! answer ($ a - b + c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a - b + c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a - b + c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a - b + (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(1) (case (+ op3)
-                          [(0) (set! answer ($ a - b - c + d))]
-                          [(1) (set! answer ($ a - b - c - d))]
-                          [(2) (set! answer ($ a - b - c * d))]
-                          [(3) (set! answer ($ a - b - (floor (c / d))))])]
+                          [(0) (set! answer ($ a - b - c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a - b - c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a - b - c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a - b - (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(2) (case (+ op3)
-                          [(0) (set! answer ($ a - b * c + d))]
-                          [(1) (set! answer ($ a - b * c - d))]
-                          [(2) (set! answer ($ a - b * c * d))]
-                          [(3) (set! answer ($ a - b * (floor (c / d))))])]
+                          [(0) (set! answer ($ a - b * c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a - b * c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a - b * c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a - b * (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(3) (case (+ op3)
-                          [(0) (set! answer ($ a - (floor (b / c)) + d))]
-                          [(1) (set! answer ($ a - (floor (b / c)) - d))]
-                          [(2) (set! answer ($ a - (floor (b / c)) * d))]
-                          [(3) (set! answer ($ a - (floor (floor (b / c)) / d)))])])]
+                          [(0) (set! answer ($ a - (floor (b / c)) + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a - (floor (b / c)) - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a - (floor (b / c)) * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a - (floor (floor (b / c)) / d)))
+                               (set! answer2 (inexact->exact answer))])])]
             [(2) (case (+ op2)
                    [(0) (case (+ op3)
-                          [(0) (set! answer ($ a * b + c + d))]
-                          [(1) (set! answer ($ a * b + c - d))]
-                          [(2) (set! answer ($ a * b + c * d))]
-                          [(3) (set! answer ($ a * b + (floor (c / d))))])]
+                          [(0) (set! answer ($ a * b + c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a * b + c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a * b + c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a * b + (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(1) (case (+ op3)
-                          [(0) (set! answer ($ a * b - c + d))]
-                          [(1) (set! answer ($ a * b - c - d))]
-                          [(2) (set! answer ($ a * b - c * d))]
-                          [(3) (set! answer ($ a * b - (floor (c / d))))])]
+                          [(0) (set! answer ($ a * b - c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a * b - c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a * b - c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a * b - (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(2) (case (+ op3)
-                          [(0) (set! answer ($ a * b * c + d))]
-                          [(1) (set! answer ($ a * b * c - d))]
-                          [(2) (set! answer ($ a * b * c * d))]
-                          [(3) (set! answer ($ a * b * (floor (c / d))))])]
+                          [(0) (set! answer ($ a * b * c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a * b * c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a * b * c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a * b * (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(3) (case (+ op3)
-                          [(0) (set! answer ($ a * (floor (b / c)) + d))]
-                          [(1) (set! answer ($ a * (floor (b / c)) - d))]
-                          [(2) (set! answer ($ a * (floor (b / c)) * d))]
-                          [(3) (set! answer ($ a * (floor (floor (b / c)) / d)))])])]
+                          [(0) (set! answer ($ a * (floor (b / c)) + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ a * (floor (b / c)) - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ a * (floor (b / c)) * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ a * (floor (floor (b / c)) / d)))
+                               (set! answer2 (inexact->exact answer))])])]
             [(3) (case (+ op2)
                    [(0) (case (+ op3)
-                          [(0) (set! answer ($ (floor (a / b)) + c + d))]
-                          [(1) (set! answer ($ (floor (a / b)) + c - d))]
-                          [(2) (set! answer ($ (floor (a / b)) + c * d))]
-                          [(3) (set! answer ($ (floor (a / b)) + (floor (c / d))))])]
+                          [(0) (set! answer ($ (floor (a / b)) + c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ (floor (a / b)) + c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ (floor (a / b)) + c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ (floor (a / b)) + (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(1) (case (+ op3)
-                          [(0) (set! answer ($ (floor (a / b)) - c + d))]
-                          [(1) (set! answer ($ (floor (a / b)) - c - d))]
-                          [(2) (set! answer ($ (floor (a / b)) - c * d))]
-                          [(3) (set! answer ($ (floor (a / b)) - (floor (c / d))))])]
+                          [(0) (set! answer ($ (floor (a / b)) - c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ (floor (a / b)) - c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ (floor (a / b)) - c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ (floor (a / b)) - (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(2) (case (+ op3)
-                          [(0) (set! answer ($ (floor (a / b)) * c + d))]
-                          [(1) (set! answer ($ (floor (a / b)) * c - d))]
-                          [(2) (set! answer ($ (floor (a / b)) * c * d))]
-                          [(3) (set! answer ($ (floor (a / b)) * (floor (c / d))))])]
+                          [(0) (set! answer ($ (floor (a / b)) * c + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ (floor (a / b)) * c - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ (floor (a / b)) * c * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ (floor (a / b)) * (floor (c / d))))
+                               (set! answer2 (inexact->exact answer))])]
                    [(3) (case (+ op3)
-                          [(0) (set! answer ($ (floor (floor (a / b)) / c) + d))]
-                          [(1) (set! answer ($ (floor (floor (a / b)) / c) - d))]
-                          [(2) (set! answer ($ (floor (floor (a / b)) / c) * d))]
-                          [(3) (set! answer ($ (floor (floor (floor (a / b) / c) / d))))])])])))
+                          [(0) (set! answer ($ (floor (floor (a / b)) / c) + d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(1) (set! answer ($ (floor (floor (a / b)) / c) - d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(2) (set! answer ($ (floor (floor (a / b)) / c) * d))
+                               (set! answer2 (inexact->exact answer))]
+                          [(3) (set! answer ($ (floor (floor (floor (a / b) / c) / d))))
+                               (set! answer2 (inexact->exact answer))])])])))
 
+      
       ; Makes the value of the answer variable a string for later comparisons
       ;(print "Solve the following equation: ")
       ;(get-output-string o)
@@ -353,25 +546,87 @@
       (define a (random-natural 10))
       (define b (random-natural 10))
 
+      (define a2 (random-natural 10))
+      (define b2 (random-natural 10))
+
       (define op1 (random-natural 4))
+      (define op2 (random-natural 4))
+      (define op3 (random-natural 4))
       (define o (open-output-string))
 
+      (define par1 (random-natural 5))
+      (define par2 (random-natural 5))
+      
       (set! answer 0)
 
       ; Writes out expression in the infix format
 
-      (write a o)
+      (cond [(eq? par1 3)
+             (write '< o)
+             (write a o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? elementary-level-arithmetic-problem])
+               (case (+ op2)
+                 [(0) (write '+ o)
+                      (write a2 o)
+                      (set! a ($ (a + a2)))
+                      ]
+                 [(1) (write '- o)
+                      (write a2 o)
+                      (set! a ($ (a - a2)))
+                      ]
+                 [(2) (write '* o)
+                      (write a2 o)
+                      (set! a ($ (a * a2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write a2 o)
+                      (set! a (floor ($ (a / a2))))
+                      ]))
+           
+             (write '> o)
+             ]
+            [else
+             (write a o)])
 
-      (define sym1
-        (case (+ op1)
-          [(0) (write '+ o)
-               (write b o)]
-          [(1) (write '- o)
-               (write b o)]
-          [(2) (write '* o)
-               (write b o)]
-          [(3) (write '/ o)
-               (write b o)]))
+      (case (+ op1)
+               [(0) (write '+ o)]
+               [(1) (write '- o)]
+               [(2) (write '* o)]
+               [(3) (write '/ o)])
+             
+    
+      (cond [(eq? par2 3)
+             (write '< o)
+             (write b o)
+             
+             (with-handlers
+               ([exn:fail:contract:divide-by-zero? elementary-level-arithmetic-problem])
+               (case (+ op2)
+                 [(0) (write '+ o)
+                      (write b2 o)
+                      (set! b ($ (b + b2)))
+                      ]
+                 [(1) (write '- o)
+                      (write b2 o)
+                      (set! b ($ (b - b2)))
+                      ]
+                 [(2) (write '* o)
+                      (write b2 o)
+                      (set! b ($ (b * b2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write b2 o)
+                      (set! b (floor ($ (b / b2))))
+                      ]))
+           
+             (write '> o)
+             ]
+
+            [else
+             (write b o)]
+            )
 
       ; Calculates the answer based on the variables and operations
 
@@ -379,10 +634,14 @@
          (with-handlers
                ([exn:fail:contract:divide-by-zero? elementary-level-arithmetic-problem])
            (case (+ op1)
-             [(0) (set! answer ($ a + b))]
-             [(1) (set! answer ($ a - b))]
-             [(2) (set! answer ($ a * b))]
-             [(3) (set! answer (floor ($ a / b)))])))
+             [(0) (set! answer ($ a + b))
+                  (set! answer2 (inexact->exact answer))]
+             [(1) (set! answer ($ a - b))
+                  (set! answer2 (inexact->exact answer))]
+             [(2) (set! answer ($ a * b))
+                  (set! answer2 (inexact->exact answer))]
+             [(3) (set! answer (floor ($ a / b)))
+                  (set! answer2 (inexact->exact answer))])))
 
       
 
@@ -400,11 +659,32 @@
       (define f (random-natural 10))
       (define g (random-natural 10))
 
+      (define b2 (random-natural 10))
+      (define c2 (random-natural 10))
+      (define d2 (random-natural 10))
+      (define e2 (random-natural 10))
+      (define f2 (random-natural 10))
+      (define g2 (random-natural 10))
+
       (define op2 (random-natural 4))
       (define op3 (random-natural 4))
       (define op4 (random-natural 4))
       (define op5 (random-natural 4))
       (define op6 (random-natural 4))
+
+      (define Op1 (random-natural 4))
+      (define Op2 (random-natural 4))
+      (define Op3 (random-natural 4))
+      (define Op4 (random-natural 4))
+      (define Op5 (random-natural 4))
+      (define Op6 (random-natural 4))
+
+      (define par1 (random-natural 5))
+      (define par2 (random-natural 5))
+      (define par3 (random-natural 5))
+      (define par4 (random-natural 5))
+      (define par5 (random-natural 5))
+      (define par6 (random-natural 5))
 
       ;(define sq1 (random-natural 4))
       ;(define sq1 (random-natural 4))
@@ -420,62 +700,220 @@
 
       ; Writes out expression in the infix format
 
-      (write b o)
+      (cond [(eq? par1 3)
+             (write '< o)
+             (write b o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
+               (case (+ Op1)
+                 [(0) (write '+ o)
+                      (write b2 o)
+                      (set! b ($ (b + b2)))
+                      ]
+                 [(1) (write '- o)
+                      (write b2 o)
+                      (set! b ($ (b - b2)))
+                      ]
+                 [(2) (write '* o)
+                      (write b2 o)
+                      (set! b ($ (b * b2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write b2 o)
+                      (set! b (floor ($ (b / b2))))
+                      ]))
+           
+             (write '> o)
+             ]
+            [else
+             (write b o)])
 
-      (define sym1
-        (case (+ op2)
-          [(0) (write '+ o)
-               (write c o)]
-          [(1) (write '- o)
-               (write c o)]
-          [(2) (write '* o)
-               (write c o)]
-          [(3) (write '/ o)
-               (write c o)]))
+      (case (+ op2)
+               [(0) (write '+ o)]
+               [(1) (write '- o)]
+               [(2) (write '* o)]
+               [(3) (write '/ o)])
+             
+    
+      (cond [(eq? par2 3)
+             (write '< o)
+             (write c o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
+               (case (+ Op2)
+                 [(0) (write '+ o)
+                      (write c2 o)
+                      (set! c ($ (c + c2)))
+                      ]
+                 [(1) (write '- o)
+                      (write c2 o)
+                      (set! c ($ (c - c2)))
+                      ]
+                 [(2) (write '* o)
+                      (write c2 o)
+                      (set! c ($ (c * c2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write c2 o)
+                      (set! c (floor ($ (c / c2))))
+                      ]))
+           
+             (write '> o)
+             ]
 
-      (define sym2
-        (case (+ op3)
-          [(0) (write '+ o)
-               (write d o)]
-          [(1) (write '- o)
-               (write d o)]
-          [(2) (write '* o)
-               (write d o)]
-          [(3) (write '/ o)
-               (write d o)]))
+            [else
+             (write c o)]
+            )
 
-      (define sym3
-        (case (+ op4)
-          [(0) (write '+ o)
-               (write e o)]
-          [(1) (write '- o)
-               (write e o)]
-          [(2) (write '* o)
-               (write e o)]
-          [(3) (write '/ o)
-               (write e o)]))
+      (case (+ op3)
+               [(0) (write '+ o)]
+               [(1) (write '- o)]
+               [(2) (write '* o)]
+               [(3) (write '/ o)])
 
-      (define sym4
-        (case (+ op5)
-          [(0) (write '+ o)
-               (write f o)]
-          [(1) (write '- o)
-               (write f o)]
-          [(2) (write '* o)
-               (write f o)]
-          [(3) (write '/ o)
-               (write f o)]))
+      (cond [(eq? par3 3)
+             (write '< o)
+             (write d o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
+               (case (+ Op3)
+                 [(0) (write '+ o)
+                      (write d2 o)
+                      (set! d ($ (d + d2)))
+                      ]
+                 [(1) (write '- o)
+                      (write d2 o)
+                      (set! d ($ (d - d2)))
+                      ]
+                 [(2) (write '* o)
+                      (write d2 o)
+                      (set! d ($ (d * d2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write d2 o)
+                      (set! d (floor ($ (d / d2))))
+                      ]))
+           
+             (write '> o)
+             ]
 
-      (define sym5
-        (case (+ op6)
-          [(0) (write '+ o)
-               (write g o)]
-          [(1) (write '- o)
-               (write g o)]
-          [(2) (write '* o)
-               (write g o)]
-          [(3) (write '/ o)
-               (write g o)]))
+            [else
+             (write d o)]
+            )
+
+      (case (+ op4)
+               [(0) (write '+ o)]
+               [(1) (write '- o)]
+               [(2) (write '* o)]
+               [(3) (write '/ o)])
+
+      (cond [(eq? par4 3)
+             (write '< o)
+             (write e o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
+               (case (+ Op4)
+                 [(0) (write '+ o)
+                      (write e2 o)
+                      (set! e ($ (e + e2)))
+                      ]
+                 [(1) (write '- o)
+                      (write e2 o)
+                      (set! e ($ (e - e2)))
+                      ]
+                 [(2) (write '* o)
+                      (write e2 o)
+                      (set! e ($ (e * e2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write e2 o)
+                      (set! e (floor ($ (e / e2))))
+                      ]))
+           
+             (write '> o)
+             ]
+
+            [else
+             (write e o)]
+            )
+
+      (case (+ op5)
+               [(0) (write '+ o)]
+               [(1) (write '- o)]
+               [(2) (write '* o)]
+               [(3) (write '/ o)])
+
+      (cond [(eq? par5 3)
+             (write '< o)
+             (write f o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
+               (case (+ Op5)
+                 [(0) (write '+ o)
+                      (write f2 o)
+                      (set! f ($ (f + f2)))
+                      ]
+                 [(1) (write '- o)
+                      (write f2 o)
+                      (set! f ($ (f - f2)))
+                      ]
+                 [(2) (write '* o)
+                      (write f2 o)
+                      (set! f ($ (f * f2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write f2 o)
+                      (set! f (floor ($ (f / f2))))
+                      ]))
+           
+             (write '> o)
+             ]
+
+            [else
+             (write f o)]
+            )
+
+      (case (+ op6)
+               [(0) (write '+ o)]
+               [(1) (write '- o)]
+               [(2) (write '* o)]
+               [(3) (write '/ o)])
+
+      (cond [(eq? par6 3)
+             (write '< o)
+             (write g o)
+             
+             (with-handlers
+                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
+               (case (+ Op6)
+                 [(0) (write '+ o)
+                      (write g2 o)
+                      (set! g ($ (g + g2)))
+                      ]
+                 [(1) (write '- o)
+                      (write g2 o)
+                      (set! g ($ (g - g2)))
+                      ]
+                 [(2) (write '* o)
+                      (write g2 o)
+                      (set! g ($ (g * g2)))
+                      ]
+                 [(3) (write '/ o)
+                      (write g2 o)
+                      (set! g (floor ($ (g / g2))))
+                      ]))
+           
+             (write '> o)
+             ]
+
+            [else
+             (write g o)]
+            )
 
 
       ;(print "Solve the following equation: ")
@@ -491,1366 +929,2390 @@
                    [(0) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d + e + f + g))]
-                                        [(1) (set! answer ($ b + c + d + e + f - g))]
-                                        [(2) (set! answer ($ b + c + d + e + f * g))]
-                                        [(3) (set! answer ($ b + c + d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d + e - f + g))]
-                                        [(1) (set! answer ($ b + c + d + e - f - g))]
-                                        [(2) (set! answer ($ b + c + d + e - f * g))]
-                                        [(3) (set! answer ($ b + c + d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d + e * f + g))]
-                                        [(1) (set! answer ($ b + c + d + e * f - g))]
-                                        [(2) (set! answer ($ b + c + d + e * f * g))]
-                                        [(3) (set! answer ($ b + c + d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + c + d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + c + d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + c + d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + c + d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d - e + f + g))]
-                                        [(1) (set! answer ($ b + c + d - e + f - g))]
-                                        [(2) (set! answer ($ b + c + d - e + f * g))]
-                                        [(3) (set! answer ($ b + c + d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d - e - f + g))]
-                                        [(1) (set! answer ($ b + c + d - e - f - g))]
-                                        [(2) (set! answer ($ b + c + d - e - f * g))]
-                                        [(3) (set! answer ($ b + c + d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d - e * f + g))]
-                                        [(1) (set! answer ($ b + c + d - e * f - g))]
-                                        [(2) (set! answer ($ b + c + d - e * f * g))]
-                                        [(3) (set! answer ($ b + c + d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + c + d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + c + d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + c + d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + c + d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d * e + f + g))]
-                                        [(1) (set! answer ($ b + c + d * e + f - g))]
-                                        [(2) (set! answer ($ b + c + d * e + f * g))]
-                                        [(3) (set! answer ($ b + c + d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d * e - f + g))]
-                                        [(1) (set! answer ($ b + c + d * e - f - g))]
-                                        [(2) (set! answer ($ b + c + d * e - f * g))]
-                                        [(3) (set! answer ($ b + c + d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d * e * f + g))]
-                                        [(1) (set! answer ($ b + c + d * e * f - g))]
-                                        [(2) (set! answer ($ b + c + d * e * f * g))]
-                                        [(3) (set! answer ($ b + c + d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + c + d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + c + d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + c + d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + c + d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ b + c + (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ b + c + (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ b + c + (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ b + c + (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ b + c + (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ b + c + (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ b + c + (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ b + c + (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ b + c + (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c + (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c + (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ b + c + (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ b + c + (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ b + c + (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ b + c + (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c + (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c + (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c + (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(1) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d + e + f + g))]
-                                        [(1) (set! answer ($ b + c - d + e + f - g))]
-                                        [(2) (set! answer ($ b + c - d + e + f * g))]
-                                        [(3) (set! answer ($ b + c - d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d + e - f + g))]
-                                        [(1) (set! answer ($ b + c - d + e - f - g))]
-                                        [(2) (set! answer ($ b + c - d + e - f * g))]
-                                        [(3) (set! answer ($ b + c - d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d + e * f + g))]
-                                        [(1) (set! answer ($ b + c - d + e * f - g))]
-                                        [(2) (set! answer ($ b + c - d + e * f * g))]
-                                        [(3) (set! answer ($ b + c - d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + c - d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + c - d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + c - d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + c - d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d - e + f + g))]
-                                        [(1) (set! answer ($ b + c - d - e + f - g))]
-                                        [(2) (set! answer ($ b + c - d - e + f * g))]
-                                        [(3) (set! answer ($ b + c - d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d - e - f + g))]
-                                        [(1) (set! answer ($ b + c - d - e - f - g))]
-                                        [(2) (set! answer ($ b + c - d - e - f * g))]
-                                        [(3) (set! answer ($ b + c - d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d - e * f + g))]
-                                        [(1) (set! answer ($ b + c - d - e * f - g))]
-                                        [(2) (set! answer ($ b + c - d - e * f * g))]
-                                        [(3) (set! answer ($ b + c - d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + c - d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + c - d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + c - d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + c - d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d * e + f + g))]
-                                        [(1) (set! answer ($ b + c - d * e + f - g))]
-                                        [(2) (set! answer ($ b + c - d * e + f * g))]
-                                        [(3) (set! answer ($ b + c - d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d * e - f + g))]
-                                        [(1) (set! answer ($ b + c - d * e - f - g))]
-                                        [(2) (set! answer ($ b + c - d * e - f * g))]
-                                        [(3) (set! answer ($ b + c - d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d * e * f + g))]
-                                        [(1) (set! answer ($ b + c - d * e * f - g))]
-                                        [(2) (set! answer ($ b + c - d * e * f * g))]
-                                        [(3) (set! answer ($ b + c - d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + c - d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + c - d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + c - d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + c - d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ b + c - (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ b + c - (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ b + c - (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ b + c - (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ b + c - (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ b + c - (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ b + c - (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ b + c - (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ b + c - (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c - (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c - (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ b + c - (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ b + c - (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ b + c - (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ b + c - (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c - (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c - (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c - (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(2) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d + e + f + g))]
-                                        [(1) (set! answer ($ b + c * d + e + f - g))]
-                                        [(2) (set! answer ($ b + c * d + e + f * g))]
-                                        [(3) (set! answer ($ b + c * d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d + e - f + g))]
-                                        [(1) (set! answer ($ b + c * d + e - f - g))]
-                                        [(2) (set! answer ($ b + c * d + e - f * g))]
-                                        [(3) (set! answer ($ b + c * d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d + e * f + g))]
-                                        [(1) (set! answer ($ b + c * d + e * f - g))]
-                                        [(2) (set! answer ($ b + c * d + e * f * g))]
-                                        [(3) (set! answer ($ b + c * d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + c * d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + c * d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + c * d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + c * d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d - e + f + g))]
-                                        [(1) (set! answer ($ b + c * d - e + f - g))]
-                                        [(2) (set! answer ($ b + c * d - e + f * g))]
-                                        [(3) (set! answer ($ b + c * d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d - e - f + g))]
-                                        [(1) (set! answer ($ b + c * d - e - f - g))]
-                                        [(2) (set! answer ($ b + c * d - e - f * g))]
-                                        [(3) (set! answer ($ b + c * d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d - e * f + g))]
-                                        [(1) (set! answer ($ b + c * d - e * f - g))]
-                                        [(2) (set! answer ($ b + c * d - e * f * g))]
-                                        [(3) (set! answer ($ b + c * d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + c * d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + c * d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + c * d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + c * d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d * e + f + g))]
-                                        [(1) (set! answer ($ b + c * d * e + f - g))]
-                                        [(2) (set! answer ($ b + c * d * e + f * g))]
-                                        [(3) (set! answer ($ b + c * d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d * e - f + g))]
-                                        [(1) (set! answer ($ b + c * d * e - f - g))]
-                                        [(2) (set! answer ($ b + c * d * e - f * g))]
-                                        [(3) (set! answer ($ b + c * d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d * e * f + g))]
-                                        [(1) (set! answer ($ b + c * d * e * f - g))]
-                                        [(2) (set! answer ($ b + c * d * e * f * g))]
-                                        [(3) (set! answer ($ b + c * d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + c * d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + c * d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + c * d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + c * d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ b + c * (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ b + c * (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ b + c * (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ b + c * (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ b + c * (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ b + c * (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ b + c * (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ b + c * (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ b + c * (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + c * (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + c * (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ b + c * (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ b + c * (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ b + c * (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ b + c * (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + c * (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + c * (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + c * (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(3) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) + e + f + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) + e + f - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) + e + f * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) + e - f + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) + e - f - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) + e - f * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) + e * f + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) + e * f - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) + e * f * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) - e + f + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) - e + f - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) - e + f * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) - e - f + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) - e - f - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) - e - f * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) - e * f + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) - e * f - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) - e * f * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) * e + f + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) * e + f - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) * e + f * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) * e - f + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) * e - f - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) * e - f * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) * e * f + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) * e * f - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) * e * f * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (c / d)) * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b + (floor (c / d)) * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b + (floor (c / d)) * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b + (floor (c / d)) * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b + (floor (c / d)) * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (c / d)) * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (c / d)) * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (c / d)) * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (floor (c / d) / e)) + f + g))]
-                                        [(1) (set! answer ($ b + (floor (floor (c / d) / e)) + f - g))]
-                                        [(2) (set! answer ($ b + (floor (floor (c / d) / e)) + f * g))]
-                                        [(3) (set! answer ($ b + (floor (floor (c / d) / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (floor (c / d) / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (floor (c / d) / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (floor (c / d) / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (floor (c / d) / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (floor (c / d) / e)) - f + g))]
-                                        [(1) (set! answer ($ b + (floor (floor (c / d) / e)) - f - g))]
-                                        [(2) (set! answer ($ b + (floor (floor (c / d) / e)) - f * g))]
-                                        [(3) (set! answer ($ b + (floor (floor (c / d) / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (floor (c / d) / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (floor (c / d) / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (floor (c / d) / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (floor (c / d) / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (floor (c / d) / e)) * f + g))]
-                                        [(1) (set! answer ($ b + (floor (floor (c / d) / e)) * f - g))]
-                                        [(2) (set! answer ($ b + (floor (floor (c / d) / e)) * f * g))]
-                                        [(3) (set! answer ($ b + (floor (floor (c / d) / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b + (floor (floor (c / d) / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (floor (c / d) / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (floor (c / d) / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (floor (c / d) / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b + (floor (floor (floor (c / d)) / e) / f) + g))]
-                                        [(1) (set! answer ($ b + (floor (floor (floor (c / d)) / e) / f) - g))]
-                                        [(2) (set! answer ($ b + (floor (floor (floor (c / d)) / e) / f) * g))]
-                                        [(3) (set! answer ($ b + (floor (floor (floor (floor (c / d) / e) / f) / g))))])])])])]
+                                        [(0) (set! answer ($ b + (floor (floor (floor (c / d)) / e) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b + (floor (floor (floor (c / d)) / e) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b + (floor (floor (floor (c / d)) / e) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b + (floor (floor (floor (floor (c / d) / e) / f) / g))))
+                                             (set! answer2 (inexact->exact answer))])])])])]
             [(1) (case (+ op3)
                    [(0) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d + e + f + g))]
-                                        [(1) (set! answer ($ b - c + d + e + f - g))]
-                                        [(2) (set! answer ($ b - c + d + e + f * g))]
-                                        [(3) (set! answer ($ b - c + d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d + e - f + g))]
-                                        [(1) (set! answer ($ b - c + d + e - f - g))]
-                                        [(2) (set! answer ($ b - c + d + e - f * g))]
-                                        [(3) (set! answer ($ b - c + d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d + e * f + g))]
-                                        [(1) (set! answer ($ b - c + d + e * f - g))]
-                                        [(2) (set! answer ($ b - c + d + e * f * g))]
-                                        [(3) (set! answer ($ b - c + d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - c + d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - c + d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - c + d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - c + d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d - e + f + g))]
-                                        [(1) (set! answer ($ b - c + d - e + f - g))]
-                                        [(2) (set! answer ($ b - c + d - e + f * g))]
-                                        [(3) (set! answer ($ b - c + d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d - e - f + g))]
-                                        [(1) (set! answer ($ b - c + d - e - f - g))]
-                                        [(2) (set! answer ($ b - c + d - e - f * g))]
-                                        [(3) (set! answer ($ b - c + d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d - e * f + g))]
-                                        [(1) (set! answer ($ b - c + d - e * f - g))]
-                                        [(2) (set! answer ($ b - c + d - e * f * g))]
-                                        [(3) (set! answer ($ b - c + d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - c + d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - c + d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - c + d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - c + d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d * e + f + g))]
-                                        [(1) (set! answer ($ b - c + d * e + f - g))]
-                                        [(2) (set! answer ($ b - c + d * e + f * g))]
-                                        [(3) (set! answer ($ b - c + d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d * e - f + g))]
-                                        [(1) (set! answer ($ b - c + d * e - f - g))]
-                                        [(2) (set! answer ($ b - c + d * e - f * g))]
-                                        [(3) (set! answer ($ b - c + d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d * e * f + g))]
-                                        [(1) (set! answer ($ b - c + d * e * f - g))]
-                                        [(2) (set! answer ($ b - c + d * e * f * g))]
-                                        [(3) (set! answer ($ b - c + d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - c + d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - c + d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - c + d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - c + d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ b - c + (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ b - c + (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ b - c + (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ b - c + (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ b - c + (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ b - c + (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ b - c + (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ b - c + (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ b - c + (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c + (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c + (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ b - c + (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ b - c + (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ b - c + (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ b - c + (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c + (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c + (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c + (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(1) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d + e + f + g))]
-                                        [(1) (set! answer ($ b - c - d + e + f - g))]
-                                        [(2) (set! answer ($ b - c - d + e + f * g))]
-                                        [(3) (set! answer ($ b - c - d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d + e - f + g))]
-                                        [(1) (set! answer ($ b - c - d + e - f - g))]
-                                        [(2) (set! answer ($ b - c - d + e - f * g))]
-                                        [(3) (set! answer ($ b - c - d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d + e * f + g))]
-                                        [(1) (set! answer ($ b - c - d + e * f - g))]
-                                        [(2) (set! answer ($ b - c - d + e * f * g))]
-                                        [(3) (set! answer ($ b - c - d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - c - d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - c - d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - c - d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - c - d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d - e + f + g))]
-                                        [(1) (set! answer ($ b - c - d - e + f - g))]
-                                        [(2) (set! answer ($ b - c - d - e + f * g))]
-                                        [(3) (set! answer ($ b - c - d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d - e - f + g))]
-                                        [(1) (set! answer ($ b - c - d - e - f - g))]
-                                        [(2) (set! answer ($ b - c - d - e - f * g))]
-                                        [(3) (set! answer ($ b - c - d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d - e * f + g))]
-                                        [(1) (set! answer ($ b - c - d - e * f - g))]
-                                        [(2) (set! answer ($ b - c - d - e * f * g))]
-                                        [(3) (set! answer ($ b - c - d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - c - d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - c - d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - c - d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - c - d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d * e + f + g))]
-                                        [(1) (set! answer ($ b - c - d * e + f - g))]
-                                        [(2) (set! answer ($ b - c - d * e + f * g))]
-                                        [(3) (set! answer ($ b - c - d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d * e - f + g))]
-                                        [(1) (set! answer ($ b - c - d * e - f - g))]
-                                        [(2) (set! answer ($ b - c - d * e - f * g))]
-                                        [(3) (set! answer ($ b - c - d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d * e * f + g))]
-                                        [(1) (set! answer ($ b - c - d * e * f - g))]
-                                        [(2) (set! answer ($ b - c - d * e * f * g))]
-                                        [(3) (set! answer ($ b - c - d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - c - d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - c - d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - c - d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - c - d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ b - c - (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ b - c - (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ b - c - (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ b - c - (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ b - c - (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ b - c - (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ b - c - (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ b - c - (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ b - c - (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c - (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c - (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ b - c - (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ b - c - (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ b - c - (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ b - c - (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c - (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c - (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c - (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(2) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d + e + f + g))]
-                                        [(1) (set! answer ($ b - c * d + e + f - g))]
-                                        [(2) (set! answer ($ b - c * d + e + f * g))]
-                                        [(3) (set! answer ($ b - c * d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d + e - f + g))]
-                                        [(1) (set! answer ($ b - c * d + e - f - g))]
-                                        [(2) (set! answer ($ b - c * d + e - f * g))]
-                                        [(3) (set! answer ($ b - c * d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d + e * f + g))]
-                                        [(1) (set! answer ($ b - c * d + e * f - g))]
-                                        [(2) (set! answer ($ b - c * d + e * f * g))]
-                                        [(3) (set! answer ($ b - c * d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - c * d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - c * d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - c * d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - c * d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d - e + f + g))]
-                                        [(1) (set! answer ($ b - c * d - e + f - g))]
-                                        [(2) (set! answer ($ b - c * d - e + f * g))]
-                                        [(3) (set! answer ($ b - c * d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d - e - f + g))]
-                                        [(1) (set! answer ($ b - c * d - e - f - g))]
-                                        [(2) (set! answer ($ b - c * d - e - f * g))]
-                                        [(3) (set! answer ($ b - c * d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d - e * f + g))]
-                                        [(1) (set! answer ($ b - c * d - e * f - g))]
-                                        [(2) (set! answer ($ b - c * d - e * f * g))]
-                                        [(3) (set! answer ($ b - c * d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - c * d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - c * d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - c * d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - c * d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d * e + f + g))]
-                                        [(1) (set! answer ($ b - c * d * e + f - g))]
-                                        [(2) (set! answer ($ b - c * d * e + f * g))]
-                                        [(3) (set! answer ($ b - c * d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d * e - f + g))]
-                                        [(1) (set! answer ($ b - c * d * e - f - g))]
-                                        [(2) (set! answer ($ b - c * d * e - f * g))]
-                                        [(3) (set! answer ($ b - c * d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d * e * f + g))]
-                                        [(1) (set! answer ($ b - c * d * e * f - g))]
-                                        [(2) (set! answer ($ b - c * d * e * f * g))]
-                                        [(3) (set! answer ($ b - c * d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - c * d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - c * d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - c * d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - c * d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ b - c * (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ b - c * (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ b - c * (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ b - c * (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ b - c * (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ b - c * (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ b - c * (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ b - c * (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ b - c * (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - c * (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - c * (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ b - c * (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ b - c * (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ b - c * (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ b - c * (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - c * (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - c * (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - c * (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(3) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) + e + f + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) + e + f - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) + e + f * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) + e - f + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) + e - f - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) + e - f * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) + e * f + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) + e * f - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) + e * f * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) - e + f + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) - e + f - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) - e + f * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) - e - f + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) - e - f - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) - e - f * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) - e * f + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) - e * f - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) - e * f * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) * e + f + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) * e + f - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) * e + f * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) * e - f + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) * e - f - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) * e - f * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) * e * f + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) * e * f - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) * e * f * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (c / d)) * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b - (floor (c / d)) * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b - (floor (c / d)) * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b - (floor (c / d)) * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b - (floor (c / d)) * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (c / d)) * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (c / d)) * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (c / d)) * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (floor (c / d) / e)) + f + g))]
-                                        [(1) (set! answer ($ b - (floor (floor (c / d) / e)) + f - g))]
-                                        [(2) (set! answer ($ b - (floor (floor (c / d) / e)) + f * g))]
-                                        [(3) (set! answer ($ b - (floor (floor (c / d) / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (floor (c / d) / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (floor (c / d) / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (floor (c / d) / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (floor (c / d) / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (floor (c / d) / e)) - f + g))]
-                                        [(1) (set! answer ($ b - (floor (floor (c / d) / e)) - f - g))]
-                                        [(2) (set! answer ($ b - (floor (floor (c / d) / e)) - f * g))]
-                                        [(3) (set! answer ($ b - (floor (floor (c / d) / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (floor (c / d) / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (floor (c / d) / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (floor (c / d) / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (floor (c / d) / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (floor (c / d) / e)) * f + g))]
-                                        [(1) (set! answer ($ b - (floor (floor (c / d) / e)) * f - g))]
-                                        [(2) (set! answer ($ b - (floor (floor (c / d) / e)) * f * g))]
-                                        [(3) (set! answer ($ b - (floor (floor (c / d) / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b - (floor (floor (c / d) / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (floor (c / d) / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (floor (c / d) / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (floor (c / d) / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b - (floor (floor (floor (c / d)) / e) / f) + g))]
-                                        [(1) (set! answer ($ b - (floor (floor (floor (c / d)) / e) / f) - g))]
-                                        [(2) (set! answer ($ b - (floor (floor (floor (c / d)) / e) / f) * g))]
-                                        [(3) (set! answer ($ b - (floor (floor (floor (floor (c / d) / e) / f) / g))))])])])])]
+                                        [(0) (set! answer ($ b - (floor (floor (floor (c / d)) / e) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b - (floor (floor (floor (c / d)) / e) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b - (floor (floor (floor (c / d)) / e) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b - (floor (floor (floor (floor (c / d) / e) / f) / g))))
+                                             (set! answer2 (inexact->exact answer))])])])])]
             [(2) (case (+ op3)
                    [(0) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d + e + f + g))]
-                                        [(1) (set! answer ($ b * c + d + e + f - g))]
-                                        [(2) (set! answer ($ b * c + d + e + f * g))]
-                                        [(3) (set! answer ($ b * c + d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d + e - f + g))]
-                                        [(1) (set! answer ($ b * c + d + e - f - g))]
-                                        [(2) (set! answer ($ b * c + d + e - f * g))]
-                                        [(3) (set! answer ($ b * c + d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d + e * f + g))]
-                                        [(1) (set! answer ($ b * c + d + e * f - g))]
-                                        [(2) (set! answer ($ b * c + d + e * f * g))]
-                                        [(3) (set! answer ($ b * c + d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * c + d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * c + d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * c + d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * c + d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d - e + f + g))]
-                                        [(1) (set! answer ($ b * c + d - e + f - g))]
-                                        [(2) (set! answer ($ b * c + d - e + f * g))]
-                                        [(3) (set! answer ($ b * c + d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d - e - f + g))]
-                                        [(1) (set! answer ($ b * c + d - e - f - g))]
-                                        [(2) (set! answer ($ b * c + d - e - f * g))]
-                                        [(3) (set! answer ($ b * c + d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d - e * f + g))]
-                                        [(1) (set! answer ($ b * c + d - e * f - g))]
-                                        [(2) (set! answer ($ b * c + d - e * f * g))]
-                                        [(3) (set! answer ($ b * c + d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * c + d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * c + d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * c + d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * c + d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d * e + f + g))]
-                                        [(1) (set! answer ($ b * c + d * e + f - g))]
-                                        [(2) (set! answer ($ b * c + d * e + f * g))]
-                                        [(3) (set! answer ($ b * c + d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d * e - f + g))]
-                                        [(1) (set! answer ($ b * c + d * e - f - g))]
-                                        [(2) (set! answer ($ b * c + d * e - f * g))]
-                                        [(3) (set! answer ($ b * c + d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d * e * f + g))]
-                                        [(1) (set! answer ($ b * c + d * e * f - g))]
-                                        [(2) (set! answer ($ b * c + d * e * f * g))]
-                                        [(3) (set! answer ($ b * c + d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * c + d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * c + d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * c + d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * c + d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ b * c + (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ b * c + (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ b * c + (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ b * c + (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ b * c + (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ b * c + (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ b * c + (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ b * c + (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ b * c + (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c + (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c + (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ b * c + (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ b * c + (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ b * c + (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ b * c + (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c + (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c + (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c + (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(1) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d + e + f + g))]
-                                        [(1) (set! answer ($ b * c - d + e + f - g))]
-                                        [(2) (set! answer ($ b * c - d + e + f * g))]
-                                        [(3) (set! answer ($ b * c - d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d + e - f + g))]
-                                        [(1) (set! answer ($ b * c - d + e - f - g))]
-                                        [(2) (set! answer ($ b * c - d + e - f * g))]
-                                        [(3) (set! answer ($ b * c - d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d + e * f + g))]
-                                        [(1) (set! answer ($ b * c - d + e * f - g))]
-                                        [(2) (set! answer ($ b * c - d + e * f * g))]
-                                        [(3) (set! answer ($ b * c - d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * c - d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * c - d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * c - d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * c - d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d - e + f + g))]
-                                        [(1) (set! answer ($ b * c - d - e + f - g))]
-                                        [(2) (set! answer ($ b * c - d - e + f * g))]
-                                        [(3) (set! answer ($ b * c - d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d - e - f + g))]
-                                        [(1) (set! answer ($ b * c - d - e - f - g))]
-                                        [(2) (set! answer ($ b * c - d - e - f * g))]
-                                        [(3) (set! answer ($ b * c - d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d - e * f + g))]
-                                        [(1) (set! answer ($ b * c - d - e * f - g))]
-                                        [(2) (set! answer ($ b * c - d - e * f * g))]
-                                        [(3) (set! answer ($ b * c - d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * c - d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * c - d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * c - d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * c - d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d * e + f + g))]
-                                        [(1) (set! answer ($ b * c - d * e + f - g))]
-                                        [(2) (set! answer ($ b * c - d * e + f * g))]
-                                        [(3) (set! answer ($ b * c - d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d * e - f + g))]
-                                        [(1) (set! answer ($ b * c - d * e - f - g))]
-                                        [(2) (set! answer ($ b * c - d * e - f * g))]
-                                        [(3) (set! answer ($ b * c - d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d * e * f + g))]
-                                        [(1) (set! answer ($ b * c - d * e * f - g))]
-                                        [(2) (set! answer ($ b * c - d * e * f * g))]
-                                        [(3) (set! answer ($ b * c - d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * c - d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * c - d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * c - d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * c - d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ b * c - (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ b * c - (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ b * c - (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ b * c - (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ b * c - (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ b * c - (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ b * c - (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ b * c - (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ b * c - (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c - (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c - (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ b * c - (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ b * c - (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ b * c - (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ b * c - (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c - (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c - (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c - (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(2) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d + e + f + g))]
-                                        [(1) (set! answer ($ b * c * d + e + f - g))]
-                                        [(2) (set! answer ($ b * c * d + e + f * g))]
-                                        [(3) (set! answer ($ b * c * d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d + e - f + g))]
-                                        [(1) (set! answer ($ b * c * d + e - f - g))]
-                                        [(2) (set! answer ($ b * c * d + e - f * g))]
-                                        [(3) (set! answer ($ b * c * d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d + e * f + g))]
-                                        [(1) (set! answer ($ b * c * d + e * f - g))]
-                                        [(2) (set! answer ($ b * c * d + e * f * g))]
-                                        [(3) (set! answer ($ b * c * d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * c * d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * c * d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * c * d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * c * d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d - e + f + g))]
-                                        [(1) (set! answer ($ b * c * d - e + f - g))]
-                                        [(2) (set! answer ($ b * c * d - e + f * g))]
-                                        [(3) (set! answer ($ b * c * d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d - e - f + g))]
-                                        [(1) (set! answer ($ b * c * d - e - f - g))]
-                                        [(2) (set! answer ($ b * c * d - e - f * g))]
-                                        [(3) (set! answer ($ b * c * d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d - e * f + g))]
-                                        [(1) (set! answer ($ b * c * d - e * f - g))]
-                                        [(2) (set! answer ($ b * c * d - e * f * g))]
-                                        [(3) (set! answer ($ b * c * d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * c * d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * c * d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * c * d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * c * d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d * e + f + g))]
-                                        [(1) (set! answer ($ b * c * d * e + f - g))]
-                                        [(2) (set! answer ($ b * c * d * e + f * g))]
-                                        [(3) (set! answer ($ b * c * d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d * e - f + g))]
-                                        [(1) (set! answer ($ b * c * d * e - f - g))]
-                                        [(2) (set! answer ($ b * c * d * e - f * g))]
-                                        [(3) (set! answer ($ b * c * d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d * e * f + g))]
-                                        [(1) (set! answer ($ b * c * d * e * f - g))]
-                                        [(2) (set! answer ($ b * c * d * e * f * g))]
-                                        [(3) (set! answer ($ b * c * d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * c * d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * c * d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * c * d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * c * d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ b * c * (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ b * c * (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ b * c * (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ b * c * (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ b * c * (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ b * c * (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ b * c * (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ b * c * (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ b * c * (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * c * (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * c * (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ b * c * (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ b * c * (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ b * c * (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ b * c * (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * c * (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * c * (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * c * (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(3) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) + e + f + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) + e + f - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) + e + f * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) + e - f + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) + e - f - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) + e - f * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) + e * f + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) + e * f - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) + e * f * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) - e + f + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) - e + f - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) - e + f * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) - e - f + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) - e - f - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) - e - f * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) - e * f + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) - e * f - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) - e * f * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) * e + f + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) * e + f - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) * e + f * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) * e - f + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) * e - f - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) * e - f * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) * e * f + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) * e * f - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) * e * f * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (c / d)) * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ b * (floor (c / d)) * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ b * (floor (c / d)) * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ b * (floor (c / d)) * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ b * (floor (c / d)) * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (c / d)) * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (c / d)) * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (c / d)) * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (floor (c / d) / e)) + f + g))]
-                                        [(1) (set! answer ($ b * (floor (floor (c / d) / e)) + f - g))]
-                                        [(2) (set! answer ($ b * (floor (floor (c / d) / e)) + f * g))]
-                                        [(3) (set! answer ($ b * (floor (floor (c / d) / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (floor (c / d) / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (floor (c / d) / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (floor (c / d) / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (floor (c / d) / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (floor (c / d) / e)) - f + g))]
-                                        [(1) (set! answer ($ b * (floor (floor (c / d) / e)) - f - g))]
-                                        [(2) (set! answer ($ b * (floor (floor (c / d) / e)) - f * g))]
-                                        [(3) (set! answer ($ b * (floor (floor (c / d) / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (floor (c / d) / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (floor (c / d) / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (floor (c / d) / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (floor (c / d) / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (floor (c / d) / e)) * f + g))]
-                                        [(1) (set! answer ($ b * (floor (floor (c / d) / e)) * f - g))]
-                                        [(2) (set! answer ($ b * (floor (floor (c / d) / e)) * f * g))]
-                                        [(3) (set! answer ($ b * (floor (floor (c / d) / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ b * (floor (floor (c / d) / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (floor (c / d) / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (floor (c / d) / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (floor (c / d) / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ b * (floor (floor (floor (c / d)) / e) / f) + g))]
-                                        [(1) (set! answer ($ b * (floor (floor (floor (c / d)) / e) / f) - g))]
-                                        [(2) (set! answer ($ b * (floor (floor (floor (c / d)) / e) / f) * g))]
-                                        [(3) (set! answer ($ b * (floor (floor (floor (floor (c / d) / e) / f) / g))))])])])])]
+                                        [(0) (set! answer ($ b * (floor (floor (floor (c / d)) / e) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ b * (floor (floor (floor (c / d)) / e) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ b * (floor (floor (floor (c / d)) / e) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ b * (floor (floor (floor (floor (c / d) / e) / f) / g))))
+                                             (set! answer2 (inexact->exact answer))])])])])]
             [(3) (case (+ op3)
                    [(0) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d + e + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d + e + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d + e + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d + e - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d + e - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d + e - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d + e * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d + e * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d + e * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d - e + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d - e + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d - e + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d - e - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d - e - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d - e - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d - e * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d - e * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d - e * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d * e + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d * e + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d * e + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d * e - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d * e - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d * e - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d * e * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d * e * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d * e * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (b / c)) + d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) + (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) + (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) + (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) + (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) + (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ (floor (b / c)) + (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) + (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) + (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) + (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(1) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d + e + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d + e + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d + e + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d + e - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d + e - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d + e - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d + e * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d + e * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d + e * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d - e + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d - e + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d - e + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d - e - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d - e - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d - e - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d - e * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d - e * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d - e * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d * e + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d * e + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d * e + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d * e - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d * e - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d * e - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d * e * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d * e * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d * e * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (b / c)) - d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) - (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) - (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) - (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) - (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) - (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ (floor (b / c)) - (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) - (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) - (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) - (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(2) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d + e + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d + e + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d + e + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d + e - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d + e - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d + e - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d + e * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d + e * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d + e * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d - e + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d - e + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d - e + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d - e - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d - e - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d - e - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d - e * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d - e * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d - e * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d * e + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d * e + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d * e + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d * e - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d * e - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d * e - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d * e * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d * e * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d * e * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * d * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * d * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * d * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * d * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (b / c)) * d * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * d * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * d * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * d * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * (floor (d / e)) + f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * (floor (d / e)) + f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * (floor (d / e)) + f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * (floor (d / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * (floor (d / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * (floor (d / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * (floor (d / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * (floor (d / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * (floor (d / e)) - f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * (floor (d / e)) - f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * (floor (d / e)) - f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * (floor (d / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * (floor (d / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * (floor (d / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * (floor (d / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * (floor (d / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * (floor (d / e)) * f + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * (floor (d / e)) * f - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * (floor (d / e)) * f * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * (floor (d / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (b / c)) * (floor (d / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * (floor (d / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * (floor (d / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * (floor (d / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (b / c)) * (floor (floor (d / e)) / f) + g))]
-                                        [(1) (set! answer ($ (floor (b / c)) * (floor (floor (d / e)) / f) - g))]
-                                        [(2) (set! answer ($ (floor (b / c)) * (floor (floor (d / e)) / f) * g))]
-                                        [(3) (set! answer ($ (floor (b / c)) * (floor (floor (floor (d / e)) / f) / g)))])])])]
+                                        [(0) (set! answer ($ (floor (b / c)) * (floor (floor (d / e)) / f) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (b / c)) * (floor (floor (d / e)) / f) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (b / c)) * (floor (floor (d / e)) / f) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (b / c)) * (floor (floor (floor (d / e)) / f) / g)))
+                                             (set! answer2 (inexact->exact answer))])])])]
                    [(3) (case (+ op4)
                           [(0) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) + e + f + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) + e + f - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) + e + f * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) + e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) + e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) + e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) + e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) + e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) + e - f + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) + e - f - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) + e - f * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) + e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) + e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) + e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) + e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) + e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) + e * f + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) + e * f - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) + e * f * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) + e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) + e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) + e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) + e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) + e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) + (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) + (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) + (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) + (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) + (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) + (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) + (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) + (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(1) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) - e + f + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) - e + f - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) - e + f * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) - e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) - e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) - e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) - e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) - e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) - e - f + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) - e - f - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) - e - f * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) - e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) - e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) - e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) - e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) - e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) - e * f + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) - e * f - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) - e * f * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) - e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) - e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) - e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) - e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) - e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) - (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) - (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) - (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) - (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) - (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) - (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) - (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) - (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(2) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) * e + f + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) * e + f - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) * e + f * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) * e + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) * e + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) * e + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) * e + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) * e + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) * e - f + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) * e - f - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) * e - f * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) * e - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) * e - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) * e - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) * e - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) * e - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) * e * f + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) * e * f - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) * e * f * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) * e * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) * e * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) * e * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) * e * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) * e * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) * (floor (e / f)) + g))]
-                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) * (floor (e / f)) - g))]
-                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) * (floor (e / f)) * g))]
-                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) * (floor (floor (e / f)) / g)))])])]
+                                        [(0) (set! answer ($ (floor (floor (b / c) / d)) * (floor (e / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (b / c) / d)) * (floor (e / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (b / c) / d)) * (floor (e / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (b / c) / d)) * (floor (floor (e / f)) / g)))
+                                             (set! answer2 (inexact->exact answer))])])]
                           [(3) (case (+ op5)
                                  [(0) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + f + g))]
-                                        [(1) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + f - g))]
-                                        [(2) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + f * g))]
-                                        [(3) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) + (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(1) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - f + g))]
-                                        [(1) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - f - g))]
-                                        [(2) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - f * g))]
-                                        [(3) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) - (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(2) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * f + g))]
-                                        [(1) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * f - g))]
-                                        [(2) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * f * g))]
-                                        [(3) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * (floor (f / g))))])]
+                                        [(0) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * f + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * f - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * f * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (floor (b / c) / d) / e)) * (floor (f / g))))
+                                             (set! answer2 (inexact->exact answer))])]
                                  [(3) (case (+ op6)
-                                        [(0) (set! answer ($ (floor (floor (floor (floor (b / c) / d) / e) / f)) + g))]
-                                        [(1) (set! answer ($ (floor (floor (floor (floor (b / c) / d) / e) / f)) - g))]
-                                        [(2) (set! answer ($ (floor (floor (floor (floor (b / c) / d) / e) / f)) * g))]
-                                        [(3) (set! answer ($ (floor (floor (floor (floor (floor (b / c) / d) / e) / f) / g))))])])])])])))
+                                        [(0) (set! answer ($ (floor (floor (floor (floor (b / c) / d) / e) / f)) + g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(1) (set! answer ($ (floor (floor (floor (floor (b / c) / d) / e) / f)) - g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(2) (set! answer ($ (floor (floor (floor (floor (b / c) / d) / e) / f)) * g))
+                                             (set! answer2 (inexact->exact answer))]
+                                        [(3) (set! answer ($ (floor (floor (floor (floor (floor (b / c) / d) / e) / f) / g))))
+                                             (set! answer2 (inexact->exact answer))])])])])])))
 
       (draw-text-problem-with-multiple-lines device-context (list "Solve the following equation: " (get-output-string o)))
 
@@ -1865,4 +3327,8 @@
 
 (provide equation-generator%)
          
+
+
+
+
 
