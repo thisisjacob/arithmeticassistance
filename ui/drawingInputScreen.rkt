@@ -8,8 +8,11 @@
 (require "../drawing/canvasShapeDrawingFunctions.rkt")
 (require "../logic/equationGenerator.rkt")
 
+<<<<<<< HEAD
 ; GUI Class:
 
+=======
+>>>>>>> eef93b409c68fc836db4b2b91297de757d791934
 ; The screen for drawing problems and entering responses
 ; Initialization Arguments:
 ; givenParent : the container element of this instance
@@ -58,15 +61,18 @@
     ; Currently needs: information provided that will tell the program which
     ; shape to draw
     (define (canvasPaintingCallbackFunction canvas dc)
+      ; set-background not needed here - kept to keep appearance contained into one location
+      ; problem description menu appearance is changed in the drawing class
+      (send (send drawingCanvas get-dc) set-background problemCanvasBackground)
+      (send (send drawingCanvas get-dc) set-pen penBackgroundColor penWidth penStyle)
       (send dc clear)
       ; Draws score if set to multiplayer
       (cond
-        [(eq? currentGameMode (first (rest (rest game-modes))))
+        [(eq? currentGameMode (first (rest game-modes)))
          (draw-score dc currentPlayer playerOneScore playerTwoScore)
          ]
         )
       (send problems generateProblem (send drawingCanvas get-dc) currentProblemCategory)
-      (print (send problems getAnswer))
       )
 
     ; Callback definitions
@@ -137,9 +143,7 @@
                                [paint-callback canvasPaintingCallbackFunction]
                                )
       )
-    ; Initialized canvas appearance
-    (send (send drawingCanvas get-dc) set-background problemCanvasBackground)
-    (send (send drawingCanvas get-dc) set-text-foreground "blue")
+
     
     (define inputPanel (new horizontal-panel%
                             [parent drawingInputMenu]
@@ -169,16 +173,11 @@
 
     (define/public (enable)
       (send drawingInputMenu show #t)
-      ;(print currentGameMode)
-      ;(print (send currentProblemCategory getName))
       )
     ; This sets the game mode and problem category of the current problemScreen instance to the passed values
     (define/public (pass-information game-mode problem-category)
       (set! currentGameMode game-mode)
       (set! currentProblemCategory problem-category)
-      (print (send game-mode getName))
-      (print "|")
-      (print (send problem-category getName))
       (set! playerOneScore 0)
       (set! playerTwoScore 0)
       (set! currentPlayer playerOne)
