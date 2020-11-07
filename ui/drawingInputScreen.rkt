@@ -63,7 +63,7 @@
       (send dc clear)
       ; Draws score if set to multiplayer
       (cond
-        [(eq? currentGameMode (first (rest (rest game-modes))))
+        [(eq? currentGameMode (first (rest game-modes)))
          (draw-score dc currentPlayer playerOneScore playerTwoScore)
          ]
         )

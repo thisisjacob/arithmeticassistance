@@ -27,10 +27,6 @@
                          )
                     (new game-mode%
                          [id 1]
-                         [name "Linked Mode"]
-                         )
-                    (new game-mode%
-                         [id 2]
                          [name "Multiplayer"]
                          )
                     )
