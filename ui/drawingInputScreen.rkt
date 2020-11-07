@@ -8,11 +8,9 @@
 (require "../drawing/canvasShapeDrawingFunctions.rkt")
 (require "../logic/equationGenerator.rkt")
 
-<<<<<<< HEAD
+
 ; GUI Class:
 
-=======
->>>>>>> eef93b409c68fc836db4b2b91297de757d791934
 ; The screen for drawing problems and entering responses
 ; Initialization Arguments:
 ; givenParent : the container element of this instance
