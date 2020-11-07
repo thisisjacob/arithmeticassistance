@@ -1,4 +1,20 @@
 <h1>Mathematical Assistance Project</h1>
+  <h2>Project Description</h2>  
+  
+  A visual program for generating and testing mathematics problems. Includes some arithmetic and geometry problem categories.
+  
+  <h2>Developers</h2>
+  
+    thisisjacob - Jacob Holfelder
+    bsb1006 - Bradley Betts
+
+  <h2>Development Information</h2>
+  
+    - Developed with the DrRacket IDE
+    - Racket Version 7.8, Standard Package
+    - User interface created with RacketGUI
+    - Uses one external library, k-infix
+
   <h2>Compiler Installation:</h2>
 Package Page: https://download.racket-lang.org
 
