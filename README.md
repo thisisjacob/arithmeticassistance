@@ -26,5 +26,5 @@ Variant: Regular
 2. Run the program by running the "main.rkt" file.
 
 <h2>Images:</h2>
-![Screenshot 2020-02-09 at 5 08 54 PM](https://user-images.githubusercontent.com/42303925/98432679-9f994900-208e-11eb-9531-44e963b0ce20.PNG)
-![Screenshot 2020-02-09 at 5 08 54 PM](https://user-images.githubusercontent.com/42303925/98432693-cce5f700-208e-11eb-9a71-c281c93cd469.PNG)
+![image](https://user-images.githubusercontent.com/42303925/98432679-9f994900-208e-11eb-9531-44e963b0ce20.PNG)
+![image](https://user-images.githubusercontent.com/42303925/98432693-cce5f700-208e-11eb-9a71-c281c93cd469.PNG)
