@@ -2,7 +2,7 @@
 (require racket/draw)
 (require "../constants/userInterfaceConstants.rkt")
 
-; This file holds a collection of functions that are used to draw math and geometrical problems onto a given device context
+; This file holds a collection of functions that are used to draw math and geometric problems onto a given device context
 ; These are designed specifically for this math project
 
 (define problemDescBoxWidth (- frameWidthAndHeight 7))
@@ -12,8 +12,10 @@
 ; device-context: the device context
 ; string: a string holding the problem
 (define (draw-text-problem device-context string)
+  (send device-context set-brush problemMenuBackgroundColor problemMenuStyle)
+  (send device-context set-text-foreground problemMenuTextColor)
   (send device-context draw-rectangle 0 (+ problemYPos) problemDescBoxWidth) (/ frameWidthAndHeight 4)
-  (send device-context draw-text string problemXPos problemYPos)
+  (send device-context draw-text string problemXPos (+ problemYPos menuTopTextMargin))
   )
 
 (provide draw-text-problem)
@@ -23,12 +25,14 @@
 ; device-context: the device context
 ; string-list: a list of strings, where each string is drawn onto a separate line
 (define (draw-text-problem-with-multiple-lines device-context string-list)
+  (send device-context set-brush problemMenuBackgroundColor problemMenuStyle)
+  (send device-context set-text-foreground problemMenuTextColor)
   (send device-context draw-rectangle 0 (+ problemYPos) problemDescBoxWidth (/ frameWidthAndHeight 4))
   (define (create-text list iterator)
     (cond
       [(empty? list) 0]
       [else
-       (send device-context draw-text (first list) problemXPos (+ problemYPos (* linePushDown iterator)))
+       (send device-context draw-text (first list) problemXPos (+ problemYPos (* linePushDown iterator) menuTopTextMargin))
        (create-text (rest list) (+ iterator 1))]))
   (create-text string-list 0)
   )
@@ -43,10 +47,12 @@
 ; playerOneScore: the score of player one to draw
 ; playerTwoScore: the score of player two to draw
 (define (draw-score device-context currentPlayer playerOneScore playerTwoScore)
+  (send device-context set-brush problemMenuBackgroundColor problemMenuStyle)
+  (send device-context set-text-foreground problemMenuTextColor)
   (send device-context draw-rectangle scoreboardXPosition scoreboardYPosition scoreboardWidth scoreboardHeight)
-  (send device-context draw-text currentPlayer scoreboardXPosition scoreboardYPosition)
-  (send device-context draw-text (string-append "Player One: " (number->string playerOneScore)) scoreboardXPosition scoreboardPushNum)
-  (send device-context draw-text (string-append "Player Two: " (number->string playerTwoScore)) scoreboardXPosition (* 2 scoreboardPushNum))
+  (send device-context draw-text currentPlayer (+ scoreboardXPosition 10) (+ scoreboardYPosition 10))
+  (send device-context draw-text (string-append "Player One: " (number->string playerOneScore)) (+ scoreboardXPosition menuTopTextMargin) (+ scoreboardPushNum menuTopTextMargin))
+  (send device-context draw-text (string-append "Player Two: " (number->string playerTwoScore)) (+ scoreboardXPosition menuTopTextMargin) (+ (* 2 scoreboardPushNum) menuTopTextMargin))
   )
 
 (provide draw-score)

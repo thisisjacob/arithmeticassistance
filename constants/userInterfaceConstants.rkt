@@ -2,10 +2,11 @@
 (require racket/draw)
 ; Constants for various UI elements of the program
 
-
+; General program
 (define programTitle "Mathematical Education Project")
 (provide programTitle)
 
+; Window frame appearances
 (define frameWidthAndHeight 800)
 (define frameStyle '(no-resize-border))
 (provide frameWidthAndHeight)
@@ -19,10 +20,11 @@
 (provide containerHorizMargin)
 (provide containerVerticalMargin)
 
-(define problemTextPushdown 100)
-(define problemTextPushRight 100)
-(provide problemTextPushdown)
-(provide problemTextPushRight)
+; Menu specific options
+(define menuTitleFont (make-object font% 18 #f (quote swiss)
+                           )
+  )
+(provide menuTitleFont)
 
 ; Problems screen constants:
 (define canvasHeight 550)
@@ -34,8 +36,7 @@
 (define textBoxWidth 100)
 (provide textBoxWidth)
 
-; top left position of scoreboard
-; how many points to push down each element from element above
+; Scoreboard location and size
 (define scoreboardXPosition 540)
 (define scoreboardYPosition 0)
 (define scoreboardPushNum 20)
@@ -50,10 +51,14 @@
 ; problem text constants
 (define problemXPos 20)
 (define problemYPos 440)
+(define problemTextPushdown 100)
+(define problemTextPushRight 100)
 (define linePushDown 20)
 (define geometryScaling 10)
 (provide problemXPos)
 (provide problemYPos)
+(provide problemTextPushdown)
+(provide problemTextPushRight)
 (provide linePushDown)
 (provide geometryScaling)
 
@@ -76,16 +81,26 @@
 (define problemCanvasTextColor (send the-color-database find-color "black"))
 (define geometricShapeBackground (send the-color-database find-color "crimson"))
 (define geometricShapeBackgroundStyle (quote solid))
+(define geometricShapeTextColor (send the-color-database find-color "crimson"))
 (define penBackgroundColor (send the-color-database find-color "black"))
-(define penWidth 1)
+(define penWidth 3)
 (define penStyle (quote solid))
+(define problemMenuBackgroundColor (send the-color-database find-color "lemonchiffon"))
+(define problemMenuStyle (quote solid))
+(define problemMenuTextColor (send the-color-database find-color "sienna"))
+(define menuTopTextMargin 10)
 (provide problemCanvasBackground)
 (provide problemCanvasTextColor)
 (provide geometricShapeBackground)
 (provide geometricShapeBackgroundStyle)
+(provide geometricShapeTextColor)
 (provide penBackgroundColor)
 (provide penWidth)
 (provide penStyle)
+(provide problemMenuBackgroundColor)
+(provide problemMenuStyle)
+(provide problemMenuTextColor)
+(provide menuTopTextMargin)
 
 
 

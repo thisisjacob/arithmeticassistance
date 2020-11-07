@@ -21,35 +21,41 @@
     (super-new)
 
     ;Functions
+    ; Starts the UI portion of the program
     (define/public (startUI)
       (send mainFrame show #t)
       (enableMainMenu))
+    ; Enables main menu, disables other screens
     (define (enableMainMenu)
       (send problemsScreen disable)
       (send difficultyScreen disable)
       (send mainFrame show #t)
       (send mainMenu enable)
       )
+    ; Enables problems screen, disables other screens
+    ; Not the primary switching function - only a helper. 
     (define (enableProblemsScreen)
       (send mainMenu disable)
       (send difficultyScreen disable)
       (send problemsScreen enable)
       (send mainFrame show #f)
       )
+    ; Enables difficulty screen, disables other screens
+    ; Not the primary switching function - only a helper.
     (define (enableDifficultyScreen)
       (send problemsScreen disable)
       (send mainMenu disable)
       (send difficultyScreen enable)
       (send mainFrame show #f)
       )
+    ; Disables the main menu
     (define (disableMainMenu)
       (send mainMenu disable)
       )
     
-    ; Call this to switch to the problemsScreen when the game-mode and problem-category must be siwtched
-    ; game-mode is the game made construct to switch to
-    ; problem category is the problem category to switch to
-
+    ; The primary function for switching to the problems screen
+    ; Requires a pair game mode and problem category constructs
+    ; Using this function passes the currently selected game mode and problem category to the problems screen
     (define (pass/switchToProblemsScreen game-mode-and-problem-category-pair)
       (send problemsScreen pass-information (first game-mode-and-problem-category-pair)
 
@@ -65,8 +71,9 @@
                                   )
       )
 
-    ; Call this to switch to the difficultyScreen when the game-mode must be switched
-    ; game-mode is the game mode construct to switch to
+    ; The primary function for switching to the difficulty screen
+    ; requires a gameMode construct from constants
+    ; This is used to pass the selected game mode down the chain of menus
     (define (pass/switchToDifficultyScreen game-mode)
       (send difficultyScreen pass-information game-mode)
       (enableDifficultyScreen)
@@ -74,7 +81,9 @@
 
 
 
-    ; Generates a list of (list (name pass/switchToDifficultyScreen))
+    ; Generates a list of (list (name pass/switchToDifficultyScreen game-mode))
+    ; This is used to create a list names, functions and arguments for switching to the difficulty screen and passing the current game-mode
+    ; down
     ; mode-list is a list of mode constructs that are used to create the function procedure arguments
     ; given-list should be an empty list, or an already existing list of the returned construct
     (define (mainMenuFunctionGenerator mode-list given-list)
@@ -102,7 +111,7 @@
       )
     (define mainMenu (new mainMenuUI%
                           [givenParent mainFrame]
-                          [string-function-pair-list  (mainMenuFunctionGenerator game-modes '())]))
+                          [string-function-pair-list  (mainMenuFunctionGenerator game-modes null)]))
   )
 )
 
