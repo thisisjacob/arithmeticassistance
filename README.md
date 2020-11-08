@@ -58,20 +58,22 @@ Variant: Regular
 
 ![Presentation graph](https://user-images.githubusercontent.com/42303925/98455949-24469e80-2145-11eb-8d1c-d188d04e4603.png)
 
-mainWindow: Instantiates the other interface windows, creates functions for switching between the windows, passes functions down to mainMenu for use through the other portions of the UI
+<h3>Structure Element Descriptions</h3>
 
-mainMenu: Holds a list of buttons that call the enable function of the difficulty screen, each button is associated with one of the game difficulty constructs under constants. This construct is passed down to the difficulty screen.
+  - <b>mainWindow</b>: Instantiates the other interface windows, creates functions for switching between the windows, passes functions down to mainMenu for use through the other portions of the UI
 
-gradeAndDifficultySelectScreen: Holds a list of buttons for passing the received gamemode, and a selected problem category construct to the problemsScreen
+  - <b>mainMenu</b>: Holds a list of buttons that call the enable function of the difficulty screen, each button is associated with one of the game difficulty constructs under constants. This construct is passed down to the difficulty screen.
 
-drawingInputScreen (or problemsScreen): Passes the problem category construct to equation generator to generate a problem, which is then drawn onto this screen. Draws mode specific information based upon the received game mode construct. User enters answers into this menu, and the answers correctness is returned to the user.
+  - <b>gradeAndDifficultySelectScreen</b>: Holds a list of buttons for passing the received gamemode, and a selected problem category construct to the problemsScreen
 
-buttonGenerator: Dynamically generates and adds buttons to a given device-contexts, and holds and manages the functions (with passed arguments) that are called by each button.
+  - <b>drawingInputScreen (or problemsScreen)</b>: Passes the problem category construct to equation generator to generate a problem, which is then drawn onto this screen. Draws mode specific information based upon the received game mode construct. User enters answers into this menu, and the answers correctness is returned to the user.
 
-equationGenerator: Determines a problem to generate based on the received problem category. Generates that problem, and calls functions in canvasShapeDrawingFunctions to draw the problems onto the screen. Returns the value of the correct answer for comparing with user submitted answers.
+  - <b>buttonGenerator</b>: Dynamically generates and adds buttons to a given device-contexts, and holds and manages the functions (with passed arguments) that are called by each button.
 
-canvasShapeDrawingFunctions: Holds multiple functions for drawing problems and information onto the drawingInputScreen. These include: the problem description box, dynamically drawn geometry problems, and the scoreboard if in multiplayer:
+  - <b>equationGenerator</b>: Determines a problem to generate based on the received problem category. Generates that problem, and calls functions in canvasShapeDrawingFunctions to draw the problems onto the screen. Returns the value of the correct answer for comparing with user submitted answers.
 
-Constants (folder): Holds constants and configuration imports for the program as a whole. Examples of these include the game mode and problem category constructs, and the userInterfaceConstants that control aspects of the program's appearance.
+  - <b>canvasShapeDrawingFunctions</b>: Holds multiple functions for drawing problems and information onto the drawingInputScreen. These include: the problem description box, dynamically drawn geometry problems, and the scoreboard if in multiplayer:
+
+  - <b>Constants (folder)</b>: Holds constants and configuration imports for the program as a whole. Examples of these include the game mode and problem category constructs, and the userInterfaceConstants that control aspects of the program's appearance.
 
 
