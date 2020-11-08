@@ -75,5 +75,13 @@ Variant: Regular
   - <b>canvasShapeDrawingFunctions</b>: Holds multiple functions for drawing problems and information onto the drawingInputScreen. These include: the problem description box, dynamically drawn geometry problems, and the scoreboard if in multiplayer:
 
   - <b>Constants (folder)</b>: Holds constants and configuration imports for the program as a whole. Examples of these include the game mode and problem category constructs, and the userInterfaceConstants that control aspects of the program's appearance.
+  
+<h3>Program Structure Issues</h3>
+
+- Roles of each file not as separated as they should be. Improving separation will be of major benefit to the program in the future.
+
+- mainWindow manages too much of the user interface as a whole. Parts of it, such as function and list generation belong in another file entirely, and it would be ideal to change mainWindow into a class for just managing the current visibility of each screen.
+
+- the equationGenerator functions for generating reuse a lot of code that is not encapsulated into functions. This is something that should be improved in order to create a more easily modifiable and readable program.
 
 
