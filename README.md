@@ -84,4 +84,10 @@ Variant: Regular
 
 - the equationGenerator functions for generating reuse a lot of code that is not encapsulated into functions. This is something that should be improved in order to create a more easily modifiable and readable program.
 
+<h2>Suggestions to Improve the Program</h2>
+
+  - Add more problems, particularly for symbolic algebra.
+  - Increase the variety of geometric problems, add three dimensional problems.
+  - Migrate to a more advanced user interface library
+  - Move to a graphics library that is capable of both 2D and 3D graphics (OpenGL is an available option in Racket, but may be too much for our scale)
 
