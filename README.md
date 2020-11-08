@@ -6,7 +6,14 @@
   <h2>Developers</h2>
   
     thisisjacob - Jacob Holfelder
+      Roles:
+      - User interface appearance and logic
+      - Configuration, game state logic
+      - Graphics 
+      
     bsb1006 - Bradley Betts
+      Roles:
+      - Math problem generation and testing
 
   <h2>Development Information</h2>
   
@@ -46,3 +53,6 @@ Variant: Regular
 ![image](https://user-images.githubusercontent.com/42303925/98432679-9f994900-208e-11eb-9531-44e963b0ce20.PNG)
 
 ![image](https://user-images.githubusercontent.com/42303925/98432693-cce5f700-208e-11eb-9a71-c281c93cd469.PNG)
+
+<h2>Program Structure</h2>
+
