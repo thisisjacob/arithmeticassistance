@@ -56,3 +56,12 @@ Variant: Regular
 
 <h2>Program Structure</h2>
 
+![Presentation graph](https://user-images.githubusercontent.com/42303925/98455949-24469e80-2145-11eb-8d1c-d188d04e4603.png)
+
+mainWindow: Instantiates the other interface windows, creates functions for switching between the windows, passes functions down to mainMenu for use through the other portions of the UI
+
+mainMenu: Holds a list of buttons that call the enable function of the difficulty screen, each button is associated with one of the game difficulty constructs under constants. This construct is passed down to the difficulty screen.
+
+gradeAndDifficultySelectScreen: Holds a list of buttons for passing the received gamemode, and a selected problem category construct to the problemsScreen
+
+drawingInputScreen (or problemsScreen): Passes the problem category construct to equation generator to generate a problem, which is then drawn onto this screen. Draws mode specific information based upon the received game mode construct. User enters answers into this menu, and the answers correctness is returned to the user.
