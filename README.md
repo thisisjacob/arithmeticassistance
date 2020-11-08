@@ -84,6 +84,11 @@ Variant: Regular
 
 - the equationGenerator functions for generating reuse a lot of code that is not encapsulated into functions. This is something that should be improved in order to create a more easily modifiable and readable program.
 
+<h3>General Program Issues</h3>
+
+  - Arithmetic problems currently round intermediate calculations - which can lead to answers that are correct being marked wrong if the user uses a different method of rounding.
+  - Geometric problems currently limited to area problems
+
 <h2>Suggestions to Improve the Program</h2>
 
   - Add more problems, particularly for symbolic algebra.
