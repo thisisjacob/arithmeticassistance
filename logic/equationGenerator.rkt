@@ -201,18 +201,29 @@
                                                           (string-append "Height is: " (number->string height))))
       )
 
+    ; Generates a random number, which can be either in the range of [- range, 1] or [1, range]
+    ; Range must be a positive integer
+    (define (arithmeticProblemNumGenerator range)
+      (define isPositive (random-integer 0 2))
+      (cond
+        [(eq? 0 isPositive) (random-integer 1 (+ range 1))]
+        ;[else (random-integer (- 0 range) 0)]
+        [else (random-integer 1 (+ range 1))]
+        )
+      )
+    
     ; Generates and renders a "middle school arithmetic problem"
     ; Updates answer
     (define (middle-school-level-arithmetic-problem device-context)
-      (define a (random-natural 25))
-      (define b (random-natural 25))
-      (define c (random-natural 25))
-      (define d (random-natural 25))
+      (define a (arithmeticProblemNumGenerator 25))
+      (define b (arithmeticProblemNumGenerator 25))
+      (define c (arithmeticProblemNumGenerator 25))
+      (define d (arithmeticProblemNumGenerator 25))
 
-      (define a2 (random-natural 25))
-      (define b2 (random-natural 25))
-      (define c2 (random-natural 25))
-      (define d2 (random-natural 25))
+      (define a2 (arithmeticProblemNumGenerator 25))
+      (define b2 (arithmeticProblemNumGenerator 25))
+      (define c2 (arithmeticProblemNumGenerator 25))
+      (define d2 (arithmeticProblemNumGenerator 25))
 
       (define op1 (random-natural 4))
       (define op2 (random-natural 4))
@@ -238,25 +249,24 @@
              (write '< o)
              (write a o)
              
-             (with-handlers
-                 ([exn:fail:contract:divide-by-zero? middle-school-level-arithmetic-problem])
-               (case (+ Op1)
-                 [(0) (write '+ o)
-                      (write a2 o)
-                      (set! a ($ (a + a2)))
-                      ]
-                 [(1) (write '- o)
-                      (write a2 o)
-                      (set! a ($ (a - a2)))
-                      ]
-                 [(2) (write '* o)
-                      (write a2 o)
-                      (set! a ($ (a * a2)))
-                      ]
-                 [(3) (write '/ o)
-                      (write a2 o)
-                      (set! a (floor ($ (a / a2))))
-                      ]))
+
+             (case (+ Op1)
+               [(0) (write '+ o)
+                    (write a2 o)
+                    (set! a ($ (a + a2)))
+                    ]
+               [(1) (write '- o)
+                    (write a2 o)
+                    (set! a ($ (a - a2)))
+                    ]
+               [(2) (write '* o)
+                    (write a2 o)
+                    (set! a ($ (a * a2)))
+                    ]
+               [(3) (write '/ o)
+                    (write a2 o)
+                    (set! a (floor ($ (a / a2))))
+                    ])
            
              (write '> o)
              ]
@@ -274,25 +284,24 @@
              (write '< o)
              (write b o)
              
-             (with-handlers
-                 ([exn:fail:contract:divide-by-zero? middle-school-level-arithmetic-problem])
-               (case (+ Op2)
-                 [(0) (write '+ o)
-                      (write b2 o)
-                      (set! b ($ (b + b2)))
-                      ]
-                 [(1) (write '- o)
-                      (write b2 o)
-                      (set! b ($ (b - b2)))
-                      ]
-                 [(2) (write '* o)
-                      (write b2 o)
-                      (set! b ($ (b * b2)))
-                      ]
-                 [(3) (write '/ o)
-                      (write b2 o)
-                      (set! b (floor ($ (b / b2))))
-                      ]))
+
+             (case (+ Op2)
+               [(0) (write '+ o)
+                    (write b2 o)
+                    (set! b ($ (b + b2)))
+                    ]
+               [(1) (write '- o)
+                    (write b2 o)
+                    (set! b ($ (b - b2)))
+                    ]
+               [(2) (write '* o)
+                    (write b2 o)
+                    (set! b ($ (b * b2)))
+                    ]
+               [(3) (write '/ o)
+                    (write b2 o)
+                    (set! b (floor ($ (b / b2))))
+                    ])
            
              (write '> o)
              ]
@@ -302,34 +311,33 @@
             )
 
       (case (+ op2)
-               [(0) (write '+ o)]
-               [(1) (write '- o)]
-               [(2) (write '* o)]
-               [(3) (write '/ o)])
+        [(0) (write '+ o)]
+        [(1) (write '- o)]
+        [(2) (write '* o)]
+        [(3) (write '/ o)])
 
       (cond [(eq? par3 3)
              (write '< o)
              (write c o)
              
-             (with-handlers
-                 ([exn:fail:contract:divide-by-zero? middle-school-level-arithmetic-problem])
-               (case (+ Op3)
-                 [(0) (write '+ o)
-                      (write c2 o)
-                      (set! c ($ (c + c2)))
-                      ]
-                 [(1) (write '- o)
-                      (write c2 o)
-                      (set! c ($ (c - c2)))
-                      ]
-                 [(2) (write '* o)
-                      (write c2 o)
-                      (set! c ($ (c * c2)))
-                      ]
-                 [(3) (write '/ o)
-                      (write c2 o)
-                      (set! c (floor ($ (c / c2))))
-                      ]))
+
+             (case (+ Op3)
+               [(0) (write '+ o)
+                    (write c2 o)
+                    (set! c ($ (c + c2)))
+                    ]
+               [(1) (write '- o)
+                    (write c2 o)
+                    (set! c ($ (c - c2)))
+                    ]
+               [(2) (write '* o)
+                    (write c2 o)
+                    (set! c ($ (c * c2)))
+                    ]
+               [(3) (write '/ o)
+                    (write c2 o)
+                    (set! c (floor ($ (c / c2))))
+                    ])
            
              (write '> o)
              ]
@@ -339,34 +347,32 @@
             )
 
       (case (+ op3)
-               [(0) (write '+ o)]
-               [(1) (write '- o)]
-               [(2) (write '* o)]
-               [(3) (write '/ o)])
+        [(0) (write '+ o)]
+        [(1) (write '- o)]
+        [(2) (write '* o)]
+        [(3) (write '/ o)])
 
       (cond [(eq? par4 3)
              (write '< o)
              (write d o)
              
-             (with-handlers
-                 ([exn:fail:contract:divide-by-zero? middle-school-level-arithmetic-problem])
-               (case (+ Op4)
-                 [(0) (write '+ o)
-                      (write d2 o)
-                      (set! d ($ (d + d2)))
-                      ]
-                 [(1) (write '- o)
-                      (write d2 o)
-                      (set! d ($ (d - d2)))
-                      ]
-                 [(2) (write '* o)
-                      (write d2 o)
-                      (set! d ($ (d * d2)))
-                      ]
-                 [(3) (write '/ o)
-                      (write d2 o)
-                      (set! d (floor ($ (d / d2))))
-                      ]))
+             (case (+ Op4)
+               [(0) (write '+ o)
+                    (write d2 o)
+                    (set! d ($ (d + d2)))
+                    ]
+               [(1) (write '- o)
+                    (write d2 o)
+                    (set! d ($ (d - d2)))
+                    ]
+               [(2) (write '* o)
+                    (write d2 o)
+                    (set! d ($ (d * d2)))
+                    ]
+               [(3) (write '/ o)
+                    (write d2 o)
+                    (set! d (floor ($ (d / d2))))
+                    ])
            
              (write '> o)
              ]
@@ -379,9 +385,7 @@
 
       ; Calculates the answer based on the variables and operations
 
-      (define equation
-        (with-handlers
-            ([exn:fail:contract:divide-by-zero? middle-school-level-arithmetic-problem])               
+      (define equation               
           (case (+ op1)
             [(0) (case (+ op2)
                    [(0) (case (+ op3)
@@ -530,7 +534,7 @@
                           [(2) (set! answer ($ (floor (floor (a / b)) / c) * d))
                                (set! answer2 (inexact->exact answer))]
                           [(3) (set! answer ($ (floor (floor (floor (a / b) / c) / d))))
-                               (set! answer2 (inexact->exact answer))])])])))
+                               (set! answer2 (inexact->exact answer))])])]))
 
       
       ; Makes the value of the answer variable a string for later comparisons
@@ -655,19 +659,19 @@
 
     (define (high-level-arithmetic-problem device-context)
 
-      (define b (random-natural 10))
-      (define c (random-natural 10))
-      (define d (random-natural 10))
-      (define e (random-natural 10))
-      (define f (random-natural 10))
-      (define g (random-natural 10))
+      (define b (arithmeticProblemNumGenerator 10))
+      (define c (arithmeticProblemNumGenerator 10))
+      (define d (arithmeticProblemNumGenerator 10))
+      (define e (arithmeticProblemNumGenerator 10))
+      (define f (arithmeticProblemNumGenerator 10))
+      (define g (arithmeticProblemNumGenerator 10))
 
-      (define b2 (random-natural 10))
-      (define c2 (random-natural 10))
-      (define d2 (random-natural 10))
-      (define e2 (random-natural 10))
-      (define f2 (random-natural 10))
-      (define g2 (random-natural 10))
+      (define b2 (arithmeticProblemNumGenerator 10))
+      (define c2 (arithmeticProblemNumGenerator 10))
+      (define d2 (arithmeticProblemNumGenerator 10))
+      (define e2 (arithmeticProblemNumGenerator 10))
+      (define f2 (arithmeticProblemNumGenerator 10))
+      (define g2 (arithmeticProblemNumGenerator 10))
 
       (define op2 (random-natural 4))
       (define op3 (random-natural 4))
@@ -707,25 +711,24 @@
              (write '< o)
              (write b o)
              
-             (with-handlers
-                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
-               (case (+ Op1)
-                 [(0) (write '+ o)
-                      (write b2 o)
-                      (set! b ($ (b + b2)))
-                      ]
-                 [(1) (write '- o)
-                      (write b2 o)
-                      (set! b ($ (b - b2)))
-                      ]
-                 [(2) (write '* o)
-                      (write b2 o)
-                      (set! b ($ (b * b2)))
-                      ]
-                 [(3) (write '/ o)
-                      (write b2 o)
-                      (set! b (floor ($ (b / b2))))
-                      ]))
+
+             (case (+ Op1)
+               [(0) (write '+ o)
+                    (write b2 o)
+                    (set! b ($ (b + b2)))
+                    ]
+               [(1) (write '- o)
+                    (write b2 o)
+                    (set! b ($ (b - b2)))
+                    ]
+               [(2) (write '* o)
+                    (write b2 o)
+                    (set! b ($ (b * b2)))
+                    ]
+               [(3) (write '/ o)
+                    (write b2 o)
+                    (set! b (floor ($ (b / b2))))
+                    ])
            
              (write '> o)
              ]
@@ -743,25 +746,24 @@
              (write '< o)
              (write c o)
              
-             (with-handlers
-                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
-               (case (+ Op2)
-                 [(0) (write '+ o)
-                      (write c2 o)
-                      (set! c ($ (c + c2)))
-                      ]
-                 [(1) (write '- o)
-                      (write c2 o)
-                      (set! c ($ (c - c2)))
-                      ]
-                 [(2) (write '* o)
-                      (write c2 o)
-                      (set! c ($ (c * c2)))
-                      ]
-                 [(3) (write '/ o)
-                      (write c2 o)
-                      (set! c (floor ($ (c / c2))))
-                      ]))
+
+             (case (+ Op2)
+               [(0) (write '+ o)
+                    (write c2 o)
+                    (set! c ($ (c + c2)))
+                    ]
+               [(1) (write '- o)
+                    (write c2 o)
+                    (set! c ($ (c - c2)))
+                    ]
+               [(2) (write '* o)
+                    (write c2 o)
+                    (set! c ($ (c * c2)))
+                    ]
+               [(3) (write '/ o)
+                    (write c2 o)
+                    (set! c (floor ($ (c / c2))))
+                    ])
            
              (write '> o)
              ]
@@ -780,25 +782,24 @@
              (write '< o)
              (write d o)
              
-             (with-handlers
-                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
-               (case (+ Op3)
-                 [(0) (write '+ o)
-                      (write d2 o)
-                      (set! d ($ (d + d2)))
-                      ]
-                 [(1) (write '- o)
-                      (write d2 o)
-                      (set! d ($ (d - d2)))
-                      ]
-                 [(2) (write '* o)
-                      (write d2 o)
-                      (set! d ($ (d * d2)))
-                      ]
-                 [(3) (write '/ o)
-                      (write d2 o)
-                      (set! d (floor ($ (d / d2))))
-                      ]))
+
+             (case (+ Op3)
+               [(0) (write '+ o)
+                    (write d2 o)
+                    (set! d ($ (d + d2)))
+                    ]
+               [(1) (write '- o)
+                    (write d2 o)
+                    (set! d ($ (d - d2)))
+                    ]
+               [(2) (write '* o)
+                    (write d2 o)
+                    (set! d ($ (d * d2)))
+                    ]
+               [(3) (write '/ o)
+                    (write d2 o)
+                    (set! d (floor ($ (d / d2))))
+                    ])
            
              (write '> o)
              ]
@@ -817,25 +818,24 @@
              (write '< o)
              (write e o)
              
-             (with-handlers
-                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
-               (case (+ Op4)
-                 [(0) (write '+ o)
-                      (write e2 o)
-                      (set! e ($ (e + e2)))
-                      ]
-                 [(1) (write '- o)
-                      (write e2 o)
-                      (set! e ($ (e - e2)))
-                      ]
-                 [(2) (write '* o)
-                      (write e2 o)
-                      (set! e ($ (e * e2)))
-                      ]
-                 [(3) (write '/ o)
-                      (write e2 o)
-                      (set! e (floor ($ (e / e2))))
-                      ]))
+
+             (case (+ Op4)
+               [(0) (write '+ o)
+                    (write e2 o)
+                    (set! e ($ (e + e2)))
+                    ]
+               [(1) (write '- o)
+                    (write e2 o)
+                    (set! e ($ (e - e2)))
+                    ]
+               [(2) (write '* o)
+                    (write e2 o)
+                    (set! e ($ (e * e2)))
+                    ]
+               [(3) (write '/ o)
+                    (write e2 o)
+                    (set! e (floor ($ (e / e2))))
+                    ])
            
              (write '> o)
              ]
@@ -854,25 +854,24 @@
              (write '< o)
              (write f o)
              
-             (with-handlers
-                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
-               (case (+ Op5)
-                 [(0) (write '+ o)
-                      (write f2 o)
-                      (set! f ($ (f + f2)))
-                      ]
-                 [(1) (write '- o)
-                      (write f2 o)
-                      (set! f ($ (f - f2)))
-                      ]
-                 [(2) (write '* o)
-                      (write f2 o)
-                      (set! f ($ (f * f2)))
-                      ]
-                 [(3) (write '/ o)
-                      (write f2 o)
-                      (set! f (floor ($ (f / f2))))
-                      ]))
+
+             (case (+ Op5)
+               [(0) (write '+ o)
+                    (write f2 o)
+                    (set! f ($ (f + f2)))
+                    ]
+               [(1) (write '- o)
+                    (write f2 o)
+                    (set! f ($ (f - f2)))
+                    ]
+               [(2) (write '* o)
+                    (write f2 o)
+                    (set! f ($ (f * f2)))
+                    ]
+               [(3) (write '/ o)
+                    (write f2 o)
+                    (set! f (floor ($ (f / f2))))
+                    ])
            
              (write '> o)
              ]
@@ -891,25 +890,24 @@
              (write '< o)
              (write g o)
              
-             (with-handlers
-                 ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
-               (case (+ Op6)
-                 [(0) (write '+ o)
-                      (write g2 o)
-                      (set! g ($ (g + g2)))
-                      ]
-                 [(1) (write '- o)
-                      (write g2 o)
-                      (set! g ($ (g - g2)))
-                      ]
-                 [(2) (write '* o)
-                      (write g2 o)
-                      (set! g ($ (g * g2)))
-                      ]
-                 [(3) (write '/ o)
-                      (write g2 o)
-                      (set! g (floor ($ (g / g2))))
-                      ]))
+
+             (case (+ Op6)
+               [(0) (write '+ o)
+                    (write g2 o)
+                    (set! g ($ (g + g2)))
+                    ]
+               [(1) (write '- o)
+                    (write g2 o)
+                    (set! g ($ (g - g2)))
+                    ]
+               [(2) (write '* o)
+                    (write g2 o)
+                    (set! g ($ (g * g2)))
+                    ]
+               [(3) (write '/ o)
+                    (write g2 o)
+                    (set! g (floor ($ (g / g2))))
+                    ])
            
              (write '> o)
              ]
@@ -925,8 +923,6 @@
       ; Calculates the answer based on the variables and operations
 
       (define equation
-        (with-handlers
-            ([exn:fail:contract:divide-by-zero? high-level-arithmetic-problem])
           (case (+ op2)
             [(0) (case (+ op3)
                    [(0) (case (+ op4)
@@ -3315,7 +3311,7 @@
                                         [(2) (set! answer ($ (floor (floor (floor (floor (b / c) / d) / e) / f)) * g))
                                              (set! answer2 (inexact->exact answer))]
                                         [(3) (set! answer ($ (floor (floor (floor (floor (floor (b / c) / d) / e) / f) / g))))
-                                             (set! answer2 (inexact->exact answer))])])])])])))
+                                             (set! answer2 (inexact->exact answer))])])])])]))
 
       (draw-text-problem-with-multiple-lines device-context (list "Solve the following equation: " (get-output-string o)))
 
