@@ -11,13 +11,13 @@
 
 ; GUI Class:
 
-; The screen for drawing problems and entering responses
+; The screen for drawing problems and entering answers
 ; Initialization Arguments:
 ; givenParent : the container element of this instance
 ; menuReturnFunction: a function for returning from this page and to a given return page
-; mode: the mode class construct (as in free practice vs linked practice) NOTE: currently under construction, this will be required in the future
-; category: the category of problems calss construct NOTE: currently under construction, this will be required in the future
 ; Public Functions:
+; pass-information: Requires a game-mode and problem-category construct as arguments. Should be called before the enable function,
+; sets the current game mode and problem category to the passed arguments
 ; enable : enables visibility of this object instance
 ; disable: disables visibility of this object instance
 
@@ -28,9 +28,6 @@
      menuReturnFunction
      )
     (super-new)
-
-    (define test (new equation-generator%)
-      )
 
     ; Internal constants
     (define playerOne "Player 1")
@@ -46,20 +43,23 @@
     ; This construct should be used to decide which problems to generate
     (define currentProblemCategory null)
 
+    ; Multiplayer information
     (define playerOneScore 0)
     (define playerTwoScore 0)
     (define currentPlayer playerOne)
 
+    ; For generating problems
     (define problems (new equation-generator%)
       )
 
 
-    ; A callback function for rendering problems to the canvas
-    ; Erases the canvas at the start of each call to allow for updated screens
-    ; Currently needs: information provided that will tell the program which
-    ; shape to draw
+    ; A callback function for rendering the user interface and problems to the canvas
+    ; Also refreshes the screen between each call
+    ; Arguments
+    ; canvas: which is a canvas UI class
+    ; dc: the device context of the passed canvas
     (define (canvasPaintingCallbackFunction canvas dc)
-      ; set-background not needed here - kept to keep appearance contained into one location
+      ; set-background and set-pen not needed here - kept to keep appearance contained into one location
       ; problem description menu appearance is changed in the drawing class
       (send (send drawingCanvas get-dc) set-background problemCanvasBackground)
       (send (send drawingCanvas get-dc) set-pen penBackgroundColor penWidth penStyle)
@@ -70,13 +70,14 @@
          (draw-score dc currentPlayer playerOneScore playerTwoScore)
          ]
         )
+      ; Generates and draws problem
       (send problems generateProblem (send drawingCanvas get-dc) currentProblemCategory)
       )
 
     ; Callback definitions
     ; Fired when the user submits an answer
+    ; Tells the user whether the answer is correct, returns the correct answer if they are wrong
     ; Updates the score of each player and switches the current player (only relevant if in multiplayer)
-    ; Tells the user with a textbox whether the answer was correct or not
     (define (submit-callback b e)
       (let ((text (send textEnter get-value)))
         ; increases score of player who successfully answers the question
@@ -89,7 +90,6 @@
                       ]
                      )
                ]
-
               [(string=? text (number->string (send problems getRound)))
                (cond [(eq? currentPlayer playerOne)
                       (set! playerOneScore (+ playerOneScore 1))
@@ -106,10 +106,7 @@
               [else
                (set! currentPlayer playerOne)
                ])
-        ; tells user whether their answer was correct
-
-        
-        
+        ; Opens a textbox informing the user of the result
         (if (or (string=? text (number->string (send problems getAnswer)))
                 (string=? text (number->string (send problems getRound))))
             (message-box "Good job" (format "That is correct!") givenParent '(no-icon ok))
@@ -118,14 +115,16 @@
                                                             (number->string (send problems getAnswer))
                                                             "\n or: "
                                                             (number->string (send problems getRound)))) givenParent '(stop ok))))
-      ; redraws screen
+      ; Generates problem, redraws screen
       (canvasPaintingCallbackFunction drawingCanvas (send drawingCanvas get-dc))
       )
-    
+
+    ; Called when pressing the return button - calls the fuction passed as menuReturnFunction in initialization
     (define (return-callback button event)
       (menuReturnFunction)
       )
-    
+
+    ; RacketGUI definitions
     (define drawingInputMenu (new frame%
                                   [label "Problem Screen"]
                                   [width frameWidthAndHeight]
@@ -169,10 +168,13 @@
                         [label "Submit"]
                         [callback submit-callback]))
 
+    ; Enables visibility of this window
     (define/public (enable)
       (send drawingInputMenu show #t)
       )
-    ; This sets the game mode and problem category of the current problemScreen instance to the passed values
+    
+    ; Updates state of the drawingInputScreen to the passed gameMode and problemCategory constructs
+    ; Should be called before the enable function
     (define/public (pass-information game-mode problem-category)
       (set! currentGameMode game-mode)
       (set! currentProblemCategory problem-category)
@@ -180,6 +182,8 @@
       (set! playerTwoScore 0)
       (set! currentPlayer playerOne)
       )
+
+    ; Disables visibility of this window
     (define/public (disable)
       (send drawingInputMenu show #f))
 
