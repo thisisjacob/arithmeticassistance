@@ -5,14 +5,16 @@
 (require "../constants/difficultiesAndCategories.rkt")
 (require "../utilities/buttonFunctionsAndGenerators.rkt")
 
-; The screeen for selecting a grade level or category/difficulty
+; Window for selecting a problem category
 
 ; Initialization Arguments:
-; menuReturnFunction: a function for returning from this page and to a given return page
+; menuReturnFunction: a function for switching to a separate window for "going back"
 ; problemScreenFunction: a function for switching to the problems screen
 ; Public Functions:
 ; enable : enables visibility of this object instance
-; pass-information: requires a game mode, sets the current game mode to it
+; pass-information: One argument, a game-mode construct
+; Sets the internal state of this window to store the current game-mode
+; Should be called before the enable function
 ; disable: disables visibility of this object instance
 
 (define gradeAndDifficultySelectScreen%
@@ -26,7 +28,7 @@
            ; Holds the selected game mode, passed into the problems screen
            (define currentGameMode 0)
 
-           ; Setups structural menu objects
+           ; Setups RacketGUI objects
            (define pageWrapper (new frame%
                                     [label "Difficulty Selection"]
                                     [width frameWidthAndHeight]
@@ -46,19 +48,16 @@
                              [parent menuWrapper]
                              [spacing 5]))
 
-           ; A button callback function for returning to the main menu
+           ; A button callback function for calling the menuReturnFunction
            (define (return-callback button event)
              (menuReturnFunction)
              )
-           ; A button callback function for switching to the problems screen
-           (define (open-problems button event)
-             (problemScreenFunction)
-             )
 
-           ; Creates a list of button text and button functions
-           ; Names come from the given difficulty list
-           ; List of functions are a list of the problemScreenFunction, with the current difficulty construct passed as an argument
-           ; given-list should be null, it is used so the function can recursively call itself to build the list
+           ; Creates a list of button text and button functions, used with the buttonGenerator class to dynamically generate
+           ; the buttons of this window.
+           ; Arguments:
+           ; difficulty-list: the imported list of difficulty constructs
+           ; given-list: must be null
            (define (buttonFunctionGenerator difficulty-list given-list)
              (cond
                [(empty? difficulty-list) given-list]
@@ -98,7 +97,8 @@
              (send buttons initialize-buttons-args)
              (send pageWrapper show #t)
              )
-           ; Sets the current game-mode of the class. Game-mode must come from the difficulty constructs under constants
+           ; Sets the current game-mode of the class. game-mode must come from the game made constants import
+           ; This should be called before enable
            (define/public (pass-information game-mode)
              (set! currentGameMode game-mode)
              )
@@ -106,8 +106,6 @@
            (define/public (disable)
              (send pageWrapper show #f)
              )
-
-             
            )
   )
 
