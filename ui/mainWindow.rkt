@@ -1,5 +1,4 @@
-; Initializes the window and "pages" for the program's user interface, attaches the pages to this class
-; Functions are called to switch between the "pages"
+; Initializes the windows of the program, creates functions for managing them
 ; Instance Parameters:
 ; title: a string for the title of the window
 ; Public Functions:
@@ -21,7 +20,7 @@
     (super-new)
 
     ;Functions
-    ; Starts the UI portion of the program
+    ; Starts the program
     (define/public (startUI)
       (send mainFrame show #t)
       (enableMainMenu))
@@ -33,7 +32,8 @@
       (send mainMenu enable)
       )
     ; Enables problems screen, disables other screens
-    ; Not the primary switching function - only a helper. 
+    ; Not the primary switching function - only a helper.
+    ; Use pass/switchToProblemsScreen
     (define (enableProblemsScreen)
       (send mainMenu disable)
       (send difficultyScreen disable)
@@ -42,6 +42,7 @@
       )
     ; Enables difficulty screen, disables other screens
     ; Not the primary switching function - only a helper.
+    ; Use pass/switchToDifficultyScreen
     (define (enableDifficultyScreen)
       (send problemsScreen disable)
       (send mainMenu disable)
@@ -54,8 +55,8 @@
       )
     
     ; The primary function for switching to the problems screen
-    ; Requires a pair game mode and problem category constructs
-    ; Using this function passes the currently selected game mode and problem category to the problems screen
+    ; Requires a pair holding game mode and problem category constructs
+    ; Using this function passes these constructs to the drawingInputScreen (problems screen)
     (define (pass/switchToProblemsScreen game-mode-and-problem-category-pair)
       (send problemsScreen pass-information (first game-mode-and-problem-category-pair)
 
@@ -65,6 +66,7 @@
       (enableProblemsScreen)
       )
 
+    ; RacketGUI definition
     (define difficultyScreen (new gradeAndDifficultySelectScreen%
                                   [menuReturnFunction enableMainMenu]
                                   [problemScreenFunction pass/switchToProblemsScreen]
@@ -82,10 +84,10 @@
 
 
     ; Generates a list of (list (name pass/switchToDifficultyScreen game-mode))
-    ; This is used to create a list names, functions and arguments for switching to the difficulty screen and passing the current game-mode
-    ; down
+    ; This is used to create a list of names, functions and arguments used to generate buttons
+    ; for switching to the gradeAndDifficultySelectScreen in the mainMenu
     ; mode-list is a list of mode constructs that are used to create the function procedure arguments
-    ; given-list should be an empty list, or an already existing list of the returned construct
+    ; given-list should be an empty list/null, or an already existing list of the returned construct
     (define (mainMenuFunctionGenerator mode-list given-list)
        (cond
          [(empty? mode-list) given-list]
@@ -96,7 +98,7 @@
          )
       )
       
-    
+    ; RacketGUI definitions
     (define mainFrame (new frame%
                            [label title]
                            [width frameWidthAndHeight]

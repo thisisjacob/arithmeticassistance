@@ -68,6 +68,7 @@
 
 ; pre defined difficulty classes
 ; Modify these to change the available categories throughout the entire program
+; Can be individually access when imported
 (define ELEMENTARY-SCHOOL (new difficulty-class%
                                [id 0]
                                [name "Elementary"]
@@ -101,7 +102,7 @@
 (provide GEOMETRY)
 
 ; The predefined manager to be used throughout the program
-; Use this to pass information on difficulties and categories throughout the program
+; Use this when you need to access all of the difficulties at once
 (define difficulties (new difficulty-manager%
                           [list-of-difficulty-class (list
                                                      ELEMENTARY-SCHOOL

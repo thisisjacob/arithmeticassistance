@@ -2,12 +2,17 @@
 (require racket/draw)
 (require "../constants/userInterfaceConstants.rkt")
 
-; This file holds a collection of functions that are used to draw math and geometric problems onto a given device context
-; These are designed specifically for this math project
+; This file holds a collection of functions that are used for drawing onto the problemInputScreen canvas
+; These include geometric problems, scoreboards and problem descriptions
+; If generating a geometric problem, draw-text-problem or draw-text-problem-with-multiple-lines should be called
+; If in multiplayer, then draw-score should be called
+; If generating a geometric problem, then the drawing function of the geometric type should be called
 
 (define problemDescBoxWidth (- frameWidthAndHeight 7))
 
-; Draws text onto the screen, to be used for drawing non geometric math problems
+; Draws text onto the screen, to be used for drawing text onto the canvas text box
+; This should not generally be called outside of the program
+; It should instead be called by draw-text-problem-with-multiple-lines
 ; Parameters:
 ; device-context: the device context
 ; string: a string holding the problem
@@ -20,7 +25,8 @@
 
 (provide draw-text-problem)
 
-; Draws multiple lines of text onto the screen
+; Draws multiple lines of text onto the screen onto the canvas text box
+; Should be used for problem descriptions
 ; Parameters:
 ; device-context: the device context
 ; string-list: a list of strings, where each string is drawn onto a separate line
@@ -40,10 +46,10 @@
 (provide draw-text-problem-with-multiple-lines)
 
 
-; Draws text of the given scores and current player onto the given device context
+; Draws the scoreboard onto the canvas
 ; Parameters:
-; device-context: the device context to draw one
-; currentPlayer: string for the current player
+; device-context: the device context to draw on
+; currentPlayer: string for the current player (such as "Player One" or "John")
 ; playerOneScore: the score of player one to draw
 ; playerTwoScore: the score of player two to draw
 (define (draw-score device-context currentPlayer playerOneScore playerTwoScore)
@@ -65,12 +71,12 @@
 ; yPos: the y position of the rectangle on the device context
 ; problemWidth: the width of the rectangle within the problem
 ; problemHeight: the height of the rectangle within the problem
-; problemDescription: a text description of the problem. positioned based on constants
-(define (draw-rectangle device-context problemWidth problemHeight problemDescription)
+; problemDescriptionList: a list of strings, with each string being a separate line of text
+(define (draw-rectangle device-context problemWidth problemHeight problemDescriptionList)
   (send device-context draw-rectangle geometryXPos geometryYPos (* geometryScaling problemWidth) (* geometryScaling problemHeight))
   (send device-context draw-text (number->string problemWidth) (+ geometryXPos (* geometryScaling (/ problemWidth 2))) (- geometryYPos 30))
   (send device-context draw-text (number->string problemHeight) (- geometryXPos 30) (+ geometryYPos (* geometryScaling (/ problemHeight 2))))
-  (draw-text-problem-with-multiple-lines device-context problemDescription)
+  (draw-text-problem-with-multiple-lines device-context problemDescriptionList)
   )
 
 
@@ -80,8 +86,8 @@
 ; Parameters:
 ; device-context: the device context to draw on
 ; bottom-length: the length of the "bottom" in the problem
-; top-length: the length of the "bottom" side in the problem
-; problemDescription: the text description of the problem
+; top-length: the length of the "top" side in the problem
+; problemDescriptionList: a list of strings, with each string being a separate line of text
 (define (draw-trapezoid device-context bottom-length top-length height problemDescriptionList)
   (send device-context draw-polygon (list (cons geometryXPos geometryYPos)
                                           (cons (+ geometryXPos (* geometryScaling top-length)) geometryYPos)
@@ -99,17 +105,17 @@
 ; Draws a rhomboid parallelogram and a problem description onto the given device context
 ; Parameters:
 ; device-context: the device context to draw on
-; vert-length: the length of the "vertical" sides in the problem
-; horiz-length: the length of the "horizontal" sides in the problem
-; problemDescription: the text description of the problem
-(define (draw-parallelogram device-context base height problemDescription)
+; base: the base of the parallelogram
+; height: the height of the parallelogram
+; problemDescriptionList: a list of strings, with each string being a separate line of text
+(define (draw-parallelogram device-context base height problemDescriptionList)
   (send device-context draw-polygon (list (cons  (+ geometryXPos 10) geometryYPos)
                                           (cons (+ geometryXPos (* base geometryScaling) 10) geometryYPos)
                                           (cons (+ geometryXPos (* base geometryScaling)) (+ geometryYPos (* height geometryScaling)))
                                           (cons geometryXPos (+ geometryYPos (* height geometryScaling)))))
   (send device-context draw-text (string-append "Base: " (number->string base)) (- (+ geometryXPos (* (/ base 2) geometryScaling)) 30) (+ geometryYPos (* height geometryScaling) 10))
   (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
-  (draw-text-problem-with-multiple-lines device-context problemDescription)
+  (draw-text-problem-with-multiple-lines device-context problemDescriptionList)
   )
 
 
@@ -119,21 +125,22 @@
 ; Parameters:
 ; device-context: the device context
 ; side-length: the problem length of each side
-; problemDescription: the text description of the problem
-(define (draw-equi-triangle device-context side-length problemDescription)
+; problemDescriptionList: a list of strings, with each string being a separate line of text
+(define (draw-equi-triangle device-context side-length problemDescriptionList)
   (send device-context draw-polygon (list (cons 125 30) (cons 100 60) (cons 150 60)))
-  (draw-text-problem-with-multiple-lines device-context problemDescription)
+  (draw-text-problem-with-multiple-lines device-context problemDescriptionList)
   )
 
 
 (provide draw-equi-triangle)
 
-; Draws a generic triangle that is defined in terms of only base and height
+; Draws a generic triangle and a problem description onto the given device context
 ; Parameters:
 ; device-context: the device context to draw on
 ; base: the base of the triangle
 ; height: the height of the triangle
-(define (draw-regular-triangle device-context base height problemDescription)
+; problemDescriptionList: a list of strings, with each string being a separate line of text
+(define (draw-regular-triangle device-context base height problemDescriptionList)
   (send device-context draw-polygon (list (cons geometryXPos geometryYPos)
                                           (cons (- geometryXPos (* geometryScaling (/ base 2))) (+ geometryYPos (* geometryScaling height)))
                                           (cons (+ geometryXPos (* geometryScaling (/ base 2))) (+ geometryYPos (* geometryScaling height)))
@@ -141,7 +148,7 @@
         )
   (send device-context draw-text (string-append "Base: " (number->string base)) (- (+ geometryXPos (* (/ base 2) geometryScaling)) 30) (+ geometryYPos (* height geometryScaling) 10))
   (send device-context draw-text (string-append "Height: " (number->string height)) (- geometryXPos 100) geometryYPos)
-  (draw-text-problem-with-multiple-lines device-context problemDescription)
+  (draw-text-problem-with-multiple-lines device-context problemDescriptionList)
   )
 
 (provide draw-regular-triangle)
@@ -149,14 +156,12 @@
 ; Draws a circle onto the given device context
 ; Parameters:
 ; device-context: the device context
-; problem-radius: the radius in the math problem (for drawing text)
-; pixel-radius: the radius on the screen of the circle
-; x: x position
-; y: y position
-(define (draw-circle device-context radius problemDescription)
+; radius: the radius of the circle
+; problemDescriptionList: a list of strings, with each string being a separate line of text
+(define (draw-circle device-context radius problemDescriptionList)
   (send device-context draw-ellipse geometryXPos geometryYPos (* radius geometryScaling) (* radius geometryScaling))
   (send device-context draw-text (string-append "Radius: " (number->string radius)) (- geometryXPos 100) geometryYPos)
-  (draw-text-problem-with-multiple-lines device-context problemDescription)
+  (draw-text-problem-with-multiple-lines device-context problemDescriptionList)
   )
 
 

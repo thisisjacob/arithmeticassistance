@@ -1,6 +1,8 @@
 #lang racket
 (require racket/draw)
+
 ; Constants for various UI elements of the program
+; These can be modified to change the appearance of different areas of the interface
 
 ; General program
 (define programTitle "Mathematical Education Project")
@@ -26,17 +28,17 @@
   )
 (provide menuTitleFont)
 
-; Problems screen constants:
+; Problems screen canvas constants
 (define canvasHeight 550)
 (define inputSectionHeight 50)
 (provide canvasHeight)
 (provide inputSectionHeight)
 
-; Input element constants:
+; Problem screen textbox constants
 (define textBoxWidth 100)
 (provide textBoxWidth)
 
-; Scoreboard location and size
+; Problem screen scoreboard constants
 (define scoreboardXPosition 540)
 (define scoreboardYPosition 0)
 (define scoreboardPushNum 20)
@@ -48,7 +50,7 @@
 (provide scoreboardWidth)
 (provide scoreboardHeight)
 
-; problem text constants
+; Problem screen problem description positional constants
 (define problemXPos 20)
 (define problemYPos 440)
 (define problemTextPushdown 100)
@@ -62,7 +64,7 @@
 (provide linePushDown)
 (provide geometryScaling)
 
-; Geometry problem drawing constants
+; Geometry problem drawing positional constants
 (define geometryXPos 150)
 (define geometryYPos 150)
 (provide geometryXPos)
@@ -76,7 +78,7 @@
 (provide buttonMinHeight)
 (provide buttonVertMargin)
 
-; Coloring constants
+; Problem screen coloring constants
 (define problemCanvasBackground (send the-color-database find-color "lavenderblush"))
 (define problemCanvasTextColor (send the-color-database find-color "black"))
 (define geometricShapeBackground (send the-color-database find-color "crimson"))

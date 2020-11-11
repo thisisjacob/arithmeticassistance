@@ -19,7 +19,7 @@
            )
   )
                   
-
+; A list holding all of the available game modes
 (define game-modes (list
                     (new game-mode%
                          [id 0]
