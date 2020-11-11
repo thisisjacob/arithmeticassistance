@@ -3,9 +3,11 @@
 (require "../utilities/buttonFunctionsAndGenerators.rkt")
 (require "../constants/userInterfaceConstants.rkt")
 
-; A class for creating the main menu of the program
+; An interface class for the main menu of the program
 ; Instance Parameters:
 ; givenParent: the container that will hold the main menu
+; string-function-pair-list: a list of pairs of strings and functions for generating buttons,
+;     where the string is the text of the button, and the function is the called function
 ; Public Functions:
 ; enable: enables visbility of the mainMenu
 ; disable: disables visibility of the mainMenu
@@ -17,7 +19,8 @@
      string-function-pair-list
      )
     (super-new)
-    
+
+    ; RacketGUI definitions
     (define mainMenu (new panel%
       [parent givenParent]
      ))
@@ -38,13 +41,16 @@
                  [label "Main Menu"]))
 
     ; Public Functions
+    ; Enables visibility of the window
     (define/public (enable)
       (send mainMenu show #t)
       )
+    ; Disables visibility of the window
     (define/public (disable)
       (send mainMenu show #f)
       )
-    ; the button manager for managing menu's buttons
+    
+    ; Creates a list of buttons attached to menu
     (define buttons (new buttonGeneratorAndManager%
                          [givenParent menu]
                          [functionList string-function-pair-list]
