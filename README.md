@@ -26,6 +26,7 @@
 Package Page: https://download.racket-lang.org
 
 1. Download the package with the following settings:
+Version: 7.8 under "All Versions"
 Distribution: Racket
 Platform: Any
 Variant: Regular
