@@ -1,5 +1,6 @@
 #lang racket
 (require math/base)
+; [2]
 (require k-infix)
 (require "../drawing/canvasShapeDrawingFunctions.rkt")
 (require "../constants/difficultiesAndCategories.rkt")
@@ -74,6 +75,7 @@
       (set! h ($ (h * 1.0)))
       (set! answer 0)
 
+      ; [1] geometric formula
       (set! answer ($ (((a + b) * h) / 2)))
 
       (cond
@@ -110,6 +112,8 @@
     (define (rectangle-area deviceContext)
       (define length (random-integer 1 20))
       (define width (random-integer 1 20))
+
+      ; [1] geometric formula
       (set! answer ($ (length * width)))
 
       (cond
@@ -138,6 +142,8 @@
       (set! base ($ (base * 1.0)))
       (define height (random-integer 4 10))
       (set! height ($ (height * 1.0)))
+
+      ; [1] geometric formula
       (set! answer ($ (base * height) / 2))
 
       (cond
@@ -166,6 +172,8 @@
       (set! radius ($ (radius * 1.0)))
       (define p 3.14)
       (define rs (expt radius 2))
+
+      ; [1] geometric formula
       (set! answer ($ (p * rs)))
       (set! answer (round answer))
       (set! answer (inexact->exact answer))
@@ -193,6 +201,7 @@
       (define base (random-integer 1 10))
       (define height (random-integer 1 10))
 
+      ; [1] geometric formula
       (set! answer ($ (base * height)))
 
       (cond
@@ -584,6 +593,7 @@
 
       ; Calculates the answer based on the variables and operations
 
+      ; [2] using k-infix
       (define equation               
           (case (+ op1)
             [(0) (case (+ op2)
@@ -844,6 +854,7 @@
 
       ; Calculates the answer based on the variables and operations
 
+      ; [2] using k-infix
       (define equation
          (with-handlers
                ([exn:fail:contract:divide-by-zero? elementary-level-arithmetic-problem])
@@ -1394,6 +1405,7 @@
 
       ; Calculates the answer based on the variables and operations
 
+      ; [2] using k-infix
       (define equation
           (case (+ op2)
             [(0) (case (+ op3)
